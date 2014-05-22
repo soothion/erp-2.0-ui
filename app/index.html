@@ -1,0 +1,225 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>蓝帜进销存管理系统 V2.0</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/src/loading-bar.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="laravelUiApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div class="navbar navbar-default ng-cloak" ng-show="show()" ng-controller="NavbarCtrl" >
+        <a class="navbar-brand" href="#/home">蓝帜进销存管理系统</a>
+        <ul class="nav navbar-nav">
+            <li ng-class="{active: routeIs('/home')}">
+                <a href="#/">仪表盘</a>
+            </li>
+            <li class="dropdown" ng-class="{active: routeIs('/item')}">
+                <a data-toggle="dropdown" href="">产品管理 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                    <li><a href="#/item">产品列表</a></li>
+                    <li><a href="#/item/upload">上传新产品</a></li>
+                    <li><a href="#/item/image">上传图片</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#/item/customs">关税</a></li>
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/item/category')}"><a href="#/item/category">产品分类管理</a></li>
+                    <li ng-class="{active: routeIs('/item/language')}"><a href="#/item/language">产品语言管理</a></li>
+                    <li ng-class="{active: routeIs('/item/attribute')}"><a href="#/item/attribute">产品属性管理</a></li>
+                    <li class="divider"></li>
+                    <li class="disabled"><a href="javascript:;">BOM</a></li>
+                    <li class="disabled"><a href="javascript:;">Mail Class Mapping</a></li>
+                    <li class="disabled"><a href="javascript:;">Packing Class Mapping</a></li>
+                    <li class="disabled"><a href="javascript:;">PI Mapping</a></li>
+                    <li class="disabled"><a href="javascript:;">Item Select</a></li>
+                </ul>
+            </li>
+            <li class="dropdown" ng-class="{active: routeIs('/purchase')}">
+                <a data-toggle="dropdown" href="">采购管理 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                    <li ng-class="{active: routeIs('/purchase/request')}"><a href="#/purchase/request"><i class="glyphicon glyphicon-send"></i> 申购单填写</a>
+                        
+                    </li>
+                    <li ng-class="{active: routeIs('/audit/pr')}"><a href="#/audit/pr"><i class="glyphicon glyphicon-ok-circle"></i> 申购单审核</a></li>
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/purchase/plan')}"><a href="#/purchase/plan"><i class="glyphicon glyphicon-compressed"></i> 采购计划</a></li>
+                    <!-- <li ng-class="{active: routeIs('/purchase/assign')}"><a href="#/purchase/assign">申购汇总</a></li> -->
+                    <!-- <li ng-class="{active: routeIs('/purchase/check')}"><a href="#/purchase/check">汇总审核</a></li> -->
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/purchase/exec')}"><a href="#/purchase/exec">采购执行</a></li>
+                    <li ng-class="{active: routeIs('/purchase/ship')}"><a href="#/purchase/ship">调度计划执行</a></li>
+                    <!--li ng-class="{active: routeIs('/purchase/assign')}">
+                        <a href="#/purchase/assign">采购执行</a>
+                        <ul class="dropdown">
+                            <li><a href="#/purchase/plan">采购计划表</a></li>
+                            <li><a href="#/purchase/assign">申购汇总</a></li>
+                            <li><a href="#/purchase/exec">采购执行</a></li>
+                            <li><a href="#/">收发货明细表</a></li>
+                        </ul>
+                    </li-->
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/purchase/order')}"><a href="#/purchase/order">采购单</a></li>
+                    <li ng-class="{active: routeIs('/purchase/mergeOrder')}"><a href="#/purchase/mergeOrder">合并采购单</a></li>
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/purchase/return')}">
+                        <a href="#/purchase/return">采购退货单</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/purchase/vendor')}"><a href="#/purchase/vendor">供应商列表</a></li>
+                    <li ng-class="{active: routeIs('/purchase/quotation')}"><a href="#/purchase/quotation">供应商报价</a></li>
+                    <li ng-class="{active: routeIs('/purchase/packing')}"><a href="#/purchase/packing">SKU的默认值设置</a></li>
+                    
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/purchase/costparams')}"><a href="#/purchase/costparams">运费系数</a></li>
+
+                </ul>
+            </li>
+            <li class="dropdown" ng-class="{active: routeIs('/inventory')}">
+                <a data-toggle="dropdown" href="">库存管理 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                    <li ng-class="{active: routeIs('/inventory/query')}"><a href="#/inventory/query">库存查询</a></li>
+                    <li ng-class="{active: routeIs('/inventory/detail')}"><a href="#/inventory/detail">库存明细</a></li>
+                    <li ng-class="{active: routeIs('/inventory/summary')}"><a href="#/inventory/summary">库存报表</a></li>
+                    <li ng-class="{active: routeIs('/inventory/log')}"><a href="#/inventory/log">库存日志</a></li>
+                    <li ng-class="{active: routeIs('/inventory/book')}"><a href="#/inventory/book">库存BOOK日志</a></li>
+                    <li class="divider"></li>
+                    <li class="disabled" ng-class="{active: routeIs('/inventory/allot')}"><a href="javascript:;">库存调拨</a></li><!--#/inventory/allot-->
+                    <li class="disabled" ng-class="{active: routeIs('/inventory/allog')}"><a href="javascript:;">库存调拨日志</a></li><!--#/inventory/allog-->
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/inventory/io')}"><a href="#/inventory/io">出入库明细报表</a></li>
+                    <li ng-class="{active: routeIs('/inventory/balance')}"><a href="#/inventory/balance">仓库出入库平衡表</a></li>
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/inventory/search')}"><a href="#/inventory/search">出入库查询(打印)</a></li>
+                </ul>
+            </li>
+            <li class="dropdown" ng-class="{active: routeIs('/warehouse')}">
+                <a data-toggle="dropdown" href="">仓储管理 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                    <li ng-class="{active: routeIs('/warehouse/list')}"><a href="#/warehouse/list">仓库列表</a></li>
+                    <li ng-class="{active: routeIs('/warehouse/IOList')}" class="dropdown" >
+                        <a href="#/warehouse/IOList" >出入库单列表</a>    
+                        <ul class="dropdown">
+                            <li><a href="#/warehouse/IOList/out">出库单</a></li>
+                            <li><a href="#/warehouse/IOList/in">入库单</a></li>
+                        </ul>               
+                    </li>
+                    <li ng-class="{active: routeIs('/warehouse/otherIOInventory')}"><a href="#/warehouse/otherIOInventory">其他出入库单</a></li>  
+                    <li class="divider"></li>               
+                    <li ng-class="{active: routeIs('/warehouse/counting')}"><a href="#/warehouse/counting">仓库盘点</a></li>                    
+                    <li ng-class="{active: routeIs('/warehouse/rmaList')}"><a href="#/warehouse/rmaList">RMA回库</a></li>
+                    <li ng-class="{active: routeIs('/warehouse/dispatch')}"><a href="#/warehouse/dispatch">仓库调度</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown" ng-class="{active: routeIs('/system')}">
+                <a data-toggle="dropdown" href="">系统管理 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                    <li ng-class="{active: routeIs('/platform')}"><a href="#/platform">平台管理</a></li>
+                    <li ng-class="{active: routeIs('/system/channel')}"><a href="#/system/channel">渠道管理</a></li>
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/system/users')}"><a href="#/system/users">用户管理</a></li>
+                    <li ng-class="{active: routeIs('/system/groups')}"><a href="#/system/groups">用户组管理</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown" ng-class="{active: routeIs('/ship')}">
+                <a data-toggle="dropdown" href="">发货 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                    <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">Prepare Orders</a></li>
+                    <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">Packing List</a></li>
+                    <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">Labels</a></li>
+                    <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">Tracking</a></li>
+                    <li class="divider"></li>
+                    <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">Prepare规则</a></li>
+                    <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">运输方式</a></li>
+                    <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">SKU发货规则</a></li>
+                </ul>
+            </li>
+            <li class="dropdown" ng-class="{active: routeIs('/profile')}">
+                <a href="" data-toggle="dropdown">我的账号 <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                    <li role="presentation" class="dropdown-header">页面风格</li>
+                    <li role="presentation" ng-class="{active: t==theme}" ng-repeat="t in themes">
+                        <a role="menuitem" tabindex="-1" href="javascript:void();" ng-click="switch_theme(t)">{{t}}</a>
+                    </li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation" class="dropdown-header">用户中心</li>
+                    <li><a ng-click="logout()" href="javascript:;"><span class="glyphicon glyphicon-off"></span> 退出系统</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation" class="dropdown-header">帮助中心</li>
+                    <li ng-class="{active: routeIs('/help')}">
+                        <a href="#/help"><i class="glyphicon glyphicon-question-sign"></i> 关于蓝志进销存管理系统</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+
+    <!-- Subscribe to all flash messages. -->
+    <div class="container-fluid">
+        <div flash-alert active-class="in alert" class="fade" duration="0">
+            <button type="button" class="close" ng-click="hide()">&times;</button>
+            <strong class="alert-heading">重要!</strong>
+            <span class="alert-message">{{flash.message}}</span>
+        </div>
+    </div>
+
+    <div class="container-fluid" ng-view=""></div>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-loading-bar/src/loading-bar.js"></script>
+    <script src="bower_components/angular-flash/dist/angular-flash.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/navbar.js"></script>
+        <script src="scripts/services/Cache.js"></script>
+        <script src="scripts/services/Message.js"></script>
+        <script src="scripts/services/Auth.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/services/Meta.js"></script>
+        <script src="scripts/controllers/pr.js"></script>
+        <script src="scripts/controllers/pp.js"></script>
+        <script src="scripts/controllers/ppe.js"></script>
+        <script src="scripts/directives/validNumber.js"></script>
+        <script src="scripts/controllers/pre.js"></script>
+        <script src="scripts/controllers/prv.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

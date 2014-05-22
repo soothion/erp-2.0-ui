@@ -1,0 +1,187 @@
+<style>
+  td span.check{
+     margin-right:10px; 
+  }
+  td.ng-binding{
+     color:#1A93EF;
+  }
+  span.alt {
+    color: blue;
+  }
+  table {
+    width: 100%;
+  }
+  table td {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    text-align: center;
+    line-height: 32px;
+    font-size: 12px;
+  }
+  ul.sc_menu a span {
+    color: #000;
+  }
+  table td.title {
+    background-color: #E5E5E5;
+    width: 100px;
+  }
+
+  div.sc_menu {
+    position: relative;
+    height: 145px;
+    width: 1100px;
+    overflow: auto;
+    margin: 0px auto
+  }
+  ul.sc_menu {
+    display: block;
+    height: 110px;
+    width: 1500px;
+    padding: 15px 0 0 15px;
+  }
+  .sc_menu li {
+    display: block;
+    float: left;
+    padding: 0 4px;
+  }
+  .sc_menu a {
+    display: block;
+    text-decoration: none;
+  }
+  .sc_menu span {
+    display: block;
+    margin-top: 3px;
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+  }
+  .sc_menu a:hover span {
+    display: block;
+  }
+  .sc_menu img {
+    border: 3px #fff solid;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+  }
+  .sc_menu a:hover img {
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+  }
+</style>
+<script type="text/javascript">
+  (function($) {
+    var div = $('div.sc_menu'), ul = $('ul.sc_menu'), ulPadding = 15;
+
+    var divWidth = div.width();
+
+    div.css({
+      overflow : 'hidden'
+    });
+
+    var lastLi = ul.find('li:last-child');
+
+    div.mousemove(function(e) {
+      var ulWidth = lastLi[0].offsetLeft + lastLi.outerWidth() + ulPadding;
+      var left = (e.pageX - div.offset().left) * (ulWidth - divWidth) / divWidth;
+
+      div.scrollLeft(left * -1);
+    });
+
+  })(jQuery);
+
+</script>
+
+    <div class="panel panel-default">
+
+      <div class="panel-body">
+          <div class="container-fluid">
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading" style="position: relative">
+                  <h4 class="panel-title">基本信息</h4>
+                  <a class="btn btn-default" href="#/purchase/request/" style="position: absolute;right:10px;top:2px">返回</a>
+                </div>
+                  <div class="panel-body">
+
+                    <p class="split_up_4">
+                      <table width="100%">
+                        <tr>
+                          <td class="title">申购单编号:</td>
+                          <td>{{request.invoice}}</td>
+                          
+                          <td class="title">类型:</td>
+                          <td>{{request.type}}</td>
+                          
+                          <td class="title">目的仓:</td>
+                          <td>{{request.warehouse.name}}</td>
+                          
+                          
+
+                        </tr>
+                        <tr>
+                          <td class="title">关联ID:</td>
+                          <td>{{request.relation_id}}</td>
+                          
+                          <td class="title">状态:</td>
+                          <td>{{request.status}}</td>
+                          
+                          <td class="title">提单人:</td>
+                          <td>{{request.user.email}}</td>                         
+                          
+                        </tr>
+
+                        </tr>
+                        <tr>
+                          <td class="title">创建时间:</td>
+                          <td>{{request.created_at}}</td>
+                          <td class="title">修改时间:</td>
+                          <td>{{request.updated_at}}</td>
+                          <td class="title">审核过期时间:</td>
+                          <td>{{request.updated_at}}</td>
+                        </tr>
+                        <tr>
+                          <td class="title">备注:</td>
+                          <td>{{request.note}}</td>
+                        </tr>
+                        
+                      </table>
+
+                  </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">明细信息</h4>
+                </div>
+                  <div class="panel-body" ng-repeat="detail in request.details">
+                    
+                    <table>
+                      <tr>
+                        <td class="title">SKU:</td><td>{{detail.item.sku}}</td>
+                        <td class="title"> SKU描述:</td><td>{{detail.item.description}}</td>
+                        <td class="title"> 渠道:</td><td>{{detail.platform.name}}</td>                        
+                      </tr>
+                      <tr>
+                        <td class="title">数量:</td><td>{{detail.qty}}</td>
+                        <td class="title"> ETA:</td><td>{{detail.end_date}}</td>
+                        <td class="title"> 估算运费:</td><td><b class="text-info">{{detail.item.fee.sea_cost}}</b>/<b class="text-danger">{{detail.item.fee.air_cost}}</b></td> 
+                      </tr>
+                      <tr>
+                        <td class="title">SPQ:</td><td>{{detail.item.spq.spq}}</td>
+                        <td class="title">运输方式:</td><td>{{detail.transportation}}</td>
+                        <td class="title">备注:</td><td>{{detail.note}}</td>                
+                      </tr>
+                      <tr>  
+                        <td class="title">实际分配数量:</td><td>{{detail.distribute_qty}}</td>                    
+                        <td class="title">创建日期:</td><td>{{detail.created_at}}</td>
+                        <td class="title">修改日期:</td><td>{{detail.updated_at}}</td>
+                      </tr>
+
+                    </table>
+                  </div>
+                  
+              </div>              
+
+      </div>
+
+    </div>

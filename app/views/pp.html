@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col col-lg-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="glyphicon glyphicon-compressed"></i> 采购计划列表</h3>
+      </div>
+      
+      <div class="panel-body">
+        <div class="container-fluid">
+          <input type="search" class="form-control" ng-model="search" placeholder="Search">
+          <table class="table table-condensed table-hover">
+            <thead>
+              <tr>
+                <th></th>
+                <th>计划表名称</th>
+                <th>计划表编号</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="plan in plans | filter: search" ng-class="{success: plan.status == 'confirmed'}">
+                <td>
+                  <a href="#/purchase/plan/edit/{{plan.id}}"><i class="glyphicon glyphicon-th"></i></a>
+                </td>
+                <td>{{plan.name}}</td>
+                <td>{{plan.invoice}}</td>
+                <td>{{plan.status}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <hr/>
+
+          <input type="text" name="" id="input" class="form-control" ng-model="new_plan_name" required="required" placeholder="新建计划表名称">
+          <br/>
+          <button type="button" class="btn btn-block btn-primary" ng-click="create_to_plan()">创建计划表</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col col-lg-8">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="glyphicon glyphicon-compressed"></i> 未列入计划表的申购单明细</h3>
+      </div>
+      <div class="panel-body">
+        <div class="container-fluid">
+          <div ng-show="!free.length" class="animate-show">暂时没有未加入计划表的申购单明细</div>
+          <table class="table table-condensed table-hover" ng-show="free">
+            <thead>
+              <tr>
+                <th>申购单号</th>
+                <th>SKU</th>
+                <th>数量</th>
+                <th>渠道</th>
+                <th>审核时间</th>
+                <th>审核人</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="plan in free | filter: search" ng-class="{success: plan.status == 'confirmed'}">
+                <td><a href="#/purchase/request/view/{{plan.request.id}}">{{plan.request.invoice}}</a></td>
+                <td>{{plan.item.sku}}</td>
+                <td>{{plan.qty}}</td>
+                <td>{{plan.platform.abbreviation}}</td>
+                <td>{{plan.request.verified_at}}</td>
+                <td>{{plan.request.reviewer.email}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <button type="button" class="btn btn-info" ng-show="free" ng-click="add_to_plan()">  添加到当前计划表</button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
