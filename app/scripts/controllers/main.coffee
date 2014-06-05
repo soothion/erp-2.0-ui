@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('laravelUiApp')
-  .controller 'MainCtrl', ($scope, flash) ->
+  .controller 'MainCtrl', ($scope) ->
 
     $scope.awesomeThings = [
       'HTML5 Boilerplate'

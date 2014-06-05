@@ -21,21 +21,31 @@ angular.module('laravelUiApp')
     Meta.cache('/api/item/meta/transportList').query (rtn) ->
       $scope.trans = rtn
 
-    $scope.holder = {}
+    [$scope.holder, $scope.opened] = [{}, {}]
     $scope.minDate = new Date()
     $scope.open = ($event, index) ->
-      console.log index
       $event.preventDefault()
       $event.stopPropagation()
-      $scope.opened = true
+      switch_datepicker index
+
+    switch_datepicker = (idx) ->
+      angular.forEach $scope.opened, (value, key) ->
+        $scope.opened[key] = false
+      $scope.opened[idx] = true
+
+    filter_date = (dt = '') ->
+      t = dt.split /[- :]/
+      new Date t[0], t[1]-1, t[2], t[3], t[4], t[5]
 
     $scope.loadMaster = ->
       Meta.store('/api/purchase/request/:id').get {id: $routeParams.id}, (rtn) ->
-        t = rtn.expired_at.split /[- :]/
-        rtn.expired_at = new Date t[0], t[1]-1, t[2], t[3], t[4], t[5]
+        rtn.expired_at = filter_date rtn.expired_at
+        angular.forEach rtn.details, (v, k) ->
+          rtn.details[k].end_date = filter_date(v.end_date)
         $scope.request = rtn
         $scope.remote = angular.copy rtn
         $scope.request.$id = $routeParams.id
+
     $scope.loadMaster()
 
     $scope.isClean = ->
@@ -45,22 +55,10 @@ angular.module('laravelUiApp')
       angular.equals $scope.holder_origin, $scope.holder_detail
 
     $scope.details_new = ->
-      modalInstance = $modal.open {
-        templateUrl: 'requestDetail.html'
-        controller: ($scope, $modalInstance, skus, platforms) ->
-          $scope.skus = skus
-          $scope.platforms = platforms
-          $scope.ok = ->
-            $modalInstance.close()
-          $scope.cancel = ->
-            $modalInstance.dismiss 'cancel'
-        resolve: {
-          skus: ->
-            $scope.skus
-          platforms: ->
-            $scope.platforms
-        }
-      }
+      $scope.request.details.push {}
+
+    $scope.details_remove = (id) ->
+      $scope.request.details.splice id, 1
 
     $scope.confirm = (id) ->
       Meta.store('/api/purchase/request-confirm/:id', {id: $routeParams.id}).get ->
@@ -69,6 +67,9 @@ angular.module('laravelUiApp')
     $scope.unconfirm = (id) ->
       Meta.store('/api/purchase/request-unconfirm/:id', {id: $routeParams.id}).get ->
         $scope.loadMaster()
+
+    $scope.reset = ->
+      $scope.request = angular.copy $scope.remote
 
     $scope.update = if brand then ->
       Meta.store('/api/purchase/request/:id', {id: $routeParams.id}).save $scope.request, ->

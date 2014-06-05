@@ -15,9 +15,3 @@ angular.module('laravelUiApp')
     $scope.login = ->
       user = Auth.login $scope.input, ->
         $location.path $scope.rtn
-    
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]

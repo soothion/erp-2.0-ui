@@ -76,12 +76,12 @@ module.exports = function (grunt) {
             var middlewares = [];
             var directory = options.directory || options.base[options.base.length - 1];
             if (!Array.isArray(options.base)) {
-                options.base = [options.base];
+              options.base = [options.base];
             }
             options.base.forEach(function(base) {
                 // Serve static files.
                 middlewares.push(connect.static(base));
-            });
+              });
 
             // Setup the proxy
             middlewares.push(require('grunt-connect-proxy/lib/utils').proxyRequest);
@@ -102,7 +102,7 @@ module.exports = function (grunt) {
           changeOrigin: false,
           xforward: false,
           headers: {
-            "x-custom-added-header": 'proxy'
+            'x-custom-added-header': 'proxy'
           }
         }
       ],

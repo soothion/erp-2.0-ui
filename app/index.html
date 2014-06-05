@@ -55,16 +55,19 @@
             <li class="dropdown" ng-class="{active: routeIs('/purchase')}">
                 <a data-toggle="dropdown" href="">采购管理 <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                    <li ng-class="{active: routeIs('/purchase/request')}"><a href="#/purchase/request"><i class="glyphicon glyphicon-send"></i> 申购单填写</a>
+                    <li role="presentation" class="dropdown-header">申购管理</li>
+                    <li ng-class="{active: routeIs('/purchase/request/list')}"><a href="#/purchase/request/list"><i class="glyphicon glyphicon-send"></i> 申购单填写</a>
                         
                     </li>
-                    <li ng-class="{active: routeIs('/audit/pr')}"><a href="#/audit/pr"><i class="glyphicon glyphicon-ok-circle"></i> 申购单审核</a></li>
+                    <li ng-class="{active: routeIs('/purchase/request/audit')}"><a href="#/purchase/request/audit"><i class="glyphicon glyphicon-ok-circle"></i> 申购单审核</a></li>
                     <li class="divider"></li>
+                    <li role="presentation" class="dropdown-header">采购计划</li>
                     <li ng-class="{active: routeIs('/purchase/plan')}"><a href="#/purchase/plan"><i class="glyphicon glyphicon-compressed"></i> 采购计划</a></li>
                     <!-- <li ng-class="{active: routeIs('/purchase/assign')}"><a href="#/purchase/assign">申购汇总</a></li> -->
                     <!-- <li ng-class="{active: routeIs('/purchase/check')}"><a href="#/purchase/check">汇总审核</a></li> -->
                     <li class="divider"></li>
-                    <li ng-class="{active: routeIs('/purchase/exec')}"><a href="#/purchase/exec">采购执行</a></li>
+                    <li role="presentation" class="dropdown-header">采购单</li>
+                    <li ng-class="{active: routeIs('/purchase/order/exec')}"><a href="#/purchase/order/exec">采购执行</a></li>
                     <li ng-class="{active: routeIs('/purchase/ship')}"><a href="#/purchase/ship">调度计划执行</a></li>
                     <!--li ng-class="{active: routeIs('/purchase/assign')}">
                         <a href="#/purchase/assign">采购执行</a>
@@ -76,7 +79,7 @@
                         </ul>
                     </li-->
                     <li class="divider"></li>
-                    <li ng-class="{active: routeIs('/purchase/order')}"><a href="#/purchase/order">采购单</a></li>
+                    <li ng-class="{active: routeIs('/purchase/order/list')}"><a href="#/purchase/order/list">采购单</a></li>
                     <li ng-class="{active: routeIs('/purchase/mergeOrder')}"><a href="#/purchase/mergeOrder">合并采购单</a></li>
                     <li class="divider"></li>
                     <li ng-class="{active: routeIs('/purchase/return')}">
@@ -202,10 +205,12 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-loading-bar/src/loading-bar.js"></script>
     <script src="bower_components/angular-flash/dist/angular-flash.js"></script>
+    <script src="bower_components/react/react.js"></script>
+    <script src="bower_components/angular-timer/dist/angular-timer.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <!-- build:js({.tmp,app}) scripts/erp.2.0.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/navbar.js"></script>
@@ -220,6 +225,13 @@
         <script src="scripts/directives/validNumber.js"></script>
         <script src="scripts/controllers/pre.js"></script>
         <script src="scripts/controllers/prv.js"></script>
+        <script src="scripts/directives/datePicker.js"></script>
+        <script src="scripts/controllers/pra.js"></script>
+        <script src="scripts/directives/whList.js"></script>
+        <script src="scripts/directives/prAudit.js"></script>
+        <script src="scripts/filters/timer.js"></script>
+        <script src="scripts/controllers/poec.js"></script>
         <!-- endbuild -->
+
 </body>
 </html>

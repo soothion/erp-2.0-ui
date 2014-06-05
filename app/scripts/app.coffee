@@ -6,6 +6,7 @@ angular.module('laravelUiApp', [
   'ngSanitize',
   'ngRoute',
   'ui.bootstrap',
+  'timer',
   'angular-loading-bar',
   'angular-flash.service',
   'angular-flash.flash-alert-directive'
@@ -17,7 +18,7 @@ angular.module('laravelUiApp', [
     flashProvider.errorClassnames.push 'alert-danger'
 
   .config ($routeProvider, $httpProvider) ->
-    logOut401 = ($location, $q, Cache, flash) ->
+    logOut401 = ['$location', '$q', 'Cache', 'flash', ($location, $q, Cache, flash) ->
       success = (resp) ->
         flash.error = ''
         resp
@@ -34,6 +35,7 @@ angular.module('laravelUiApp', [
 
       (promise) ->
         promise.then success, error
+    ]
 
     $httpProvider.responseInterceptors.push logOut401
     $routeProvider
@@ -43,7 +45,9 @@ angular.module('laravelUiApp', [
       .when '/login',
         templateUrl: 'views/login.html'
         controller: 'LoginCtrl'
-      .when '/purchase/request',
+
+      # request
+      .when '/purchase/request/list',
         templateUrl: 'views/pr.html'
         controller: 'PrCtrl'
       .when '/purchase/request/view/:id',
@@ -52,12 +56,26 @@ angular.module('laravelUiApp', [
       .when '/purchase/request/edit/:id',
         templateUrl: 'views/pre.html'
         controller: 'PreCtrl'
+      .when '/purchase/request/audit',
+        templateUrl: 'views/pra.html'
+        controller: 'PraCtrl'
+
+      # plan
       .when '/purchase/plan',
         templateUrl: 'views/pp.html'
         controller: 'PpCtrl'
       .when '/purchase/plan/edit/:id',
         templateUrl: 'views/ppe.html'
         controller: 'PpeCtrl'
+      .when '/pp',
+        templateUrl: 'views/pp.html'
+        controller: 'PpCtrl'
+
+      # order
+      .when '/purchase/order/exec',
+        templateUrl: 'views/poec.html'
+        controller: 'PoecCtrl'
+      
       .otherwise
         redirectTo: '/home'
 
