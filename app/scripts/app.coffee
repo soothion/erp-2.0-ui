@@ -67,9 +67,14 @@ angular.module('laravelUiApp', [
       .when '/purchase/plan/edit/:id',
         templateUrl: 'views/ppe.html'
         controller: 'PpeCtrl'
-      .when '/pp',
-        templateUrl: 'views/pp.html'
-        controller: 'PpCtrl'
+
+      # vendor
+      .when '/purchase/vendor',
+        templateUrl: 'views/pv.html'
+        controller: 'PvCtrl'
+      .when '/purchase/quotation',
+        templateUrl: 'views/pvq.html'
+        controller: 'PvqCtrl'
 
       # order
       .when '/purchase/order/exec',

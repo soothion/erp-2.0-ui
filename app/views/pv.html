@@ -1,0 +1,117 @@
+<input type="text" ng-model="search" placeholder="供应商列表, 请输入查询条件进行查询...">
+
+<table width="100%" ng-show="vendors">
+  <thead>
+    <tr>
+      <th>OP</th>
+      <th>ID</th>
+      <th>供应商</th>
+      <th>代码</th>
+      <th>联系人</th>
+      <th>邮箱</th>
+      <th>票点（折扣率）</th>
+      <th>账期</th>
+      <th>类别</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="v in vendors | filter: search| limitTo: 20">
+      <td>
+        <a href="javascript:;" ng-click="edit($index)"><i class="fi-pencil"></i></a>
+      </td>
+      <td>{{v.id}}</td>
+      <td>{{v.name}}</td>
+      <td>{{v.code}}</td>
+      <td>{{v.contact}}</td>
+      <td>{{v.email}}</td>
+      <td>{{v.discount_rate}}</td>
+      <td>{{v.payment_period}}</td>
+      <td>{{v.categorys_id}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div id="editForm" class="reveal-modal" data-reveal>
+  <h5>编辑供应商</h5>
+
+  <div class="panel">
+    <form name="editForm">
+    <div class="row">
+      <div class="columns medium-6">
+        <label>供应商</label>
+        <input type="text" name="name" ng-model="holder.name" ng-required>
+      </div>
+      <div class="columns medium-6">
+        <label>供应商编码</label>
+        <input type="text" ng-model="holder.code" >
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-6">
+        <label>地区</label>
+        <input type="text" ng-model="holder.location" >
+      </div>
+      <div class="columns medium-6">
+        <label>类别</label>
+        <input type="text" ng-model="holder.categorys_id" >
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-12">
+        <label>备注</label>
+        <textarea>{{holder.note}}</textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-6">
+        <label>联系人</label>
+        <input type="text" ng-model="holder.contact" >
+      </div>
+      <div class="columns medium-6">
+        <label>QQ</label>
+        <input type="text" ng-model="holder.qq" >
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-6">
+        <label>电话号码</label>
+        <input type="text" ng-model="holder.tel" >
+      </div>
+      <div class="columns medium-6">
+        <label>传真号码</label>
+        <input type="text" ng-model="holder.fax" >
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-6">
+        <label>E-mail</label>
+        <input type="text" ng-model="holder.email" >
+      </div>
+      <div class="columns medium-6">
+        <label>通信地址</label>
+        <input type="text" ng-model="holder.contact_addr" >
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-6">
+        <label>送货地址1</label>
+        <input type="text" ng-model="holder.delivery_addr" >
+      </div>
+      <div class="columns medium-6">
+        <label>送货地址2</label>
+        <input type="text" ng-model="holder.delivery_addr_ext" >
+      </div>
+    </div>
+  </form>
+  </div>
+  <button class="button tiny" ng-click="save()">保存</button>
+  <p></p>
+  <p></p>
+  <a class="close-reveal-modal">&#215;</a>
+</div>

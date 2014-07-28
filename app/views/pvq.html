@@ -1,0 +1,44 @@
+<input type="search" class="form-control" ng-model="search" placeholder="Search">
+
+<table class="table table-condensed table-hover">
+  <thead>
+    <tr>
+      <th><a href="#/purchase/quotation/edit/new"><i class="glyphicon glyphicon-plus"></i></a></th>
+      <th>代码</th>
+      <th>名称</th>
+      <th>SKU</th>
+      <th>描述</th>
+      <th itle="unit-price">单价</th>
+      <th itle="tax-unit-price">含税单价</th>
+      <th title="usd-unit-price">没劲单价</th>
+      <th>单位</th>
+      <th>税率</th>
+      <th>SPQ</th>
+      <th>MOQ</th>
+      <th title="lead time(days)">L/T</th>
+      <th>创建</th>
+      <th>最后修改</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="quotation in quotations | filter: search | limitTo: 20">
+      <td>
+        <a href="#/purchase/quotation/edit/{{quotation.id}}"><i class="glyphicon glyphicon-pencil"></i></a>
+      </td>
+      <td>{{quotation.vendor.code}}</td>
+      <td>{{quotation.vendor.name}}</td>
+      <td>{{quotation.item.sku}}</td>
+      <td>{{quotation.item.description}}</td>
+      <td>{{quotation.unit_price}}</td>
+      <td>{{quotation.tax_unit_price}}</td>
+      <td>{{quotation.usd_unit_price}}</td>
+      <td>{{quotation.um}}</td>
+      <td>{{quotation.tax_rate}}</td>
+      <td>{{quotation.spq}}</td>
+      <td>{{quotation.moq}}</td>
+      <td title="lead time(days)">{{quotation.lead_time}}</td>
+      <td>{{quotation.created_at}}</td>
+      <td>{{quotation.updated_at}}</td>
+    </tr>
+  </tbody>
+</table>
