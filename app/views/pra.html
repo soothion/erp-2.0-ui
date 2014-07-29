@@ -1,189 +1,174 @@
-<div class="row">
-  <div class="col col-lg-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">申购单审核</h3>
-      </div>
+<input type="search" class="form-control" ng-model="search" placeholder="输入需要搜索的申购单" style="margin-bottom: 10px">
 
-      <div class="panel-body">
-        <input type="search" class="form-control" ng-model="search"
-          placeholder="Search" style="margin-bottom: 10px">
+<tabset>
+  <tab heading="待审核">
 
-        <tabset>
-          <tab heading="待审核">
-
-              <table class="table table-condensed table-hover">
-                <thead>
-                  <tr>
-                    <th>查看</th>
-                    <th>Invoice</th>
-                    <th>目的仓</th>
-                    <th>类型</th>
-                    <th>提单者</th>
-                    <th>距审核日期</th>
-                    <th>状态</th>
-                    <!-- <th>操作</th> -->
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="request in requests | filter: search"
-                    ng-show="request.status=='confirmed'">
-                    <td>
-                      <a href="javascript:;" ng-click="showDetail(request.id,'all')" data-original-title="查看"
-                        data-toggle="tooltip" title="">
-                        <i class="glyphicon glyphicon-eye-open"></i>
-                      </a>
-                    </td>
-                    <td>{{request.invoice}}</td>
-                    <td>{{request.warehouse_id}}</td>
-                    <td>{{request.type}}</td>
-                    <td>{{request.agent}}</td>
-                    <td>
-                      尚余
-                      <timer end-time="request.expired_at | timer">{{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
-                    </td>
-                    <td>{{request.status}}</td>
+      <table width="100%">
+        <thead>
+          <tr>
+            <th>查看</th>
+            <th>Invoice</th>
+            <th>目的仓</th>
+            <th>类型</th>
+            <th>提单者</th>
+            <th>距审核日期</th>
+            <th>状态</th>
+            <!-- <th>操作</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="request in requests | filter: search"
+            ng-show="request.status=='confirmed'">
+            <td>
+              <a href="javascript:;" ng-click="showDetail(request.id,'all')" data-original-title="查看"
+                data-toggle="tooltip" title="">
+                <i class="fi-eye"></i>
+              </a>
+            </td>
+            <td>{{request.invoice}}</td>
+            <td>{{request.warehouse_id}}</td>
+            <td>{{request.type}}</td>
+            <td>{{request.agent}}</td>
+            <td>
+              尚余
+              <timer end-time="request.expired_at | timer">{{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
+            </td>
+            <td>{{request.status}}</td>
 <!--                     <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-xs btn-success"
-                          id="dsafsd" ng-click="stepToCheck(request.id,'approve')">
-                          <i class="glyphicon glyphicon-ok"></i>
-                          通过
-                        </button>
-                        <button type="button" class="btn btn-xs btn-danger"
-                          ng-click="stepToCheck(request.id,'reject')">
-                          <i class="glyphicon glyphicon-remove"></i>
-                          拒绝
-                        </button>
+              <div class="btn-group">
+                <button type="button" class="btn btn-xs btn-success"
+                  id="dsafsd" ng-click="stepToCheck(request.id,'approve')">
+                  <i class="glyphicon glyphicon-ok"></i>
+                  通过
+                </button>
+                <button type="button" class="btn btn-xs btn-danger"
+                  ng-click="stepToCheck(request.id,'reject')">
+                  <i class="glyphicon glyphicon-remove"></i>
+                  拒绝
+                </button>
 
-                      </div>
-                    </td> -->
-                  </tr>
-                </tbody>
-              </table>
+              </div>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
 
-          </tab>
+  </tab>
 
-          <tab heading="审核通过">
+  <tab heading="审核通过">
 
-              <table class="table table-condensed table-hover">
-                <thead>
-                  <tr>
-                    <th>查看</th>
-                    <th>Invoice</th>
-                    <th>目的仓</th>
-                    <th>类型</th>
-                    <th>提单者</th>
-                    <th>审核备注</th>
-                    <th>审核时间</th>
-                    <th>审核人</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="request in requests | filter: search"
-                    ng-show="request.status=='verified'">
+      <table width="100%">
+        <thead>
+          <tr>
+            <th>查看</th>
+            <th>Invoice</th>
+            <th>目的仓</th>
+            <th>类型</th>
+            <th>提单者</th>
+            <th>审核备注</th>
+            <th>审核时间</th>
+            <th>审核人</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="request in requests | filter: search"
+            ng-show="request.status=='verified'">
 
-                    <td>
-                      <a href="javascript:;" ng-click="showDetail(request.id,'readonly')" data-original-title="查看"
-                        data-toggle="tooltip" title="">
-                        <i class="glyphicon glyphicon-eye-open"></i>
-                      </a>
-                    </td>
-                    <td>{{request.invoice}}</td>
-                    <td>{{request.warehouse_id}}</td>
-                    <td>{{request.type}}</td>
-                    <td>{{request.agent}}</td>
-                    <td>{{request.verified_note}}</td>
-                    <td>{{request.verified_at}}</td>
-                    <td>{{request.verified_agent}}</td>
-                  </tr>
-                </tbody>
-              </table>
+            <td>
+              <a href="javascript:;" ng-click="showDetail(request.id,'readonly')" data-original-title="查看"
+                data-toggle="tooltip" title="">
+                <i class="fi-eye"></i>
+              </a>
+            </td>
+            <td>{{request.invoice}}</td>
+            <td>{{request.warehouse_id}}</td>
+            <td>{{request.type}}</td>
+            <td>{{request.agent}}</td>
+            <td>{{request.verified_note}}</td>
+            <td>{{request.verified_at}}</td>
+            <td>{{request.verified_agent}}</td>
+          </tr>
+        </tbody>
+      </table>
 
-          </tab>
+  </tab>
 
-          <tab heading="审核拒绝">
-            <table class="table table-condensed table-hover">
-              <thead>
-                <tr>
-                  <th>查看</th>
-                  <th>Invoice</th>
-                  <th>目的仓</th>
-                  <th>类型</th>
-                  <th>提单者</th>
-                  <th>审核备注</th>
-                  <th>审核时间</th>
-                  <th>审核人</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="request in requests | filter: search"
-                  ng-show="request.status=='rejected'">
+  <tab heading="审核拒绝">
+    <table width="100%">
+      <thead>
+        <tr>
+          <th>查看</th>
+          <th>Invoice</th>
+          <th>目的仓</th>
+          <th>类型</th>
+          <th>提单者</th>
+          <th>审核备注</th>
+          <th>审核时间</th>
+          <th>审核人</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="request in requests | filter: search"
+          ng-show="request.status=='rejected'">
 
-                  <td>
-                    <a href="javascript:;" ng-click="showDetail(request.id,'readonly')" data-original-title="查看"
-                      data-toggle="tooltip" title="">
-                      <i class="glyphicon glyphicon-eye-open"></i>
-                    </a>
-                  </td>
-                  <td>{{request.invoice}}</td>
-                  <td>{{request.warehouse_id }}</td>
-                  <td>{{request.type}}</td>
-                  <td>{{request.agent }}</td>
-                  <td>{{cutStr(request.verified_note,12,'....')}}</td>
-                  <td>{{request.verified_at}}</td>
-                  <td>{{request.verified_agent}}</td>
-                </tr>
+          <td>
+            <a href="javascript:;" ng-click="showDetail(request.id,'readonly')" data-original-title="查看"
+              data-toggle="tooltip" title="">
+              <i class="fi-eye"></i>
+            </a>
+          </td>
+          <td>{{request.invoice}}</td>
+          <td>{{request.warehouse_id }}</td>
+          <td>{{request.type}}</td>
+          <td>{{request.agent }}</td>
+          <td>{{cutStr(request.verified_note,12,'....')}}</td>
+          <td>{{request.verified_at}}</td>
+          <td>{{request.verified_agent}}</td>
+        </tr>
 
-              </tbody>
-            </table>
-          </tab>
+      </tbody>
+    </table>
+  </tab>
 
-          <tab heading="已过期">
-            <table class="table table-condensed table-hover">
-              <thead>
-                <tr>
-                  <th>查看</th>
-                  <th>Invoice</th>
-                  <th>目的仓</th>
-                  <th>类型</th>
-                  <th>提单者</th>
-                  <th>过期审核</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="request in requests | filter: search"
-                  ng-show="!flag">
-                  <td>
-                    <a href="javascript:;" ng-click="showDetail(request.id,'readonly')" data-original-title="查看"
-                      data-toggle="tooltip" title="">
-                      <i class="glyphicon glyphicon-eye-open"></i>
-                    </a>
-                  </td>
-                  <td>{{request.invoice}}</td>
-                  <td>{{request.warehouse_id}}</td>
-                  <td>{{request.type}}</td>
-                  <td>{{request.agent}}</td>
-                  <td>
-                    <font>已过期</font>
-                    <span style="color: #f00">
-                      <timer start-time="request.expired_at | timer">{{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
-                    </span>
-                  </td>
-                  <td>
-                </tr>
+  <tab heading="已过期">
+    <table width="100%">
+      <thead>
+        <tr>
+          <th>查看</th>
+          <th>Invoice</th>
+          <th>目的仓</th>
+          <th>类型</th>
+          <th>提单者</th>
+          <th>过期审核</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="request in requests | filter: search"
+          ng-show="!flag">
+          <td>
+            <a href="javascript:;" ng-click="showDetail(request.id,'readonly')" data-original-title="查看"
+              data-toggle="tooltip" title="">
+              <i class="fi-eye"></i>
+            </a>
+          </td>
+          <td>{{request.invoice}}</td>
+          <td>{{request.warehouse_id}}</td>
+          <td>{{request.type}}</td>
+          <td>{{request.agent}}</td>
+          <td>
+            <font>已过期</font>
+            <span style="color: #f00">
+              <timer start-time="request.expired_at | timer">{{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
+            </span>
+          </td>
+          <td>
+        </tr>
 
-              </tbody>
-            </table>
-          </tab>
+      </tbody>
+    </table>
+  </tab>
 
-          <tab heading="特殊修改" disabled="true">
+  <tab heading="特殊修改" disabled="true">
 
-          </tab>
-        </tabset>
-
-
-      </div>
-    </div>
-  </div>
-</div>
+  </tab>
+</tabset>

@@ -1,68 +1,41 @@
-<div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()"
-          aria-hidden="true">&times;</button>
-        <h4 class="modal-title">查看明细:</h4>
-      </div>
-      <div class="modal-body">
-        <div class="panel panel-default">
+<h3>查看申购单明细</h3>
+<a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
 
-          <div class="panel-body">
-            <input type="search" class="form-control" ng-model="searchText"
-              placeholder="Search">
-            <table class="table table-condensed table-hover">
-              <thead>
-                <tr>
-                  <th>SKU</th>
-                  <th>渠道</th>
-                  <th>需求数量</th>
-                  <th>ETA</th>
-                  <th>运费方式</th>
-                  <th>估算运费</th>
+<input type="search" class="form-control" ng-model="searchText" placeholder="Search">
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th>SKU</th>
+      <th>渠道</th>
+      <th>需求数量</th>
+      <th>ETA</th>
+      <th>运费方式</th>
+      <th>估算运费</th>
 
 
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="detail in request.details | filter:searchText">
-                  <td>{{detail.item.sku}}</td>
-                  <td>{{detail.platform.name}}</td>
-                  <td>{{detail.qty}}</td>
-                  <td>{{detail.end_date}}</td>
-                  <td>{{detail.transportation}}</td>
-                  <td>
-                    <label>
-                      <b class="text-info">{{ detail.item.fee.sea_cost | number}}</b>
-                      /
-                      <b class="text-danger">{{ detail.item.fee.air_cost | number}}</b>
-                    </label>
-                  </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="detail in request.details | filter:searchText">
+      <td>{{detail.item.sku}}</td>
+      <td>{{detail.platform.name}}</td>
+      <td>{{detail.qty}}</td>
+      <td>{{detail.end_date}}</td>
+      <td>{{detail.transportation}}</td>
+      <td>
+        <label>
+          <b class="text-info">{{ detail.item.fee.sea_cost | number}}</b>
+          /
+          <b class="text-danger">{{ detail.item.fee.air_cost | number}}</b>
+        </label>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
+<div class="modal-footer" ng-show="operaType!='readonly'">
+  <button type="button" class="btn success" data-dismiss="modal"  ng-show="request.status == 'confirmed'" ng-click="pass();">确认通过</button>
+  <button type="button" class="btn danger" data-dismiss="modal" ng-show="request.status == 'confirmed'" ng-click="reject();">确认拒绝</button>
+</div>
 
-                </tr>
-              </tbody>
-            </table>
-
-          </div>
-        </div>
-
-        <div class="container-fluid" ng-show="request.status == 'confirmed'">
-          <hr />
-          <div class="row">
-            <label>批注:</label>
-            <textarea ng-model="request.verified_note" class="form-control">
-            </textarea>
-          </div>
-        </div>
-
-            
-
-      </div>
-      <div class="modal-footer" ng-show="operaType!='readonly'">
-        <button type="button" class="btn btn-success" data-dismiss="modal"  ng-show="request.status == 'confirmed'"
-          ng-click="pass();">确认通过</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-show="request.status == 'confirmed'"
-          ng-click="reject();">确认拒绝</button>
-        <!-- <button type="button" class="btn btn-xs btn-primary">Save changes</button> -->
-      </div>
-    </div>

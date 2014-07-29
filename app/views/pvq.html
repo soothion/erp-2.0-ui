@@ -1,29 +1,28 @@
 <input type="search" class="form-control" ng-model="search" placeholder="Search">
 
-<table class="table table-condensed table-hover">
+<table width="100%">
   <thead>
     <tr>
-      <th><a href="#/purchase/quotation/edit/new"><i class="glyphicon glyphicon-plus"></i></a></th>
+      <th><a href="javascript:;" ng-click="create()"><i class="fi-plus"></i></a></th>
       <th>代码</th>
       <th>名称</th>
       <th>SKU</th>
       <th>描述</th>
-      <th itle="unit-price">单价</th>
-      <th itle="tax-unit-price">含税单价</th>
-      <th title="usd-unit-price">没劲单价</th>
+      <th>单价</th>
+      <th>单价(T)</th>
+      <th>单价($)</th>
       <th>单位</th>
       <th>税率</th>
       <th>SPQ</th>
       <th>MOQ</th>
-      <th title="lead time(days)">L/T</th>
-      <th>创建</th>
+      <th>L/T</th>
       <th>最后修改</th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="quotation in quotations | filter: search | limitTo: 20">
       <td>
-        <a href="#/purchase/quotation/edit/{{quotation.id}}"><i class="glyphicon glyphicon-pencil"></i></a>
+        <a href="javascript:;" ng-click="edit($index)"><i class="fi-pencil"></i></a>
       </td>
       <td>{{quotation.vendor.code}}</td>
       <td>{{quotation.vendor.name}}</td>
@@ -36,9 +35,80 @@
       <td>{{quotation.tax_rate}}</td>
       <td>{{quotation.spq}}</td>
       <td>{{quotation.moq}}</td>
-      <td title="lead time(days)">{{quotation.lead_time}}</td>
-      <td>{{quotation.created_at}}</td>
+      <td>{{quotation.lead_time}}</td>
       <td>{{quotation.updated_at}}</td>
     </tr>
   </tbody>
 </table>
+
+<div id="editForm" class="reveal-modal" data-reveal>
+  <h5>编辑供应商报价</h5>
+
+  <div class="panel">
+    <div class="row">
+      <div class="columns medium-6">
+        <label>供应商</label>
+        <input type="text" name="name" ng-model="holder.vendor.name" readonly="">
+      </div>
+      <div class="columns medium-6">
+        <label>供应商编码</label>
+        <input type="text" ng-model="holder.vendor.code" readonly="">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-6">
+        <label>SKU</label>
+        <input type="text" ng-model="holder.item.sku" readonly="">
+      </div>
+      <div class="columns medium-6">
+        <label>描述</label>
+        <input type="text" ng-model="holder.item.description" readonly="">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-4">
+        <label>不含税单价</label>
+        <input type="text" ng-model="holder.unit_price">
+      </div>
+      <div class="columns medium-4">
+        <label>含税单价</label>
+        <input type="text" ng-model="holder.tax_unit_price">
+      </div>
+      <div class="columns medium-4">
+        <label>USD单价</label>
+        <input type="text" ng-model="holder.usd_unit_price">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-4">
+        <label>票点</label>
+        <input type="text" ng-model="holder.tax_rate">
+      </div>
+      <div class="columns medium-4">
+        <label>SPQ</label>
+        <input type="text" ng-model="holder.spq">
+      </div>
+      <div class="columns medium-4">
+        <label>MOQ</label>
+        <input type="text" ng-model="holder.moq">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-4">
+        <label>生产时长</label>
+        <input type="text" ng-model="holder.lead_time">
+      </div>
+    </div>
+
+  </div>
+
+  <button class="button tiny" ng-click="save()">提交修改申请</button>
+
+  <p></p>
+  <p></p>
+  <a class="close-reveal-modal">&#215;</a>
+</div>

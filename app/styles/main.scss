@@ -73,6 +73,11 @@ body {
         max-width: 730px;
     }
 
+    .row {
+        // width: 98%;
+        max-width: 80rem;
+    }
+
     /* Remove the padding we set earlier */
     .header,
     .marketing,
@@ -89,4 +94,14 @@ body {
     .jumbotron {
         border-bottom: 0;
     }
+}
+
+/* alert box */
+.fade {
+    opacity: 0;
+    -webkit-transition: opacity .15s linear;
+    transition: opacity .15s linear;
+}
+.fade.in {
+    opacity: 1;
 }

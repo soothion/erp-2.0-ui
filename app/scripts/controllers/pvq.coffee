@@ -3,11 +3,20 @@
 angular.module('laravelUiApp')
   .controller 'PvqCtrl', ($scope, Meta) ->
 
-    Meta.store('/api/purchase/quotation/:id', {id: '@id'}).query (rtn) ->
-      $scope.quotations = rtn
+    pointer = null
+
+    load = ->
+      Meta.cache('/api/purchase/quotation/:id', {id: '@id'}).query (rtn) ->
+        $scope.quotations = rtn
+
+    load()
     
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]
+    $scope.edit = (index) ->
+      pointer = index
+      $('#editForm').foundation('reveal', 'open')
+      $scope.holder = $scope.quotations[pointer]
+
+    $scope.save = ->
+      Meta.store('/api/purchase/quotation/:id', {id: '@id'}).update $scope.holder, ->
+        $scope.quotations[pointer] = $scope.holder
+        $('#editForm').foundation('reveal', 'close')

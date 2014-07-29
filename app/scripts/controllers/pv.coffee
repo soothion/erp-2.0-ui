@@ -19,9 +19,3 @@ angular.module('laravelUiApp')
       Meta.store('/api/purchase/vendor/:id', {id: '@id'}).update $scope.holder, ->
         $scope.vendors[pointer] = $scope.holder
         $('#editForm').foundation('reveal', 'close')
-
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]

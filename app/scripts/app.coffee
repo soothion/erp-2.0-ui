@@ -5,11 +5,11 @@ angular.module('laravelUiApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.bootstrap',
   'timer',
   'angular-loading-bar',
   'angular-flash.service',
-  'angular-flash.flash-alert-directive'
+  'angular-flash.flash-alert-directive',
+  'mm.foundation'
 ])
   .config (cfpLoadingBarProvider) ->
     cfpLoadingBarProvider.includeBar = true

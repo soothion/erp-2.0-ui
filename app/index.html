@@ -74,13 +74,13 @@
                 <li ng-class="{active: routeIs('/purchase/ship')}"><a href="#/purchase/ship">调度计划执行</a></li>
                 <li class="divider"></li>
                 <li ng-class="{active: routeIs('/purchase/order/list')}"><a href="#/purchase/order/list">采购单</a></li>
-                <li ng-class="{active: routeIs('/purchase/mergeOrder')}"><a href="#/purchase/mergeOrder">合并采购单</a></li>
-                <li class="divider"></li>
-                <li ng-class="{active: routeIs('/purchase/return')}"><a href="#/purchase/return">采购退货单</a></li>
+                <!-- <li ng-class="{active: routeIs('/purchase/mergeOrder')}"><a href="#/purchase/mergeOrder">合并采购单</a></li> -->
+                <!-- <li class="divider"></li> -->
+                <!-- <li ng-class="{active: routeIs('/purchase/return')}"><a href="#/purchase/return">采购退货单</a></li> -->
                 <li class="divider"></li>
                 <li ng-class="{active: routeIs('/purchase/vendor')}"><a href="#/purchase/vendor"><i class="fi-torsos"></i> 供应商列表</a></li>
-                <li ng-class="{active: routeIs('/purchase/quotation')}"><a href="#/purchase/quotation">供应商报价</a></li>
-                <li ng-class="{active: routeIs('/purchase/packing')}"><a href="#/purchase/packing">SKU的默认值设置</a></li>
+                <li ng-class="{active: routeIs('/purchase/quotation')}"><a href="#/purchase/quotation"><i class="fi-torsos-all"></i> 供应商报价</a></li>
+                <li ng-class="{active: routeIs('/purchase/packing')}"><a href="#/purchase/packing"><i class="fi-database"></i> SKU的默认值</a></li>
                 <li class="divider"></li>
                 <li ng-class="{active: routeIs('/purchase/costparams')}"><a href="#/purchase/costparams">运费系数</a></li>
               </ul>
@@ -180,15 +180,18 @@
       </div>
 
       <!-- Subscribe to all flash messages. -->
-      <!-- <div class="">
-        <div flash-alert active-class="in alert" class="fade" duration="0">
-          <button type="button" class="close" ng-click="hide()">&times;</button>
-          <strong class="alert-heading">重要!</strong>
-          <span class="alert-message">{{flash.message}}</span>
+      <div class="row ">
+        <div class="large-6 columns">
+          <div flash-alert active-class="in alert" class="alert-box fade fixed " duration="0">
+            <span class="alert-message">{{flash.message}}</span>
+            <a href="javascript:;" class="close" ng-click="hide()">&times;</a>
+          </div>
         </div>
-      </div> -->
+      </div>
 
-        <div class="columns large-12" ng-view=""></div>
+      <div class="row">
+        <div class="large-12 columns" ng-view=""></div>
+      </div>
 
       <footer class="row ng-cloak">
         <div class="columns large-12">
@@ -221,7 +224,6 @@
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-loading-bar/src/loading-bar.js"></script>
     <script src="bower_components/angular-flash/dist/angular-flash.js"></script>
     <script src="bower_components/react/react.js"></script>
@@ -230,6 +232,7 @@
     <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
     <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
     <script src="bower_components/foundation/js/foundation.js"></script>
+    <script src="bower_components/angular-foundation/mm-foundation-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

@@ -1,82 +1,73 @@
 <div class="row">
-  <div class="col col-lg-12">
-    <div class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title">采购计划{{plan.name}}[{{plan.invoice}}] By {{plan.user.email}}</h3></div>
+  <div class="columns large-12">
+    <div class="panel">
+      <h3 class="panel-title">采购计划{{plan.name}}[{{plan.invoice}}] By {{plan.user.email}}</h3>
 
-      <div class="panel-body">
-          
-        <div class="container-fluid">
-          <form name="editForm" class="">
-            <div class="row">
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.name.$invalid}">
-                  <label class="control-label">name</label>
-                  {{plan.plan}}
-                  <input type="text" name="name" ng-model="plan.name" class="form-control" required>
-                  <span ng-show="editForm.name.$error.required" class="help-inline">Required</span>
-                </div>
-              </div>
 
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.invoice.$invalid}">
-                  <label class="control-label">Invoice</label>
-                  <input type="text" name="invoice" ng-model="plan.invoice" class="form-control" readonly="readonly" required>
-                  <span ng-show="editForm.invoice.$error.required" class="help-inline">Required</span>
-                </div>
-              </div>
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.status.$invalid}">
-                  <label class="control-label">status</label>
-                  <input name="status" ng-model="plan.status" class="form-control" readonly="readonly" required>
-                  <span ng-show="editForm.status.$error.required" class="help-inline">Required</span>
-                </div>
-              </div>
+      <form name="editForm" class="">
+        <div class="row">
+          <div class="columns medium-4">
+            <div class="form-group" ng-class="{'error': editForm.name.$invalid}">
+              <label>name</label>
+              {{plan.plan}}
+              <input type="text" name="name" ng-model="plan.name" class="form-control" required>
+              <span ng-show="editForm.name.$error.required" class="help-inline">Required</span>
             </div>
+          </div>
 
-            <div class="row">
-              <div class="col col-sm-12">
-                <div class="form-group" ng-class="{'has-error': editForm.warehouse.$invalid}">
-                  <div class="btn-group">
-                    <button class="btn btn-sm btn-default" ng-repeat="wh in whlist" ng-model="plan.warehouse[wh.id]" btn-checkbox ng-class="{'btn-primary': plan.warehouse[wh.id]}">{{wh.name}}</button>
-                  </div>
-                  <span ng-show="editForm.warehouse.$error.required" class="help-inline">Required</span>
-                </div>
-              </div>
+          <div class="columns medium-4">
+            <div class="form-group" ng-class="{'error': editForm.invoice.$invalid}">
+              <label>Invoice</label>
+              <input type="text" name="invoice" ng-model="plan.invoice" class="form-control" readonly="readonly" required>
+              <span ng-show="editForm.invoice.$error.required" class="help-inline">Required</span>
             </div>
+          </div>
 
-            <div class="row">
-              <div class="col col-sm-4">
-                <div class="form-group" ng-class="{'has-error': editForm.wt.$invalid}"> 
-                  <div class="btn-group">
-                    <button class="btn btn-sm btn-default" ng-model="plan.transportation.air" btn-checkbox ng-class="{'btn-danger': plan.transportation.air}">AIR</button>
-                    <button class="btn btn-sm btn-default" ng-model="plan.transportation.sea" btn-checkbox ng-class="{'btn-success': plan.transportation.sea}">SEA</button>
-                    <button class="btn btn-sm btn-default" ng-model="plan.transportation.surface" btn-checkbox ng-class="{'btn-warning': plan.transportation.surface}">SURFACE</button>
-                  </div>
-                </div>
-              </div>
-              <div class="col col-sm-8">
-                
-              </div>
+          <div class="columns medium-4">
+            <div class="form-group" ng-class="{'error': editForm.status.$invalid}">
+              <label>status</label>
+              <input type="text" name="status" ng-model="plan.status" class="form-control" readonly="readonly" required>
+              <span ng-show="editForm.status.$error.required" class="help-inline">Required</span>
             </div>
-
-            <div class="row">
-              <div class="col col-sm-12">
-                <a class="btn btn-default" href="#/purchase/plan">返回</a>
-                <button type="button" class="btn btn-primary" ng-show="canModify()" ng-disabled="isClean()" ng-click="save()">保存采购计划</button>
-                <button type="button" class="btn btn-primary" ng-show="canModify()" ng-disabled="!isClean()" ng-click="confirm()">确认采购计划</button>
-              </div>
-            </div>
-          </form>
-
-          
+          </div>
         </div>
-      </div>
+
+        <div class="row">
+          <div class="columns medium-12">
+            <div class="form-group" ng-class="{'error': editForm.warehouse.$invalid}">
+              <div class="btn-group">
+                <button class="button tiny secondary" ng-repeat="wh in whlist" ng-model="plan.warehouse[wh.id]" btn-checkbox ng-class="{'success': plan.warehouse[wh.id]}">{{wh.name}}</button>
+              </div>
+              <span ng-show="editForm.warehouse.$error.required" class="help-inline">Required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="columns medium-6">
+            <li class="button tiny secondary" ng-model="plan.transportation.air" btn-checkbox ng-class="{'alert': plan.transportation.air}">AIR</li>
+            <li class="button tiny secondary" ng-model="plan.transportation.sea" btn-checkbox ng-class="{'success': plan.transportation.sea}">SEA</li>
+          </div>
+          <div class="col col-sm-6">
+            
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="columns medium-12">
+            <a class="button tiny secondary" href="#/purchase/plan">返回</a>
+            <button type="button" class="button tiny" ng-show="canModify()" ng-disabled="isClean()" ng-click="save()">保存采购计划</button>
+            <button type="button" class="button tiny" ng-show="canModify()" ng-disabled="!isClean()" ng-click="confirm()">确认采购计划</button>
+          </div>
+        </div>
+      </form>
+
     </div>
   </div>
 </div>
 
 <div class="row" ng-show="free">
-  <div class="col col-lg-12">
+  <div class="columns large-12">
     <div class="panel panel-warning">
       <div class="panel-heading">
         <h3 class="panel-title"><i class="glyphicon glyphicon-compressed"></i> 未列入计划表的申购单明细</h3>
@@ -84,7 +75,7 @@
       <div class="panel-body">
         <div class="container-fluid">
           <div ng-show="!free.length" class="animate-show">暂时没有未加入计划表的申购单明细</div>
-          <table class="table table-condensed table-hover" ng-show="free">
+          <table width="100%" ng-show="free">
             <thead>
               <tr>
                 <th>申购单号</th>
@@ -107,7 +98,7 @@
             </tbody>
           </table>
 
-          <button type="button" class="btn btn-info" ng-show="free" ng-click="add_to_plan()">  添加到当前计划表</button>
+          <button type="button" class="button success tiny" ng-show="free" ng-click="add_to_plan()">  添加到当前计划表</button>
         </div>
       </div>
     </div>
@@ -115,10 +106,10 @@
 </div>
 
 <div class="row">
-  <div class="col col-lg-12">
+  <div class="columns large-12">
     <form name="planForm" class="form-inline">
       <div class="table-responsive">
-        <table class="table table-condensed table-hover">
+        <table width="100%">
           <thead>
             <tr>
               <th>SKU</th>
@@ -126,30 +117,32 @@
               <th>库存余量</th>
               <th>已下单量</th>
               <th>修改变更</th>
-              <th ng-repeat="cw in cwlist" ng-show="plan.transportation[cw.transportation] && plan.warehouse[cw.id]" ng-class="{'sea': 'success', 'air': 'danger', 'surface': 'warning'}[cw.transportation]">{{cw.name}}-{{cw.transportation}}</th>
+              <th ng-repeat="cw in cwlist" ng-show="plan.transportation[cw.transportation] && plan.warehouse[cw.id]" class="" ng-class="{'sea': 'success', 'air': 'alert', 'surface': 'warning'}[cw.transportation]">
+                {{cw.name}}-{{cw.transportation}}
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="detail in summary">
-              <td><span class="label label-primary" tooltip="{{detail.item.status}}:{{detail.item.description}}">{{detail.item.sku}}</span></td>
+              <td><span class="label" tooltip="{{detail.item.status}}:{{detail.item.description}}">{{detail.item.sku}}</span></td>
               <td>
-                <span class="label label-info">{{detail.request_qty*1 + delta(detail.item_id)}}</span>
+                <span class="label warning">{{detail.request_qty*1 + delta(detail.item_id)}}</span>
               </td>
               <td>
-                <span class="label label-info">0</span>
+                <span class="label warning">0</span>
               </td>
               <td>
-                <span class="label label-info">0</span>
+                <span class="label warning">0</span>
               </td>
               <td>
-                <span class="label label-info">{{delta(detail.item_id)}}</span>
+                <span class="label warning">{{delta(detail.item_id)}}</span>
               </td>
               <td ng-repeat="cw in cwlist" ng-show="plan.transportation[cw.transportation] && plan.warehouse[cw.id]" ng-class="{'sea': 'success', 'air': 'danger', 'surface': 'warning'}[cw.transportation]">
-                <div class="form-group has-feedback" ng-class="{'has-warning': isDirty(detail.item_id, cw.name, cw.transportation)}">
+                <div class="form-group has-feedback" class="label" ng-class="{'warning': isDirty(detail.item_id, cw.name, cw.transportation)}">
                   <input type="text" 
                     name="detail[{{cw.id}}][{{cw.transportation}}]" 
                     ng-model="detail[cw.name + '-' + cw.transportation]" 
-                    class="form-control input-sm" 
+                    class="form-control tiny" 
                     valid-number 
                     tooltip="{{persistent[detail.item_id][cw.name + '-' + cw.transportation]}}" 
                     ng-readonly="persistent[detail.item_id][cw.name + '-' + cw.transportation] == 0">
@@ -165,14 +158,14 @@
 </div>
 
 <div class="row" ng-show="changes">
-  <div class="col col-lg-12">
+  <div class="columns large-12">
   <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title">计划修改明细</h3>
       </div>
       <div class="panel-body">
         <div class="container-fluid">
-          <table class="table table-condensed table-hover">
+          <table width="100%">
             <thead>
               <th>SKU</th>
               <th>渠道</th>

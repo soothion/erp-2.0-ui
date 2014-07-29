@@ -16,7 +16,7 @@ angular.module('laravelUiApp')
         $scope.request = rtn
         modalInstance = $modal.open {
           templateUrl: 'views/pra-detail.html'
-          controller: ['$scope', '$modalInstance', 'request', ($scope, $modalInstance, request) ->
+          controller: ['$scope', '$modalInstance', 'request', ($scope, $modalInstance, request) =>
             $scope.request = request
 
             $scope.pass = ->

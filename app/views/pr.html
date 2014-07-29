@@ -1,131 +1,95 @@
-<div class="row">
-  <div class="col col-lg-12">
-    <div class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title">申购单管理</h3></div>
-
-      <div class="panel-body">
-          <form name="searchForm">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col col-sm-3">
-                    <div class="form-group"
-                      ng-class="{'has-error': searchModel.invoice.$invalid}">
-                      <input type="text" ng-model="searchModel.invoice"
-                        class="form-control" placeholder="申购单编号">
-                    </div>
-                  </div>
-
-                  <div class="col col-sm-3">
-                    <div class="form-group"
-                      ng-class="{'has-error': searchModel.sku.$invalid}">
-                      <input type="text" name="sku" ng-model="searchModel.sku" id="sku"
-                        class="form-control"
-                        typeahead="i.sku as i.sku for i in skus | filter:{sku: $viewValue} | limitTo:10"
-                        placeholder="相关SKU">
-                    </div>
-                  </div>
-                  
-                  <div class="col col-sm-3">
-                    <div class="form-group"
-                      ng-class="{'has-error': searchModel.relation_id.$invalid}">
-                      <input type="text" ng-model="searchModel.relation_id"
-                        class="form-control" placeholder="相关订单编号">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                
-                  <div class="col col-sm-3">
-                    <div class="form-group"
-                      ng-class="{'has-error': searchModel.warehouse.$invalid}">
-                      <select name="warehouse" class="form-control"
-                        ng-model="searchModel.warehouse"
-                        ng-options="w.id as w.name for w in warehouses" required>
-                        <option value="">--目标仓库--</option>
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div class="col col-sm-3">
-                    <div class="form-group"
-                      ng-class="{'has-error': searchModel.status.$invalid}">
-                      <select name="status" class="form-control"
-                        ng-model="searchModel.status"
-                        ng-options="w.id as w.name for w in status" required>
-                        <option value="">--申购单状态--</option>
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div class="col col-sm-3">
-                    <div class="form-group"
-                      ng-class="{'has-error': searchModel.type.$invalid}">
-                      <select name="type" class="form-control"
-                        ng-model="searchModel.type"
-                        ng-options="w.id as w.name for w in types" required>
-                        <option value="">--申购单类型--</option>
-                      </select>
-                    </div>
-                  </div>
-
-
-                </div>
-                <div class="row">
-                  <div class="col col-sm-4">
-                    <div class="form-group">
-                      <button type="button" class="btn btn-primary"   ng-click="toFilter()">搜索</button>
-                      <button type="button" class="btn btn-primary"
-                        ng-click="toExport()">导出</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-        <table class="table table-condensed table-hover">
-          <thead>
-            <tr>
-              <th><a  data-toggle="tooltip" data-original-title="新增申购单"  href="#/purchase/request/edit/new"><i class="glyphicon glyphicon-plus"></i></a></th>
-              <th>申购单编号</th>
-              <th title="需求仓库">目的仓</th>
-              <th>类型</th>
-              <th title="需求订单">关联ID</th>
-              <th>状态</th>
-              <th>提单人</th>
-              <th>创建时间</th>
-              <th>修改时间</th>
-              <th>审核过期时间</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="request in requests">
-              <td>
-                <!-- 查看 -->
-                <a title="查看" data-toggle="tooltip" data-original-title="查看" href="#/purchase/request/view/{{request.id}}" ><i class="glyphicon glyphicon-eye-open"></i></a>
-                <!-- 修改 -->
-                <a title="修改 " data-toggle="tooltip" data-original-title="修改" href="#/purchase/request/edit/{{request.id}}" ng-show="request.status =='pending'"><i class="glyphicon glyphicon-pencil"></i></a>
-                <!-- 确认 -->
-                <a title="确认 " data-toggle="tooltip" data-original-title="确认 " href="javascript:;" ng-click="confirm(request.id)" ng-show="request.status =='pending'"><i class="glyphicon glyphicon-saved"></i></a>
-                <!-- 取消确认 -->
-                <a title="取消确认" data-toggle="tooltip" data-original-title="取消确认 " href="javascript:;" ng-click="unconfirm(request.id)" ng-show="request.status =='confirmed'"><i class="glyphicon glyphicon-share"></i></a>               
-                <!-- 删除 -->
-                <a title="删除 " data-toggle="tooltip"  data-original-title="删除" href="javascript:;" ng-show="request.status =='pending'" ng-click="destory(request.id)"><i class="glyphicon glyphicon-remove"></i></a>
-              </td>
-              <td>{{request.invoice}}</td>
-              <td title="需求仓库">{{request.warehouse_name}}</td>
-              <td>{{request.type}}</td>             
-              <td title="需求的Order ID">{{request.relation_id}}</td>
-              <td>
-                <b class="text" data-toggle="tooltip" data-original-title="{{request.verified_note}}" ng-class="{'text-success':request.status=='verified','text-danger':request.status=='rejected'}" ng-show="(request.status=='verified'||request.status=='rejected')">{{request.status}}</b>
-                <b ng-show="(request.status!='verified'&&request.status!='rejected')">{{request.status}}</b>
-              </td>
-              <td>{{request.agent_name}}</td>
-              <td>{{request.created_at}}</td>
-              <td>{{request.updated_at}}</td>
-              <td ng-class="{'danger':isExpired(request),'warning':isToExpiring(request)}">{{request.expired_at}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<fieldset>
+  <legend>申购单列表</legend>
+  <div class="row">
+    <div class="columns medium-4">
+      <input type="text" ng-model="searchModel.invoice"
+                          class="form-control" placeholder="申购单编号">
+    </div>
+    <div class="columns medium-4">
+      <input type="text" name="sku" ng-model="searchModel.sku" id="sku"
+                          class="form-control"
+                          typeahead="i.sku as i.sku for i in skus | filter:{sku: $viewValue} | limitTo:10"
+                          placeholder="相关SKU">
+    </div>
+    <div class="columns medium-4">
+      <input type="text" ng-model="searchModel.relation_id"
+                          class="form-control" placeholder="相关订单编号">
     </div>
   </div>
-</div>
+
+  <div class="row">
+    <div class="columns medium-4">
+      <select name="warehouse" class="form-control"
+                          ng-model="searchModel.warehouse"
+                          ng-options="w.id as w.name for w in warehouses" required>
+                          <option value="">--目标仓库--</option>
+                        </select>
+    </div>
+    <div class="columns medium-4">
+      <select name="status" class="form-control"
+                          ng-model="searchModel.status"
+                          ng-options="w.id as w.name for w in status" required>
+                          <option value="">--申购单状态--</option>
+                        </select>
+    </div>
+    <div class="columns medium-4">
+      <select name="type" class="form-control"
+                          ng-model="searchModel.type"
+                          ng-options="w.id as w.name for w in types" required>
+                          <option value="">--申购单类型--</option>
+                        </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns medium-12">
+      <button class="button tiny" ng-click="toFilter()"><i class="fi-zoom"></i>搜索</button>
+      <button class="button tiny" ng-click="toExport()">导出</button>
+    </div>
+  </div>
+</fieldset>
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th><a  data-toggle="tooltip" data-original-title="新增申购单"  href="#/purchase/request/edit/new"><i class="fi-plus"></i></a></th>
+      <th>申购单编号</th>
+      <th title="需求仓库">目的仓</th>
+      <th>类型</th>
+      <th title="需求订单">关联ID</th>
+      <th>状态</th>
+      <th>提单人</th>
+      <th>创建时间</th>
+      <th>修改时间</th>
+      <th>审核过期时间</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="request in requests">
+      <td>
+        <!-- 查看 -->
+        <a title="查看" data-toggle="tooltip" data-original-title="查看" href="#/purchase/request/view/{{request.id}}" ><i class="fi-eye"></i></a>
+        <!-- 修改 -->
+        <a title="修改 " data-toggle="tooltip" data-original-title="修改" href="#/purchase/request/edit/{{request.id}}" ng-show="request.status =='pending'"><i class="fi-pencil"></i></a>
+        <!-- 确认 -->
+        <a title="确认 " data-toggle="tooltip" data-original-title="确认 " href="javascript:;" ng-click="confirm(request.id)" ng-show="request.status =='pending'"><i class="fi-check"></i></a>
+        <!-- 取消确认 -->
+        <a title="取消确认" data-toggle="tooltip" data-original-title="取消确认 " href="javascript:;" ng-click="unconfirm(request.id)" ng-show="request.status =='confirmed'"><i class="fi-refresh"></i></a>               
+        <!-- 删除 -->
+        <a title="删除 " data-toggle="tooltip"  data-original-title="删除" href="javascript:;" ng-show="request.status =='pending'" ng-click="destory(request.id)"><i class="fi-trash alert"></i></a>
+      </td>
+      <td>{{request.invoice}}</td>
+      <td title="需求仓库">{{request.warehouse_name}}</td>
+      <td>{{request.type}}</td>             
+      <td title="需求的Order ID">{{request.relation_id}}</td>
+      <td>
+        <b class="text" data-toggle="tooltip" data-original-title="{{request.verified_note}}" ng-class="{'text-success':request.status=='verified','text-danger':request.status=='rejected'}" ng-show="(request.status=='verified'||request.status=='rejected')">{{request.status}}</b>
+        <b ng-show="(request.status!='verified'&&request.status!='rejected')">{{request.status}}</b>
+      </td>
+      <td>{{request.agent_name}}</td>
+      <td>{{request.created_at}}</td>
+      <td>{{request.updated_at}}</td>
+      <td ng-class="{'danger':isExpired(request),'warning':isToExpiring(request)}">{{request.expired_at}}</td>
+    </tr>
+  </tbody>
+</table>

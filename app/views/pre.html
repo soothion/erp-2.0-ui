@@ -1,200 +1,147 @@
-<div class="row">
-  <div class="col col-lg-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">申购单管理</h3>
-      </div>
-      <div class="panel-body" style="position: relative">
-        <form name="editForm" class="" >
-
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.invoice.$invalid}">
-                  <label class="control-label">申购单编号</label>
-                  <input type="text" name="invoice" ng-model="request.invoice" class="form-control" required ng-disabled="request.status!='pending'">
-                  <span ng-show="editForm.invoice.$error.required" class="help-inline">Required</span>
-                </div>
-              </div>
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.type.$invalid}">
-                  <label class="control-label">类型</label>
-                  <select name="type" class="form-control" ng-model="request.type" ng-options="t.name as t.name for t in types" required ng-disabled="request.status!='pending'" ng-change="change()"></select>
-                </div>
-              </div>
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.warehouse_id.$invalid}">
-                  <label class="control-label">目的仓</label>
-                  <select name="warehouse_id" ng-model="request.warehouse_id" class="form-control" required ng-options="wh.id as wh.name for wh in whs" ng-disabled="request.status!='pending'"></select>
-                  <span ng-show="editForm.warehouse_id.$error.required" class="help-inline">Required</span>
-                </div>
-              </div>
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.relation_id.$invalid}">
-                  <label class="control-label">关联ID</label>
-                  <input type="text" name="relation_id" ng-model="request.relation_id" ng-pattern="/^\d{1,16}$/" class="form-control" required ng-disabled="request.status!='pending' || request.type=='Shipment' || request.type=='Local'">
-                  <span ng-show="editForm.relation_id.$error.required" class="help-inline">Required</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.status.$invalid}">
-                  <label class="control-label">状态</label>
-                  <select name="status" ng-model="request.status" class="form-control" ng-options="s.name as s.name for s in status" required disabled></select>
-                  <span ng-show="editForm.status.$error.required" class="help-inline">Required</span>
-                </div>
-              </div>
-              <div class="col col-sm-3">
-                <div class="form-group">
-                  <label class="control-label">提单人</label>
-                  <input type="text" name="agent" ng-model="request.user.email" class="form-control" readonly>
-                </div>
-              </div>
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.created_at.$invalid}">
-                  <label class="control-label">创建时间</label>
-                  <input type="text" name="created_at" ng-model="request.created_at" class="form-control" readonly>
-                </div>
-              </div>
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.updated_at.$invalid}">
-                  <label class="control-label">修改时间</label>
-                  <input type="text" name="updated_at" ng-model="request.updated_at" class="form-control" readonly>
-                </div>
-              </div>
-            </div>
-            
-            <div class="row">
-              <div class="col col-sm-3">
-                <div class="form-group" ng-class="{'has-error': editForm.expired_at.$invalid||checkExpiredAt(request.expired_at) }">
-                  <label class="control-label">审核过期时间</label>
-                  <p class="input-group">
-                    <input name="expired_at" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="request.expired_at" is-open="opened[-1]" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
-                    <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="open($event, -1)"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                  </p>
-                  <span ng-show="editForm.expired_at.$error.required" class="help-inline">Required Or Already expired</span>
-                </div>
-              </div>
-              <div class="col col-sm-8">
-                <div class="form-group" ng-class="{'has-error': editForm.note.$invalid}">
-                  <label class="control-label">备注</label>
-                  <textarea name="note" class="form-control" ng-model="request.note" ng-disabled="request.status!='pending'"></textarea>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col col-lg-12">
-                <table class="table table-condensed table-hover">
-                  <thead>
-                    <tr>
-                      <th ng-show="request.status=='pending'" data-toggle="tooltip" title="添加一条新的需求明细"><a href="javascript:;" ng-click="details_new()"><i class="glyphicon glyphicon-plus"></i></a></th>
-                      <th data-toggle="tooltip" title="所需产品的SKU">SKU</th>
-                      <th data-toggle="tooltip" title="需求所属渠道">渠道</th>
-                      <th data-toggle="tooltip" title="需要的数量">需求量</th>
-                      <th data-toggle="tooltip" title="期望到货日期">ETA</th>
-                      <th data-toggle="tooltip" title="估算的运费[空运/海运]">估算运费</th>
-                      <th data-toggle="tooltip" title="需求产品的最小装箱数">MPQ</th>
-                      <th data-toggle="tooltip" title="运输方式">运输方式</th>
-                      <th data-toggle="tooltip" title="需求备注">备注</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr ng-repeat="detail in request.details" ng-class="{success: detail.request_id}">
-
-                      <td ng-show="request.status=='pending'">
-                        <a href="javascript:;" ng-click="details_remove($index)" ng-show="!detail.request_id || request.status=='pending'"><i class="glyphicon glyphicon-remove"></i></a>
-                      </td>
-                      <td width="120">
-                        <ng-form name="skuForm">
-                        <div class="form-group" ng-class="{'has-error': skuForm.sku.$invalid}" tooltip="{{detail.item.description}}">
-                          <input type="text" name="sku" ng-model="detail.item" class="form-control input-sm" typeahead-on-select="afterChangeItem()" required typeahead="sku as sku.sku for sku in skus | filter:{sku: $viewValue} | limitTo: 10" typeahead-editable='false'>
-                          <span ng-show="skuForm.sku.$error.required" class="help-inline">Required</span>
-                        </div>
-                        </ng-form>
-                      </td>
-                      <td>
-                        <ng-form name="platformForm">
-                        <div class="form-group" ng-class="{'has-error': platformForm.channel.$invalid}">
-                        <select type="text" name="channel" ng-model="detail.platform_id" class="form-control input-sm" required ng-options="c.id as c.name for c in platforms"></select>
-                          <span ng-show="platformForm.channel.$error.required" class="help-inline">Required</span>
-                        </div>
-                        </ng-form>
-                      </td>
-                      <td width="80">
-                        <ng-form name="loopForm">
-                        <div class="form-group" ng-class="{'has-error': loopForm.qty.$invalid}">
-                          <input type="text" name="qty" ng-model="detail.qty" class="form-control input-sm" ng-disabled="request.status!='pending'" valid-number>
-                        </div>                        
-                      </ng-form>
-                      </td> 
-                      <td width="150">
-                        <ng-form name="etaForm">
-                        <div class="form-group" ng-class="{'has-error': etaForm.end_date.$invalid}">
-                          <p class="input-group">
-
-                            <input name="end_date" type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="detail.end_date" is-open="opened[$index]" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
-                            <span class="input-group-btn">
-                              <button type="button" class="btn btn-default input-sm" ng-click="open($event, $index)"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
-                          </p>
-                          <span ng-show="etaForm.end_date.$error.required" class="help-inline">Required</span>
-                        </div>
-                        </ng-form>
-
-                      </td>
-                      <td>
-                        <!-- 这里需要一个计算方式 -->
-                        <label>
-                          <b class="text-info">{{ detail.item.fee.sea_cost | currency}}</b>/
-                          <b class="text-danger">{{ detail.item.fee.air_cost | currency}}</b>
-                        </label>
-                      </td>
-                      <td>{{detail.item.spq.vendor.spq || '-'}}</td>
-                      <td>
-                      <div class="form-group" ng-class="{'has-error': loopForm.transportation.$invalid}">
-                        <select type="text" name="transportation" ng-model="detail.transportation" class="form-control input-sm" required ng-options="t.name as t.name for t in trans" ng-disabled="request.status!='pending'" ng-readonly="detail.request_id"></select>
-                      </div></td>
-                      <td>
-                        <ng-form name="noteForm">
-                        <div class="form-group" ng-class="{'has-error': loopForm.qty.$invalid}">
-                          <input type="text" name="note" ng-model="detail.note" class="form-control input-sm" ng-disabled="request.status!='pending'">
-                        </div> 
-                        </ng-form>
-                      </td>
-
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <a class="btn btn-default" href="#/purchase/request/list">返回</a>
-            <button type="button" class="btn btn-primary" ng-click="update()" ng-disabled="isClean() || editForm.$invalid" ng-show="request.status=='pending'">
-              Save
-            </button>
-            <button type="button" class="btn btn-primary" ng-click="confirm()" ng-disabled="editForm.$invalid" ng-show="request.status=='pending' && ! brand">
-              confirm
-            </button>
-            <button type="button" class="btn btn-primary" ng-click="unconfirm()" ng-show="request.status=='confirmed' && ! brand">
-              unconfirm
-            </button>
-            <button type="button" class="btn btn-info" ng-click="reset()" ng-disabled="isClean()" ng-show="! brand">Reset</button>
-            <button type="button" class="btn btn-danger" ng-click="destroy()" ng-show="request.status == 'pending' && ! brand">
-              Delete
-            </button>
-        </form>
-
-      </div>
-<!--       <div ng-controller="uploadCtrl" style="position:absolute;bottom:15px;right:0px"  ng-show="request.status=='pending'">
-          <input type="hidden" name="request_id" value="{{request_id}}">
-        <p> <a href="/api/purchase/template" class="btn btn-info btn-xs" style="display:block;float:left">模板下载</a> <input type="file" ng-file-select="onFileSelect($files,request.id)" ></p>
-      </div> -->
+<fieldset>
+  <legend>申购单修改</legend>
+  <div class="row">
+    <div class="columns medium-4">
+      <label>申购单编号</label>
+      <input type="text" name="invoice" ng-model="request.invoice" class="form-control" required ng-disabled="request.status!='pending'">
+    </div>
+    <div class="columns medium-4">
+      <label>类型</label>
+      <select name="type" class="form-control" ng-model="request.type" ng-options="t.name as t.name for t in types" required ng-disabled="request.status!='pending'" ng-change="change()"></select> 
+    </div>
+    <div class="columns medium-4">
+      <label>目的仓</label>
+      <select name="warehouse_id" ng-model="request.warehouse_id" class="form-control" required ng-options="wh.id as wh.name for wh in whs" ng-disabled="request.status!='pending'"></select>
     </div>
   </div>
-</div>
-</div>
+
+  <div class="row">
+    <div class="columns medium-4">
+      <label>关联ID</label>
+      <input type="text" name="relation_id" ng-model="request.relation_id" ng-pattern="/^\d{1,16}$/" class="form-control" required ng-disabled="request.status!='pending' || request.type=='Shipment' || request.type=='Local'">
+    </div>
+    <div class="columns medium-4">
+      <label>状态</label>
+      <select name="status" ng-model="request.status" class="form-control" ng-options="s.name as s.name for s in status" required disabled></select>
+    </div>
+    <div class="columns medium-4">
+     <label>提单人</label>
+     <input type="text" name="agent" ng-model="request.user.email" class="form-control" readonly> 
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns medium-4">
+      <label class="control-label">创建时间</label>
+          <input type="text" name="created_at" ng-model="request.created_at" class="form-control" readonly>
+    </div>
+    <div class="columns medium-4">
+      <label class="control-label">修改时间</label>
+          <input type="text" name="updated_at" ng-model="request.updated_at" class="form-control" readonly>
+    </div>
+    <div class="columns medium-4">
+      <label class="control-label">审核过期时间</label>
+      <input name="expired_at" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="request.expired_at" is-open="opened[-1]" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns medium-12">
+      <label>备注</label>
+      <textarea name="note" class="form-control" ng-model="request.note" ng-disabled="request.status!='pending'"></textarea>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns medium-12">
+      <a class="button tiny secondary" href="#/purchase/request/list">返回</a>
+      <button type="button" class="button tiny success" ng-click="update()" ng-disabled="isClean() || editForm.$invalid" ng-show="request.status=='pending'">Save</button>
+      <button type="button" class="button tiny" ng-click="confirm()" ng-disabled="editForm.$invalid" ng-show="request.status=='pending' && ! brand">confirm</button>
+      <button type="button" class="button tiny" ng-click="unconfirm()" ng-show="request.status=='confirmed' && ! brand">unconfirm</button>
+      <button type="button" class="button tiny info" ng-click="reset()" ng-disabled="isClean()" ng-show="! brand">Reset</button>
+      <button type="button" class="button tiny alert" ng-click="destroy()" ng-show="request.status == 'pending' && ! brand">Delete</button>
+    </div>
+  </div>
+</fieldset>
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th ng-show="request.status=='pending'"><a href="javascript:;" tooltip="添加一条新的需求明细" ng-click="details_new()"><i class="fi-plus"></i></a></th>
+      <th><span tooltip="所需产品的SKU">SKU</span></th>
+      <th><span tooltip="需求所属渠道">渠道</span></th>
+      <th><span tooltip="需要的数量">需求量</span></th>
+      <th><span tooltip="期望到货日期">ETA</span></th>
+      <th><span tooltip="估算的运费[空运/海运]">估算运费</span></th>
+      <th><span tooltip="需求产品的最小装箱数">MPQ</span></th>
+      <th><span tooltip="运输方式">运输方式</span></th>
+      <th><span tooltip="需求备注">备注</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="detail in request.details" ng-class="{success: detail.request_id}">
+
+      <td ng-show="request.status=='pending'">
+        <a href="javascript:;" ng-click="details_remove($index)" ng-show="!detail.request_id || request.status=='pending'"><i class="fi-trash"></i></a>
+      </td>
+      <td width="120">
+        <ng-form name="skuForm">
+        <div class="form-group" ng-class="{'has-error': skuForm.sku.$invalid}" tooltip="{{detail.item.description}}">
+          <input type="text" name="sku" ng-model="detail.item" class="form-control input-sm" typeahead-on-select="afterChangeItem()" required typeahead="sku as sku.sku for sku in skus | filter:{sku: $viewValue} | limitTo: 10" typeahead-editable='false'>
+          <span ng-show="skuForm.sku.$error.required" class="help-inline">Required</span>
+        </div>
+        </ng-form>
+      </td>
+      <td>
+        <ng-form name="platformForm">
+        <div class="form-group" ng-class="{'has-error': platformForm.channel.$invalid}">
+        <select type="text" name="channel" ng-model="detail.platform_id" class="form-control input-sm" required ng-options="c.id as c.name for c in platforms"></select>
+          <span ng-show="platformForm.channel.$error.required" class="help-inline">Required</span>
+        </div>
+        </ng-form>
+      </td>
+      <td width="80">
+        <ng-form name="loopForm">
+        <div class="form-group" ng-class="{'has-error': loopForm.qty.$invalid}">
+          <input type="text" name="qty" ng-model="detail.qty" class="form-control input-sm" ng-disabled="request.status!='pending'" valid-number>
+        </div>                        
+      </ng-form>
+      </td> 
+      <td width="150">
+        <ng-form name="etaForm">
+        <div class="form-group" ng-class="{'has-error': etaForm.end_date.$invalid}">
+          <p class="input-group">
+
+            <input name="end_date" type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="detail.end_date" is-open="opened[$index]" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+              <!-- <button type="button" class="btn btn-default input-sm" ng-click="open($event, $index)"><i class="glyphicon glyphicon-calendar"></i></button> -->
+            </span>
+          </p>
+          <span ng-show="etaForm.end_date.$error.required" class="help-inline">Required</span>
+        </div>
+        </ng-form>
+
+      </td>
+      <td>
+        <!-- 这里需要一个计算方式 -->
+        <label>
+          <b class="text-info">{{ detail.item.fee.sea_cost | currency}}</b>/
+          <b class="text-danger">{{ detail.item.fee.air_cost | currency}}</b>
+        </label>
+      </td>
+      <td>{{detail.item.spq.vendor.spq || '-'}}</td>
+      <td>
+      <div class="form-group" ng-class="{'has-error': loopForm.transportation.$invalid}">
+        <select type="text" name="transportation" ng-model="detail.transportation" class="form-control input-sm" required ng-options="t.name as t.name for t in trans" ng-disabled="request.status!='pending'" ng-readonly="detail.request_id"></select>
+      </div></td>
+      <td>
+        <ng-form name="noteForm">
+        <div class="form-group" ng-class="{'has-error': loopForm.qty.$invalid}">
+          <input type="text" name="note" ng-model="detail.note" class="form-control input-sm" ng-disabled="request.status!='pending'">
+        </div> 
+        </ng-form>
+      </td>
+
+    </tr>
+  </tbody>
+</table>
