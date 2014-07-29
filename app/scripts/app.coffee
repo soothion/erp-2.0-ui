@@ -80,7 +80,31 @@ angular.module('laravelUiApp', [
       .when '/purchase/order/exec',
         templateUrl: 'views/poec.html'
         controller: 'PoecCtrl'
-      
+
+      .when '/inventory/nowday',
+        templateUrl: 'views/inventory/log/nowday.html'
+        controller: 'InventoryNowdayCtrl'
+
+      .when '/inventory/changes',
+        templateUrl: 'views/inventory/log/changes.html'
+        controller: 'InventoryChangesCtrl'
+
+      .when '/stock/purchase/lists',
+        templateUrl: 'views/stock/purchase/lists.html'
+        controller: 'StockPurchaseListsCtrl'
+
+      .when '/stock/purchase/show/:id',
+        templateUrl: 'views/stock/purchase/show.html'
+        controller: 'StockPurchaseShowCtrl'
+
+      .when '/stock/io/lists',
+        templateUrl: 'views/stock/io/lists.html'
+        controller: 'StockIOListsCtrl'
+
+      .when '/stock/io/show/:id',
+        templateUrl: 'views/stock/io/show.html'
+        controller: 'StockIOShowCtrl'
+
       .otherwise
         redirectTo: '/home'
 

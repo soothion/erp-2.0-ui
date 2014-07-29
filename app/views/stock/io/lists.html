@@ -1,0 +1,119 @@
+<div class="row">
+	<div class="col col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">出入库单列表</h3>
+			</div>
+
+			<div class="panel-body">
+				<form class="container-fluid">
+					<div class="row">
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<input type="text" ng-model="ordersSearch.invoice" class="form-control" placeholder="编号"/>
+							</div>
+						</div>
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<input type="text" ng-model="ordersSearch.relation_invoice" class="form-control" placeholder="相关编号"/>
+							</div>
+						</div>
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<input type="text" name="item" ng-model="ordersSearch.item" class="form-control" placeholder="SKU" typeahead="item as item.sku for item in itemLists| filter: {sku: $viewValue}| limitTo: 10" />
+							</div>
+						</div>
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<input type="text" ng-model="ordersSearch.created_at_from" class="form-control" placeholder="从什么时候" datepicker-popup="yyyy-MM-dd" />
+							</div>
+						</div>
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<input type="text" ng-model="ordersSearch.execed_at_to" class="form-control" placeholder="到什么时候" datepicker-popup="yyyy-DD-mm" />
+							</div>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<select class="form-control" ng-model="ordersSearch.type" ng-options="type.name group by type.category for type in typeLists">
+								</select>
+							</div>
+						</div>
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<select class="form-control" ng-model="ordersSearch.status" ng-options="status.name for status in statusLists ">
+								</select>
+							</div>
+						</div>
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<select class="form-control" ng-model="ordersSearch.warehouse" ng-options="warehouse.name for warehouse in warehouseLists">
+
+								</select>
+							</div>
+						</div>
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<input type="text" name="vendor" ng-model="ordersSearch.vendor" class="form-control" placeholder="供应商" typeahead="vendor as vendor.name for vendor in vendorLists| filter: $viewValue| limitTo: 10" />
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<button type="button" class="btn btn-primary" ng-click="paging.first()">搜索</button>
+								<button type="button" class="btn btn-primary" ng-click="cleanSearch()">重置</button>
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<table class="table table-condensed table-hover">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>出入库编号</th>
+							<th>相关编号</th>
+							<th>类别</th>
+							<th>仓库</th>
+							<th>是否出入库</th>
+							<th>创建人</th>
+							<th>创建时间</th>
+							<th>操作人</th>
+							<th>操作时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="order in orders">
+							<td><a href="#/stock/io/show/{{ order.id }}">{{ order.id }}</a></td>
+							<td>{{ order.invoice }}</td>
+							<td>{{ order.relation_invoice }}</td>
+							<td>{{ order.type }}</td>
+							<td>{{ order.warehouse_id }}</td>
+							<td>{{ order.status }}</td>
+							<td>{{ order.creat_agent }}</td>
+							<td>{{ order.created_at }}</td>
+							<td>{{ order.exec_agent }}</td>
+							<td>{{ order.execed_at }}</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="18">
+								<ul class="pager">
+									<li class="previous" ng-show="paging.hasPrePage()"><a href="javascript:;" ng-click="paging.goPrePage()">上一页</a></li>
+									<li class="next" ng-show="paging.hasNextPage()"><a href="javascript:;" ng-click="paging.goNextPage()">下一页</a></li>
+								</ul>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

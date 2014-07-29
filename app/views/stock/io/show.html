@@ -1,0 +1,55 @@
+<div class="row">
+	<div class="col col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">出入库单明细</h3>
+			</div>
+
+			<div class="panel-body">
+				<h2>基本信息</h2>
+
+				<div class="row">
+					<div class="col-sm-9">
+						<table class="table table-bordered">
+							<tr>
+								<th class="col-sm-1 active">编号</th>
+								<td class="col-sm-2">{{ order.invoice }}</td>
+								<th class="col-sm-1 active">相关编号</th>
+								<td class="col-sm-2">{{ order.relation_invoice }}</td>
+								<th class="col-sm-1 active">操作人</th>
+								<td class="col-sm-2">{{ order.agent }}</td>
+							</tr>
+							<tr>
+								<th class="col-sm-1 active">时间</th>
+								<td class="col-sm-2">{{ order.created_at }}</td>
+								<th class="col-sm-1 active">仓库</th>
+								<td class="col-sm-2">{{ order.warehouse_id }}</td>
+								<th class="col-sm-1 active">类别</th>
+								<td class="col-sm-2">{{ order.type }}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+				<h3>明细</h3>
+				<table class="table table-condensed table-hover">
+					<thead>
+						<tr>
+							<th>SKU</th>
+							<th>描述</th>
+							<th>入库数量</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="detail in order.details">
+							<td class="col-sm-2">{{ detail.item.sku }}</td>
+							<td class="col-sm-6">{{ detail.item.description }}</td>
+							<td class="col-sm-2">{{ detail.qty }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<button ng-show="!order.status" type="button" class="btn btn-primary" ng-click="stockIn()">Stock In All</button>
+			</div>
+		</div>
+	</div>
+</div>

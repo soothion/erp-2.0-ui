@@ -1,0 +1,81 @@
+<div class="row">
+	<div class="col col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">库存查询</h3>
+			</div>
+			<div class="panel-body">
+				<form class="container-fluid">
+					<div class="row">
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<select ng-model="invsSearch.warehouse" class="form-control" ng-options="warehouse.name for warehouse in warehouseLists"></select>
+							</div>
+						</div>
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<input type="text" name="item" ng-model="invsSearch.item" class="form-control" placeholder="SKU" typeahead="item as item.sku for item in itemLists| filter: {sku: $viewValue}| limitTo: 10" />
+							</div>
+						</div>
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<div class="btn-group ">
+									<button type="button" class="btn btn-default" ng-model="invsSearch.status.stocked" btn-checkbox>
+										Stocked
+									</button>
+									<button type="button" class="btn btn-default" ng-model="invsSearch.status.onroad" btn-checkbox>
+										Onroad
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<button type="button" class="btn btn-primary" ng-click="paging.first()">
+									搜索
+								</button>
+							</div>
+						</div>
+					</div>
+
+				</form>
+
+				<table class="table table-condensed table-hover">
+					<thead>
+						<tr>
+							<th>SKU</th>
+							<th>实际数量</th>
+							<th>Book</th>
+							<th>可用数量</th>
+							<th>库存状态</th>
+							<th>渠道</th>
+							<th>仓库</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="inventory in inventories">
+							<td>{{ inventory.item.sku }}</td>
+							<td>{{ inventory.all_qty }}</td>
+							<td>{{ inventory.book_qty }}</td>
+							<td>{{ inventory.all_qty - inventory.all_book_qty }}</td>
+							<td>{{ inventory.status }}</td>
+							<td>{{ inventory.platform.name }}</td>
+							<td>{{ inventory.warehouse_id }}</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="18">
+								<ul class="pager">
+									<li class="previous" ng-show="paging.hasPrePage()"><a href="javascript:;" ng-click="paging.goPrePage()">上一页</a></li>
+									<li class="next" ng-show="paging.hasNextPage()"><a href="javascript:;" ng-click="paging.goNextPage()">下一页</a></li>
+								</ul>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
