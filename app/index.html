@@ -91,8 +91,10 @@
             <li class="has-dropdown" ng-class="{active: routeIs('/inventory')}">
               <a href="#">库存管理</a>
               <ul class="dropdown">
-                <li ng-class="{active: routeIs('/inventory/query')}"><a href="#/inventory/query">库存查询</a></li>
-                <li ng-class="{active: routeIs('/inventory/detail')}"><a href="#/inventory/detail">库存明细</a></li>
+	              <li ng-class="{active: routeIs('/inventory/nowday')}"><a href="#/inventory/nowday">库存查询</a></li>
+	              <li ng-class="{active: routeIs('/inventory/changes')}"><a href="#/inventory/changes">库存明细</a></li>
+                <!--<li ng-class="{active: routeIs('/inventory/query')}"><a href="#/inventory/query">库存查询</a></li>
+                <li ng-class="{active: routeIs('/inventory/detail')}"><a href="#/inventory/detail">库存明细</a></li>-->
                 <li ng-class="{active: routeIs('/inventory/summary')}"><a href="#/inventory/summary">库存报表</a></li>
                 <li ng-class="{active: routeIs('/inventory/log')}"><a href="#/inventory/log">库存日志</a></li>
                 <li ng-class="{active: routeIs('/inventory/book')}"><a href="#/inventory/book">库存BOOK日志</a></li>
@@ -125,6 +127,12 @@
                     <li ng-class="{active: routeIs('/warehouse/counting')}"><a href="#/warehouse/counting">仓库盘点</a></li>                    
                     <li ng-class="{active: routeIs('/warehouse/rmaList')}"><a href="#/warehouse/rmaList">RMA回库</a></li>
                     <li ng-class="{active: routeIs('/warehouse/dispatch')}"><a href="#/warehouse/dispatch">仓库调度</a></li>
+
+	                <li class="divider"></li>
+	                <li ng-class="{active: routeIs('/stock/purchase/lists')}"><a href="#/stock/purchase/lists">待采购入库单</a></li>
+
+	                <li class="divider"></li>
+	                <li ng-class="{active: routeIs('/stock/io/lists')}"><a href="#/stock/io/lists">出入库单日志</a></li>
                 </ul>
             </li>
 
@@ -240,25 +248,33 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/navbar.js"></script>
-    <script src="scripts/services/Cache.js"></script>
-    <script src="scripts/services/Message.js"></script>
-    <script src="scripts/services/Auth.js"></script>
+    <script src="scripts/services/cache.js"></script>
+    <script src="scripts/services/message.js"></script>
+    <script src="scripts/services/auth.js"></script>
     <script src="scripts/controllers/login.js"></script>
-    <script src="scripts/services/Meta.js"></script>
+    <script src="scripts/services/meta.js"></script>
     <script src="scripts/controllers/pr.js"></script>
     <script src="scripts/controllers/pp.js"></script>
     <script src="scripts/controllers/ppe.js"></script>
-    <script src="scripts/directives/validNumber.js"></script>
+    <script src="scripts/directives/validnumber.js"></script>
     <script src="scripts/controllers/pre.js"></script>
     <script src="scripts/controllers/prv.js"></script>
-    <script src="scripts/directives/datePicker.js"></script>
+    <script src="scripts/directives/datepicker.js"></script>
     <script src="scripts/controllers/pra.js"></script>
-    <script src="scripts/directives/whList.js"></script>
-    <script src="scripts/directives/prAudit.js"></script>
+    <script src="scripts/directives/whlist.js"></script>
+    <script src="scripts/directives/praudit.js"></script>
     <script src="scripts/filters/timer.js"></script>
     <script src="scripts/controllers/poec.js"></script>
     <script src="scripts/controllers/pvq.js"></script>
     <script src="scripts/controllers/pv.js"></script>
+
+    <script src="scripts/controllers/inventory/log/nowday.js"></script>
+    <script src="scripts/controllers/inventory/log/changes.js"></script>
+    <script src="scripts/controllers/stock/purchase/lists.js"></script>
+    <script src="scripts/controllers/stock/purchase/show.js"></script>
+    <script src="scripts/controllers/stock/io/lists.js"></script>
+    <script src="scripts/controllers/stock/io/show.js"></script>
+    <script src="scripts/services/paging.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">$(document).foundation();</script>

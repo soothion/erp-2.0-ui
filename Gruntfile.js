@@ -30,7 +30,7 @@ module.exports = function (grunt) {
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       coffee: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'],
+        files: ['<%= yeoman.app %>/scripts/{,*/,*/*/*/}*.{coffee,litcoffee,coffee.md}'],
         tasks: ['newer:coffee:dist']
       },
       coffeeTest: {
@@ -101,7 +101,7 @@ module.exports = function (grunt) {
         {
           context: '/api',
           host: '127.0.0.1',
-          port: 8000,
+          port: 8844,
           https: false,
           changeOrigin: false,
           xforward: false,
@@ -216,7 +216,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/scripts',
-          src: '{,*/}*.coffee',
+          src: '{,*/,*/*/*/}*.coffee',
           dest: '.tmp/scripts',
           ext: '.js'
         }]

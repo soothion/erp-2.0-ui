@@ -1,0 +1,79 @@
+<div class="row">
+	<div class="col col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">待采购入库</h3>
+			</div>
+
+			<div class="panel-body">
+				<form class="container-fluid">
+					<div class="row">
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<input type="text" ng-model="ordersSearch.invoice" class="form-control" placeholder="采购编号"/>
+							</div>
+						</div>
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<input type="text" name="item" ng-model="ordersSearch.item" class="form-control" placeholder="SKU" typeahead="item as item.sku for item in itemLists| filter: {sku: $viewValue}| limitTo: 10" />
+							</div>
+						</div>
+						<div class="col col-sm-4">
+							<div class="form-group">
+								<input type="text" ng-model="ordersSearch.description" class="form-control" placeholder="描述"/>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col col-sm-2">
+							<div class="form-group">
+								<button type="button" class="btn btn-primary" ng-click="paging.first()">搜索</button>
+								<button type="button" class="btn btn-primary" ng-click="cleanSearch()">重置</button>
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<table class="table table-condensed table-hover">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>采购单编号</th>
+							<th>供应商</th>
+							<th>税率</th>
+							<th>日期</th>
+							<th>币别</th>
+							<th>状态</th>
+							<th>录单员</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="order in orders">
+							<td><a href="#/stock/purchase/show/{{ order.id }}">{{ order.id }}</a></td>
+							<td>{{ order.po.invoice }}</td>
+							<td>{{ order.po.vendor.name }}</td>
+							<td>{{ order.po.currency_rate }}</td>
+							<td>{{ order.created_at }}</td>
+							<td>{{ order.po.currency }}</td>
+							<td>{{ order.status }}</td>
+							<td>{{ order.agent }}</td>
+							<td>{{ order.note }}</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="18">
+								<ul class="pager">
+									<li class="previous" ng-show="hasPrePage()"><a href="javascript:;" ng-click="goPrePage()">上一页</a></li>
+									<li class="next" ng-show="hasNextPage()"><a href="javascript:;" ng-click="goNextPage()">下一页</a></li>
+								</ul>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

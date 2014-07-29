@@ -1,0 +1,40 @@
+<div class="row">
+	<div class="col col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">待采购入库明细</h3>
+			</div>
+
+			<div class="panel-body">
+
+				<table class="table table-condensed table-hover">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>SKU</th>
+							<th>描述</th>
+							<th>型号</th>
+							<th>采购数量</th>
+							<th>已入库数</th>
+							<th>待入库数</th>
+							<th>现入库数</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="detail in order.details">
+							<td>{{ detail.id }}</td>
+							<td>{{ detail.item.sku }}</td>
+							<td>{{ detail.item.description }}</td>
+							<td>{{ detail.item_id }}</td>
+							<td>{{ detail.qty }}</td>
+							<td>{{ detail.qty - detail.qty_rest }}</td>
+							<td>{{ detail.qty_rest }}</td>
+							<td class="col col-sm-2"><input ng-disabled="isQtyFull(detail.qty_rest)" type="text" class="form-control" ng-model="detail.qty_into" /></td>
+						</tr>
+					</tbody>
+				</table>
+				<button type="button" class="btn btn-primary" ng-click="genStockIO()">生成出入库单</button>
+			</div>
+		</div>
+	</div>
+</div>
