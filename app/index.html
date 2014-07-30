@@ -26,7 +26,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
 
-      <div class=" header ng-cloak">
+      <div class="header ng-cloak">
       <nav class="top-bar " data-topbar data-options="" ng-show="show()" ng-controller="NavbarCtrl" >
         <ul class="title-area">
           <li class="name">
@@ -185,16 +185,21 @@
           </ul>
         </section>
       </nav>
-      </div>
-
-      <!-- Subscribe to all flash messages. -->
-      <div flash-alert active-class="in alert" class="alert-box fade fixed " duration="0">
-        <span class="alert-message">{{flash.message}}</span>
-        <a href="javascript:;" class="close" ng-click="hide()">&times;</a>
+      
       </div>
 
       <div class="row">
         <div class="large-12 columns" ng-view=""></div>
+      </div>
+
+      <!-- Subscribe to all flash messages. -->
+      <div class="row">
+        <div class="columns large-12">
+          <div flash-alert active-class="in" class="alert-box data-alert alert fade fixed" duration="0">
+            <span class="alert-message">{{flash.message}}</span>
+            <a href="javascript:;" class="close" ng-click="hide()">&times;</a>
+          </div>
+        </div>
       </div>
 
       <footer class="row ng-cloak">
