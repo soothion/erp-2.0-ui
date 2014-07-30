@@ -188,13 +188,9 @@
       </div>
 
       <!-- Subscribe to all flash messages. -->
-      <div class="row ">
-        <div class="large-6 columns">
-          <div flash-alert active-class="in alert" class="alert-box fade fixed " duration="0">
-            <span class="alert-message">{{flash.message}}</span>
-            <a href="javascript:;" class="close" ng-click="hide()">&times;</a>
-          </div>
-        </div>
+      <div flash-alert active-class="in alert" class="alert-box fade fixed " duration="0">
+        <span class="alert-message">{{flash.message}}</span>
+        <a href="javascript:;" class="close" ng-click="hide()">&times;</a>
       </div>
 
       <div class="row">
