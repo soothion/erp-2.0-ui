@@ -70,7 +70,7 @@ angular.module('laravelUiApp')
 
         # check
         if checkOrderDetail()
-          jQuery('#makeOrderFormNew').foundation('reveal', 'open');
+          jQuery('#makeOrderFormNew').foundation('reveal', 'open')
           $scope.order={}
           $scope.order.vendor_id = $scope.commonVendorId
           $scope.order.warehouse_id = $scope.commonWarehouseId
