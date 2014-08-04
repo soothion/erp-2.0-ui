@@ -9,7 +9,8 @@ angular.module('laravelUiApp', [
   'angular-loading-bar',
   'angular-flash.service',
   'angular-flash.flash-alert-directive',
-  'mm.foundation'
+  'mm.foundation',
+  'jquery-ui'
 ])
   .config (cfpLoadingBarProvider) ->
     cfpLoadingBarProvider.includeBar = true
