@@ -81,7 +81,7 @@
                 <li class="divider"></li>
                 <li ng-class="{active: routeIs('/purchase/vendor')}"><a href="#/purchase/vendor"><i class="fi-torsos"></i> 供应商列表</a></li>
                 <li ng-class="{active: routeIs('/purchase/quotation')}"><a href="#/purchase/quotation"><i class="fi-torsos-all"></i> 供应商报价</a></li>
-                <li ng-class="{active: routeIs('/purchase/packing')}"><a href="#/purchase/packing"><i class="fi-database"></i> SKU的默认值</a></li>
+                <li ng-class="{active: routeIs('/purchase/default')}"><a href="#/purchase/default"><i class="fi-database"></i> SKU的默认值</a></li>
                 <li class="divider"></li>
                 <li ng-class="{active: routeIs('/purchase/costparams')}"><a href="#/purchase/costparams">运费系数</a></li>
               </ul>
@@ -276,8 +276,9 @@
     <script src="scripts/controllers/stock/io/lists.js"></script>
     <script src="scripts/controllers/stock/io/show.js"></script>
     <script src="scripts/services/paging.js"></script>
+    <script src="scripts/controllers/pvd.js"></script>
+    <script src="scripts/directives/jqueryUiDatepicker.js"></script>
     <!-- endbuild -->
-    <script type="text/javascript" src="bower_components/jqueryDatepickerForAngularjs/public/src/jquery-datepicker-for-angularjs.min.js"></script>
 
     <script type="text/javascript">$(document).foundation();</script>
 

@@ -9,8 +9,7 @@ angular.module('laravelUiApp', [
   'angular-loading-bar',
   'angular-flash.service',
   'angular-flash.flash-alert-directive',
-  'mm.foundation',
-  'jquery-ui'
+  'mm.foundation'
 ])
   .config (cfpLoadingBarProvider) ->
     cfpLoadingBarProvider.includeBar = true
@@ -76,6 +75,9 @@ angular.module('laravelUiApp', [
       .when '/purchase/quotation',
         templateUrl: 'views/pvq.html'
         controller: 'PvqCtrl'
+      .when '/purchase/default',
+        templateUrl: 'views/pvd.html'
+        controller: 'PvdCtrl'
 
       # order
       .when '/purchase/order/exec',
