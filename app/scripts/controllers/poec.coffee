@@ -70,7 +70,6 @@ angular.module('laravelUiApp')
 
         # check
         if checkOrderDetail()
-          jQuery('#makeOrderFormNew').foundation('reveal', 'open')
           $scope.order={}
           $scope.order.vendor_id = $scope.commonVendorId
           $scope.order.warehouse_id = $scope.commonWarehouseId
@@ -83,6 +82,8 @@ angular.module('laravelUiApp')
           $scope.order.ship_to = $scope.order.ship_to || ''
           Meta.store('/api/purchase/po/:operation/:id', {id: 'new', operation: 'invoice'}).get (data) ->
             $scope.order.invoice = data.invoice
+          jQuery('#makeOrderFormNew').foundation('reveal', 'open')
+          true
 
 
     checkOrderDetail = ->
@@ -146,19 +147,17 @@ angular.module('laravelUiApp')
             ($scope.selectObj.splice k, 1) if value == detail_id
 
     $scope.makeOrder = ->
-      params = {master: $scope.order, child: []}
+      params = {master: $scope.order, childs: []}
       angular.forEach $scope.SysMakedOrderDetail, (item, key) ->
         item.planDetailId = item.id
         item.vendor_id = $scope.commonVendorId
-        params.child.push item
+        params.childs.push item
       Meta.store('/api/purchase/po/:operation/:id', {id: '@id', operation: 'generate'}).save params, ->
-        console.log 'gotha'
+        window.location.reload()
 
     $scope.getTotal = (detail) ->
       if detail && detail.to_purchase_qty && detail.unit_price
         detail.to_purchase_qty * detail.unit_price
       else
         0
-      
-      
-      
+

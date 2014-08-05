@@ -1,0 +1,108 @@
+<fieldset>
+	<legend>采购单</legend>
+	<div class="row">
+		<div class="large-3 columns">
+			<div class="form-group">
+				<select class="form-control" ng-model="ordersSearch.status" ng-options="status.name for status in statusLists"></select>
+			</div>
+		</div>
+		<div class="large-3 columns">
+			<div class="form-group">
+				<input class="form-control" type="text" ng-model="ordersSearch.agent" placeholder="创建人" />
+			</div>
+		</div>
+		<div class="large-3 columns">
+			<div class="form-group">
+				<select class="form-control" type="text" ng-model="ordersSearch.warehouse" ng-options="warehouse.name for warehouse in warehouseLists"></select>
+			</div>
+		</div>
+		<div class="large-3 columns">
+			<div class="form-group">
+				<input class="form-control" type="text" ng-model="ordersSearch.item" placeholder="sku" />
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-3 columns">
+			<div class="form-group">
+				<input class="form-control" type="text" ng-model="ordersSearch.created_at" placeholder="when" />
+			</div>
+		</div>
+		<div class="large-3 columns">
+			<div class="form-group">
+				<input class="form-control" type="text" ng-model="ordersSearch.updated_at" placeholder="to" />
+			</div>
+		</div>
+		<div class="large-3 columns left">
+			<div class="form-group">
+				<input class="form-control" type="text" ng-model="ordersSearch.invoice" placeholder="PO 编号" />
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<div class="form-group">
+				<button type="button" class="button tiny">搜索</button>
+				<button type="button" class="button tiny">重置</button>
+				<a dropdown-toggle="#merge" class="button tiny dropdown">选择项</a><br />
+				<ul id="merge" data-dropdown-content class="f-dropdown">
+					<li><a ng-click="mergeChecked()">合并</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</fieldset>
+
+<table width="100%">
+	<thead>
+	<tr>
+		<th>
+			<a href="#/purchase/order/edit/new"><i class="glyphicon glyphicon-plus"></i></a>
+			<input type="checkbox" name="checkAllToggleList" ng-click="toggleCheckedAll()"></input>
+		</th>
+		<th><a data-toggle="tooltip" data-original-title="新增" href="#"><i class="fi-plus"></i></a></th>
+		<th>计划编号</th>
+		<th>PO编号</th>
+		<th>仓库</th>
+		<th>供应商</th>
+		<th>币种</th>
+		<th>金额</th>
+		<th>付款日期</th>
+		<th>税点</th>
+		<th>含税方式</th>
+		<th>票点</th>
+		<th>状态</th>
+		<th>创建人</th>
+		<th>创建日期</th>
+		<th>最后更改日期</th>
+		<th>打印</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr ng-repeat="order in orders">
+		<td>
+			<input name="checkIdList" type="checkbox" value="{{order.id}}" />
+		</td>
+		<td>
+			<a title="查看" data-toggle="tooltip" data-original-title="查看" href="#/purchase/order/show/{{ order.id }}"><i class="fi-eye"></i></a>
+		</td>
+		<td>{{ order.planName }}</td>
+		<td>{{ order.invoice }}</td>
+		<td>{{ order.warehouseName }}</td>
+		<td>{{ order.vendorName }}</td>
+		<td>{{ order.currency }}</td>
+		<td>{{ order.total }}</td>
+		<td>{{ order.payment_dates }}</td>
+		<td>{{ order.tax_rate }}</td>
+		<td>{{ order.price_type }}</td>
+		<td>{{ order.invoice_rate }}</td>
+		<td>{{ order.status }}</td>
+		<td>{{ order.agent }}</td>
+		<td>{{ order.created_at }}</td>
+		<td>{{ order.updated_at }}</td>
+		<td>
+			<a href="#/purchase/order/showPrint/{{ order.id }}"><i class="glyphicon glyphicon-print"></i></a>
+		</td>
+	</tr>
+	</tbody>
+</table>

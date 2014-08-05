@@ -81,6 +81,14 @@ angular.module('laravelUiApp', [
         templateUrl: 'views/poec.html'
         controller: 'PoecCtrl'
 
+      .when '/purchase/order/lists',
+        templateUrl: 'views/purchase/order/lists.html'
+        controller: 'PurchaseOrderListsCtrl'
+
+      .when '/purchase/order/show/:id',
+        templateUrl: 'views/purchase/order/show.html'
+        controller: 'PurchaseOrderShowCtrl'
+
       .when '/inventory/nowday',
         templateUrl: 'views/inventory/log/nowday.html'
         controller: 'InventoryNowdayCtrl'
