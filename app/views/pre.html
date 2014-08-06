@@ -41,7 +41,7 @@
     </div>
     <div class="columns medium-4">
       <label class="control-label">审核过期时间</label>
-      <input name="expired_at" type="text" class="form-control" jquery-ui-datepicker datepicker-popup="yyyy-MM-dd" ng-model="request.expired_at" is-open="opened[-1]" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+      <input name="expired_at" type="text" class="form-control" jquery-ui-datepicker ng-model="request.expired_at" min-date="minDate" max-date="'2015-06-22'" ng-required="true" close-text="Close" />
     </div>
   </div>
 
@@ -87,7 +87,7 @@
       <td width="120">
         <ng-form name="skuForm">
         <div class="form-group" ng-class="{'has-error': skuForm.sku.$invalid}" tooltip="{{detail.item.description}}">
-          <input type="text" name="sku" ng-model="detail.item" class="form-control input-sm" typeahead-on-select="afterChangeItem()" required typeahead="sku as sku.sku for sku in skus | filter:{sku: $viewValue} | limitTo: 10" typeahead-editable='false'>
+          <input type="text" name="sku" ng-model="detail.item" class="form-control" typeahead-on-select="afterChangeItem()" required typeahead="sku as sku.sku for sku in skus | filter:{sku: $viewValue} | limitTo: 10" typeahead-editable='false'>
           <span ng-show="skuForm.sku.$error.required" class="help-inline">Required</span>
         </div>
         </ng-form>
@@ -95,7 +95,7 @@
       <td>
         <ng-form name="platformForm">
         <div class="form-group" ng-class="{'has-error': platformForm.channel.$invalid}">
-        <select type="text" name="channel" ng-model="detail.platform_id" class="form-control input-sm" required ng-options="c.id as c.name for c in platforms"></select>
+        <select type="text" name="channel" ng-model="detail.platform_id" class="form-control" required ng-options="c.id as c.name for c in platforms"></select>
           <span ng-show="platformForm.channel.$error.required" class="help-inline">Required</span>
         </div>
         </ng-form>
@@ -103,7 +103,7 @@
       <td width="80">
         <ng-form name="loopForm">
         <div class="form-group" ng-class="{'has-error': loopForm.qty.$invalid}">
-          <input type="text" name="qty" ng-model="detail.qty" class="form-control input-sm" ng-disabled="request.status!='pending'" valid-number>
+          <input type="text" name="qty" ng-model="detail.qty" class="form-control" ng-disabled="request.status!='pending'" valid-number>
         </div>                        
       </ng-form>
       </td> 
@@ -111,11 +111,7 @@
         <ng-form name="etaForm">
         <div class="form-group" ng-class="{'has-error': etaForm.end_date.$invalid}">
           <p class="input-group">
-
-            <input name="end_date" type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="detail.end_date" is-open="opened[$index]" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
-            <span class="input-group-btn">
-              <!-- <button type="button" class="btn btn-default input-sm" ng-click="open($event, $index)"><i class="glyphicon glyphicon-calendar"></i></button> -->
-            </span>
+            <input name="end_date" type="text" jquery-ui-datepicker class="form-control" ng-model="detail.end_date" min-date="minDate" max-date="'2015-06-22'" ng-required="true" close-text="Close" />
           </p>
           <span ng-show="etaForm.end_date.$error.required" class="help-inline">Required</span>
         </div>
@@ -132,12 +128,12 @@
       <td>{{detail.item.spq.vendor.spq || '-'}}</td>
       <td>
       <div class="form-group" ng-class="{'has-error': loopForm.transportation.$invalid}">
-        <select type="text" name="transportation" ng-model="detail.transportation" class="form-control input-sm" required ng-options="t.name as t.name for t in trans" ng-disabled="request.status!='pending'" ng-readonly="detail.request_id"></select>
+        <select type="text" name="transportation" ng-model="detail.transportation" class="form-control" required ng-options="t.name as t.name for t in trans" ng-disabled="request.status!='pending'" ng-readonly="detail.request_id"></select>
       </div></td>
       <td>
         <ng-form name="noteForm">
         <div class="form-group" ng-class="{'has-error': loopForm.qty.$invalid}">
-          <input type="text" name="note" ng-model="detail.note" class="form-control input-sm" ng-disabled="request.status!='pending'">
+          <input type="text" name="note" ng-model="detail.note" class="form-control" ng-disabled="request.status!='pending'">
         </div> 
         </ng-form>
       </td>

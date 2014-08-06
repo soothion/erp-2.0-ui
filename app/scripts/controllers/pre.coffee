@@ -21,27 +21,11 @@ angular.module('laravelUiApp')
     Meta.cache('/api/item/meta/transportList').query (rtn) ->
       $scope.trans = rtn
 
-    [$scope.holder, $scope.opened] = [{}, {}]
+    [$scope.holder] = [{}]
     $scope.minDate = new Date()
-    $scope.open = ($event, index) ->
-      $event.preventDefault()
-      $event.stopPropagation()
-      switch_datepicker index
-
-    switch_datepicker = (idx) ->
-      angular.forEach $scope.opened, (value, key) ->
-        $scope.opened[key] = false
-      $scope.opened[idx] = true
-
-    filter_date = (dt = '') ->
-      t = dt.split /[- :]/
-      new Date t[0], t[1]-1, t[2], t[3], t[4], t[5]
 
     $scope.loadMaster = ->
       Meta.store('/api/purchase/request/:id').get {id: $routeParams.id}, (rtn) ->
-        rtn.expired_at = filter_date rtn.expired_at
-        angular.forEach rtn.details, (v, k) ->
-          rtn.details[k].end_date = filter_date(v.end_date)
         $scope.request = rtn
         $scope.remote = angular.copy rtn
         $scope.request.$id = $routeParams.id
