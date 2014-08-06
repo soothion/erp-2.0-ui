@@ -37,10 +37,12 @@ angular.module('laravelUiApp').controller 'PurchaseOrderListsCtrl', ($scope, $re
   $scope.mergeChecked = ->
     checkList = []
     jQuery("input:checkbox[name='checkIdList']").each( ->
-      if jQuery(this).attr('checked') == 'checked'
+      if jQuery(this).prop('checked')
         id = jQuery(this).val()
-        checkList.push id;
+        checkList.push id
+      id
     )
+    checkList
 
     if checkList.length < 2
       alert("合并时，至少选中两项")
@@ -51,11 +53,12 @@ angular.module('laravelUiApp').controller 'PurchaseOrderListsCtrl', ($scope, $re
         window.location.reload()
 
   $scope.toggleCheckedAll = ->
-    o = jQuery("input:checkbox[name='checkAllToggleList']")
-    operaToselectAll = o.attr('checked') == 'checked'
+    o = jQuery("#checkAllToggleList")
+    operaToselectAll = o.prop('checked')
     jQuery("input:checkbox[name='checkIdList']").each( ->
       if operaToselectAll
-        jQuery(this).attr('checked', true)
+        jQuery(this).prop('checked', true)
       else
-        jQuery(this).attr('checked', false)
+        jQuery(this).prop('checked', false)
     )
+    operaToselectAll

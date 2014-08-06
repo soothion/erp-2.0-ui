@@ -58,7 +58,7 @@
 	<tr>
 		<th>
 			<a href="#/purchase/order/edit/new"><i class="glyphicon glyphicon-plus"></i></a>
-			<input type="checkbox" name="checkAllToggleList" ng-click="toggleCheckedAll()"></input>
+			<input type="checkbox" id="checkAllToggleList" ng-click="toggleCheckedAll()"></input>
 		</th>
 		<th><a data-toggle="tooltip" data-original-title="新增" href="#"><i class="fi-plus"></i></a></th>
 		<th>计划编号</th>
@@ -81,7 +81,7 @@
 	<tbody>
 	<tr ng-repeat="order in orders">
 		<td>
-			<input name="checkIdList" type="checkbox" value="{{order.id}}" />
+			<input name="checkIdList" type="checkbox" value="{{ order.id }}" />
 		</td>
 		<td>
 			<a title="查看" data-toggle="tooltip" data-original-title="查看" href="#/purchase/order/show/{{ order.id }}"><i class="fi-eye"></i></a>
