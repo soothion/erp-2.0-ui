@@ -15,7 +15,6 @@
     "foundation": "~5.3.1",
     "foundation-icon-fonts": "*",
     "angular-foundation": "~0.3.0",
-    "jqueryDatepickerForAngularjs": "~0.0.2",
     "jquery-ui": "~1.11.0"
   },
   "devDependencies": {
