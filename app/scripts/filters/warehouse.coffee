@@ -2,8 +2,9 @@
 
 angular.module('laravelUiApp')
   .filter 'warehouse', (Meta) ->
+    warehouses = Meta.cache('/api/item/meta/warehouseList').query()
     (id) ->
-      Meta.cache('/api/item/meta/warehouseList').query (rtn) ->
-        angular.forEach rtn, (value, key) ->
-          if value.id == id
-            value.name
+      angular.forEach warehouses, (value, key) ->
+        if value.id == id
+          id = value.name
+      id
