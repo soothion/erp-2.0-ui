@@ -10,16 +10,29 @@ angular.module('laravelUiApp').controller 'PurchaseOrderListsCtrl', ($scope, $re
     {'name': 'cancel', 'value': 'cancel'}]
   $scope.ordersSearch.status = $scope.statusLists[0]
 
-  $scope.warehouseLists = [{'name': '== 全部仓库 =='},
-    {'id': 1, 'name': 'US-CA'},
-    {'id': 2, 'name': 'CN-FUTIAN'}]
-  $scope.ordersSearch.warehouse = $scope.warehouseLists[0]
+  Meta.cache('/api/item/meta/warehouseList').query (result) ->
+    $scope.warehouseLists = result
+
+# $scope.ordersSearch.warehouse = $scope.warehouseLists
+
+  Meta.cache('/api/system/user').query (result) ->
+    $scope.agentLists = result
+
+  Meta.cache('/api/item/info').query (result) ->
+    $scope.itemLists = result
 
   callback = (pg, size) ->
     params = {}
 
     params.pg = pg || 1
     params.size = size || 20
+    params.status = if $scope.ordersSearch.status then $scope.ordersSearch.status.value else ''
+    params.agent = if $scope.ordersSearch.agent then $scope.ordersSearch.agent.id else ''
+    params.item_id = if $scope.ordersSearch.item then $scope.ordersSearch.item.id else ''
+    params.warehouse_id = if $scope.ordersSearch.warehouse then $scope.ordersSearch.warehouse.id else ''
+    params.created_at = $scope.ordersSearch.created_at || ''
+    params.updated_at = $scope.ordersSearch.updated_at || ''
+    params.invoice = $scope.ordersSearch.invoice || ''
 
     $scope.orders = Meta.cache('/api/purchase/po').query params
     return $scope.orders
@@ -29,8 +42,7 @@ angular.module('laravelUiApp').controller 'PurchaseOrderListsCtrl', ($scope, $re
 
   $scope.cleanSearch = ->
     $scope.ordersSearch = {}
-    $scope.ordersSearch.warehouse = $scope.warehouseLists[0]
-    $scope.ordersSearch.status = $scope.statueslist[0]
+    $scope.ordersSearch.status = $scope.statusLists
     $scope.paging.first()
 
 

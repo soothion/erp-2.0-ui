@@ -3,14 +3,12 @@
 angular.module('laravelUiApp').controller 'InventoryNowdayCtrl', ($scope, Meta, factoryPaging) ->
   $scope.invsSearch = {}
 
-  $scope.warehouseLists = [{'name': '== 全部仓库 =='},
-    {'id': 1, 'name': 'US-CA'},
-    {'id': 2, 'name': 'CN-FUTIAN'}]
-  $scope.invsSearch.warehouse = $scope.warehouseLists[0]
+  Meta.cache('/api/item/meta/warehouseList').query (result) ->
+    $scope.warehouseLists = result
 
-  $scope.itemLists = [{'id': 1, 'sku': '001-001-001'},
-    {'id': 2, 'sku': '001-001-002'},
-    {'id': 3, 'sku': '001-001-003'}]
+  Meta.cache('/api/item/info').query (result) ->
+    $scope.itemLists = result
+
 
   callback = (pg, size) ->
     params = {}
@@ -18,7 +16,12 @@ angular.module('laravelUiApp').controller 'InventoryNowdayCtrl', ($scope, Meta, 
     params.size = size || 20
     params.warehouse_id = if $scope.invsSearch.warehouse then $scope.invsSearch.warehouse.id else ''
     params.item_id = if $scope.invsSearch.item then $scope.invsSearch.item.id else ''
-    params.status = $scope.invsSearch.status || ''
+    params.status = []
+    if $scope.invsSearch.status
+      if $scope.invsSearch.status.onroad
+        params.status.push "1"
+      if $scope.invsSearch.status.stocked
+        params.status.push "0"
 
     $scope.inventories = Meta.cache('/api/inventory/nowday').query params
 

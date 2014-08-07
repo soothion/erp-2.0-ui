@@ -26,10 +26,14 @@ angular.module('laravelUiApp').controller 'StockIOListsCtrl', ($scope, Meta, fac
     {'name': '未入库', 'value': 0}]
   $scope.ordersSearch.status = $scope.statusLists[0]
 
-  $scope.warehouseLists = [{'name': '== 全部仓库 =='},
-    {'id': 1, 'name': 'US-CA'},
-    {'id': 2, 'name': 'CN-FUTIAN'}]
-  $scope.ordersSearch.warehouse = $scope.warehouseLists[0]
+  Meta.cache('/api/item/info').query (result) ->
+    $scope.itemLists = result
+
+  Meta.cache('/api/item/meta/warehouseList').query (result) ->
+    $scope.warehouseLists = result
+
+  Meta.cache('/api/purchase/vendor').query (result) ->
+    $scope.vendorLists = result
 
   callback = (pg, size) ->
     params = {}
@@ -43,7 +47,7 @@ angular.module('laravelUiApp').controller 'StockIOListsCtrl', ($scope, Meta, fac
     params.type = $scope.ordersSearch.type.value || '';
     params.status = if ($scope.ordersSearch.status.value == 0 || $scope.ordersSearch.status == 1) then $scope.ordersSearch.status.value else ''
     params.item_id = if $scope.ordersSearch.item then $scope.ordersSearch.item.id else ''
-    params.warehouse_id = $scope.ordersSearch.warehouse.id || ''
+    params.warehouse_id = if $scope.ordersSearch.warehouse then $scope.ordersSearch.warehouse.id else ''
     params.vendor_id = if $scope.ordersSearch.vendor then $scope.ordersSearch.vendor.id else ''
 
     $scope.orders = Meta.cache('/api/stock/io').query params
@@ -56,5 +60,4 @@ angular.module('laravelUiApp').controller 'StockIOListsCtrl', ($scope, Meta, fac
     $scope.ordersSearch = {}
     $scope.ordersSearch.type = $scope.typeLists[0]
     $scope.ordersSearch.status = $scope.statusLists[0]
-    $scope.ordersSearch.warehouse = $scope.warehouseLists[0]
     $scope.paging.first()

@@ -18,12 +18,12 @@
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="ordersSearch.created_at_from" class="form-control" placeholder="从什么时候" datepicker-popup="yyyy-MM-dd" />
+				<input type="text" ng-model="ordersSearch.created_at_from" class="form-control" placeholder="从什么时候" jquery-ui-datepicker />
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="ordersSearch.execed_at_to" class="form-control" placeholder="到什么时候" datepicker-popup="yyyy-DD-mm" />
+				<input type="text" ng-model="ordersSearch.execed_at_to" class="form-control" placeholder="到什么时候" jquery-ui-datepicker />
 			</div>
 		</div>
 
@@ -45,7 +45,7 @@
 		<div class="large-2 columns">
 			<div class="form-group">
 				<select class="form-control" ng-model="ordersSearch.warehouse" ng-options="warehouse.name for warehouse in warehouseLists">
-
+					<option value="">== 所有仓库 ==</option>
 				</select>
 			</div>
 		</div>

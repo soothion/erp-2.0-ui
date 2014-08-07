@@ -3,11 +3,6 @@
 angular.module('laravelUiApp').controller 'InventoryChangesCtrl', ($scope, Meta, factoryPaging) ->
   $scope.logsSearch = {}
 
-  $scope.warehouseLists = [{'name': '== 全部仓库 =='},
-    {'id': 1, 'name': 'US-CA'},
-    {'id': 2, 'name': 'CN-FUTIAN'}]
-  $scope.logsSearch.warehouse = $scope.warehouseLists[0]
-
   $scope.typeLists = [{'name': '== 所有类别 =='},
     {'category': '入库', 'name': '采购入库', 'value': 1},
     {'category': '入库', 'name': '盘盈入库', 'value': 2},
@@ -26,9 +21,14 @@ angular.module('laravelUiApp').controller 'InventoryChangesCtrl', ($scope, Meta,
     {'category': '其他', 'name': '采购退货出库', 'value': 10}]
   $scope.logsSearch.type = $scope.typeLists[0]
 
-  $scope.itemLists = [{'id': 1, 'sku': '001-001-001'},
-    {'id': 2, 'sku': '001-001-002'},
-    {'id': 3, 'sku': '001-001-003'}]
+  Meta.cache('/api/item/info').query (result) ->
+    $scope.itemLists = result
+
+  Meta.cache('/api/item/meta/warehouseList').query (result) ->
+    $scope.warehouseLists = result
+
+  Meta.cache('/api/system/user').query (result) ->
+    $scope.agentLists = result
 
   callback = (pg, size) ->
     params = {}
@@ -36,11 +36,11 @@ angular.module('laravelUiApp').controller 'InventoryChangesCtrl', ($scope, Meta,
     params.size = size || 20;
     params.warehouse_id = if $scope.logsSearch.warehouse then $scope.logsSearch.warehouse.id else ''
     params.item_id = if $scope.logsSearch.item then $scope.logsSearch.item.id else '';
-    params.type = if $scope.logsSearch.type then $scope.logsSearch.type.id else '';
+    params.type = if $scope.logsSearch.type then $scope.logsSearch.type.value else '';
     params.status = $scope.logsSearch.status || '';
     params.relation_id = $scope.logsSearch.relation_id || '';
     params.description = $scope.logsSearch.description || '';
-    params.agent = $scope.logsSearch.agent || '';
+    params.agent = if $scope.logsSearch.agent then $scope.logsSearch.agent.id else '';
     params.updated_from = $scope.logsSearch.updated_from || '';
     params.updated_to = $scope.logsSearch.updated_to || '';
 
@@ -52,6 +52,5 @@ angular.module('laravelUiApp').controller 'InventoryChangesCtrl', ($scope, Meta,
 
   $scope.cleanSearch = ->
     $scope.logsSearch = {}
-    $scope.logsSearch.warehouse = $scope.warehouseLists[0]
     $scope.logsSearch.type = $scope.typeLists[0]
     $scope.paging.first()

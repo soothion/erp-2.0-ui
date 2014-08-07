@@ -3,94 +3,94 @@
 	<div class="row">
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="order.invoice" class="form-control" />
+				<input disabled type="text" ng-model="order.invoice" class="form-control" />
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="order.status" class="form-control" />
+				<input disabled type="text" ng-model="order.status" class="form-control" />
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="order.currency" class="form-control" />
+				<input disabled type="text" ng-model="order.currency" class="form-control" />
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="order.warehouseName" class="form-control" />
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="large-3 columns">
-			<div class="form-group">
-				<input type="text" ng-model="order.vendorName" class="form-control" />
-			</div>
-		</div>
-		<div class="large-3 columns">
-			<div class="form-group">
-				<input type="text" ng-model="order.count" class="form-control" />
-			</div>
-		</div>
-		<div class="large-3 columns">
-			<div class="form-group">
-			<input type="text" ng-model="order.total" class="form-control" />
-			</div>
-		</div>
-		<div class="large-3 columns">
-			<div class="form-group">
-				<input type="text" ng-model="order.invoice_rate" class="form-control" />
+				<input disabled type="text" ng-model="order.warehouseName" class="form-control" />
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="order.tax_rate" class="form-control" />
+				<input disabled type="text" ng-model="order.vendorName" class="form-control" />
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="order.payment_method" class="form-control" />
+				<input disabled type="text" ng-model="order.count" class="form-control" />
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="order.payment_dates" class="form-control" />
+			<input disabled type="text" ng-model="order.total" class="form-control" />
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="order.payment_terms" class="form-control" />
+				<input disabled type="text" ng-model="order.invoice_rate" class="form-control" />
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="order.price_type" class="form-control" />
+				<input disabled type="text" ng-model="order.tax_rate" class="form-control" />
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" ng-model="order.delivery_date" class="form-control" />
+				<input disabled type="text" ng-model="order.payment_method" class="form-control" />
+			</div>
+		</div>
+		<div class="large-3 columns">
+			<div class="form-group">
+				<input disabled type="text" ng-model="order.payment_dates" class="form-control" />
+			</div>
+		</div>
+		<div class="large-3 columns">
+			<div class="form-group">
+				<input disabled type="text" ng-model="order.payment_terms" class="form-control" />
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-3 columns">
+			<div class="form-group">
+				<input disabled type="text" ng-model="order.price_type" class="form-control" />
+			</div>
+		</div>
+		<div class="large-3 columns">
+			<div class="form-group">
+				<input disabled type="text" ng-model="order.delivery_date" class="form-control" />
 			</div>
 		</div>
 		<div class="large-3 columns left">
 			<div class="form-group">
-				<input type="text" ng-model="order.currency_rate" class="form-control" />
+				<input disabled type="text" ng-model="order.currency_rate" class="form-control" />
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="large-12 columns">
-			<textarea ng-model="order.ship_to"></textarea>
+			<textarea disabled ng-model="order.ship_to"></textarea>
 		</div>
 	</div>
 	<div class="row">
 		<div class="large-12 columns">
-			<textarea ng-model="order.note"></textarea>
+			<textarea disabled ng-model="order.note"></textarea>
 		</div>
 	</div>
 </fieldset>
@@ -102,9 +102,9 @@
 		<th>描述</th>
 		<th>数量</th>
 		<th>单位</th>
-		<th>不含税单价</th>
-		<th>含税单价</th>
-		<th>USD单价</th>
+		<th ng-show="order.price_type == 'normal'">不含税单价</th>
+		<th ng-show="order.price_type == 'tax'">含税单价</th>
+		<th ng-show="order.price_type == 'usd'">USD单价</th>
 		<th>折扣</th>
 		<th>小计</th>
 	</tr>
@@ -118,32 +118,12 @@
 				<input type="text" name="qty" ng-model="detail.allQty" ng-pattern="/^[0-9]+$/" class="form-control" required>
 			</div>
 		</td>
-		<td>
-			<div class="form-group">
-				<input type="text" name="um" ng-model="detail.um" class="form-control">
-			</div>
-		</td>
-		<td>
-			<div class="form-group">
-				<input type="text" name="unit_price" ng-model="detail.unit_price" ng-pattern="/^[0-9]+\.?[0-9]*$/" class="form-control" required>
-			</div>
-		</td>
-		<td>
-			<div class="form-group">
-				<input type="text" name="tax_unit_price" ng-model="detail.tax_unit_price" ng-pattern="/^[0-9]+\.?[0-9]*$/" class="form-control" required>
-			</div>
-		</td>
-		<td>
-			<div class="form-group">
-				<input type="text" name="usd_unit_price" ng-model="detail.usd_unit_price" ng-pattern="/^[0-9]+\.?[0-9]*$/" class="form-control" required>
-			</div>
-		</td>
-		<td>
-			<div class="form-group">
-				<input type="text" name="discount" ng-model="detail.discount" ng-pattern="/^[0-9]+\.?[0-9]*$/" class="form-control" required>
-			</div>
-		</td>
-		<td>{{ detail.allTotal }}</td>
+		<td>{{ detail.um }}</td>
+		<td ng-show="order.price_type == 'normal'">{{ detail.unit_price }}</td>
+		<td ng-show="order.price_type == 'tax'">{{ detail.tax_unit_price }}</td>
+		<td ng-show="order.price_type == 'usd'">{{ detail.usd_unit_price }}</td>
+		<td>{{ detail.discount }}</td>
+		<td>{{ detail.allTotal - detail.discount }}</td>
 	</tr>
 	</tbody>
 </table>

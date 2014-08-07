@@ -8,29 +8,31 @@
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input class="form-control" type="text" ng-model="ordersSearch.agent" placeholder="创建人" />
+				<input name="agent" class="form-control" type="text" ng-model="ordersSearch.agent" placeholder="创建人" typeahead="agent as agent.email for agent in agentLists | filter: $viewValue | limitTo: 10" />
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<select class="form-control" type="text" ng-model="ordersSearch.warehouse" ng-options="warehouse.name for warehouse in warehouseLists"></select>
+				<select class="form-control" type="text" ng-model="ordersSearch.warehouse" ng-options="warehouse.name for warehouse in warehouseLists">
+					<option value="">== 全部仓库 ==</option>
+				</select>
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input class="form-control" type="text" ng-model="ordersSearch.item" placeholder="sku" />
+				<input name="item" class="form-control" type="text" ng-model="ordersSearch.item" placeholder="SKU" typeahead="item as item.sku for item in itemLists | filter: {sku: $viewValue} | limitTo: 10" />
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input class="form-control" type="text" ng-model="ordersSearch.created_at" placeholder="when" />
+				<input class="form-control" type="text" ng-model="ordersSearch.created_at" placeholder="从什么时候" jquery-ui-datepicker />
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input class="form-control" type="text" ng-model="ordersSearch.updated_at" placeholder="to" />
+				<input class="form-control" type="text" ng-model="ordersSearch.updated_at" placeholder="到什么时候" jquery-ui-datepicker />
 			</div>
 		</div>
 		<div class="large-3 columns left">
@@ -42,8 +44,8 @@
 	<div class="row">
 		<div class="large-12 columns">
 			<div class="form-group">
-				<button type="button" class="button tiny">搜索</button>
-				<button type="button" class="button tiny">重置</button>
+				<button type="button" class="button tiny" ng-click="paging.first()">搜索</button>
+				<button type="button" class="button tiny" ng-click="cleanSearch()">重置</button>
 				<a dropdown-toggle="#merge" class="button tiny dropdown">选择项</a><br />
 				<ul id="merge" data-dropdown-content class="f-dropdown">
 					<li><a ng-click="mergeChecked()">合并</a></li>

@@ -3,27 +3,42 @@
 	<div class="row">
 		<div class="large-2 columns">
 			<div class="form-group">
-				<select ng-model="invsSearch.warehouse" class="form-control" ng-options="warehouse.name for warehouse in warehouseLists"></select>
+				<select ng-model="invsSearch.warehouse" class="form-control" ng-options="warehouse.name for warehouse in warehouseLists">
+					<option value="">== 全部仓库 ==</option>
+				</select>
 			</div>
 		</div>
-		<div class="large-2 columns">
+		<div class="large-2 columns left">
 			<div class="form-group">
-				<input type="text" name="item" ng-model="invsSearch.item" class="form-control" placeholder="SKU" typeahead="item as item.sku for item in itemLists| filter: {sku: $viewValue}| limitTo: 10" />
+				<input type="text" name="item" ng-model="invsSearch.item" class="form-control" placeholder="SKU" typeahead="item as item.sku for item in itemLists | filter: {sku: $viewValue} | limitTo: 10" />
 			</div>
 		</div>
-		<div class="large-4 columns left">
+	</div>
+	<div class="row">
+		<div class="large-1 columns">
+			<h6>Stocked</h6>
+		</div>
+		<div class="large-1 columns left">
 			<div class="form-group">
-				<div class="btn-group ">
-					<button type="button" class="button tiny" ng-model="invsSearch.status.stocked" btn-checkbox>
-						Stocked
-					</button>
-					<button type="button" class="button tiny" ng-model="invsSearch.status.onroad" btn-checkbox>
-						Onroad
-					</button>
+				<div class="switch small">
+					<input id="status.stocked" type="checkbox" ng-model="invsSearch.status.stocked" ng-checked="true" />
+					<label for="status.stocked"></label>
 				</div>
 			</div>
 		</div>
-
+	</div>
+	<div class="row">
+		<div class="large-1 columns">
+			<h6>Onroad</h6>
+		</div>
+		<div class="large-1 columns left">
+			<class class="form-group">
+				<div class="switch small">
+					<input id="status.onroad" type="checkbox" ng-model="invsSearch.status.onroad" ng-checked="true" />
+					<label for="status.onroad"></label>
+				</div>
+			</class>
+		</div>
 	</div>
 	<div class="row">
 		<div class="large-8 columns">

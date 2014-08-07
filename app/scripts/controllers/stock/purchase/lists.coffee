@@ -3,9 +3,8 @@
 angular.module('laravelUiApp').controller 'StockPurchaseListsCtrl', ($scope, $resource, Meta, factoryPaging) ->
   $scope.ordersSearch = {}
 
-  $scope.itemLists = [{'id': 1, 'sku': '001-001-001'},
-    {'id': 2, 'sku': '001-001-002'},
-    {'id': 3, 'sku': '001-001-003'}]
+  Meta.cache('/api/item/info').query (result) ->
+    $scope.itemLists = result
 
   callback = (pg, size) ->
     params = {}

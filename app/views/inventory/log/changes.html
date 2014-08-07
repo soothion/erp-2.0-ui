@@ -3,8 +3,9 @@
 	<div class="row">
 		<div class="large-3 columns">
 			<div class="form-group">
-				<select name="warehouse" ng-model="logsSearch.warehouse" class="form-control"
-						ng-options="warehouse.name for warehouse in warehouseLists"></select>
+				<select name="warehouse" ng-model="logsSearch.warehouse" class="form-control" ng-options="warehouse.name for warehouse in warehouseLists">
+					<option value="">== 所有仓库 ==</option>
+				</select>
 			</div>
 		</div>
 		<div class="large-3 columns">
@@ -15,14 +16,12 @@
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" name="from" ng-model="logsSearch.updated_from" class="form-control"
-					   datepicker-popup="yyyy-MM-dd" placeholder="From">
+				<input type="text" name="from" ng-model="logsSearch.updated_from" class="form-control" jquery-ui-datepicker placeholder="从什么时候">
 			</div>
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" name="to" ng-model="logsSearch.updated_to" class="form-control"
-					   datepicker-popup="yyyy-MM-dd" placeholder="To">
+				<input type="text" name="to" ng-model="logsSearch.updated_to" class="form-control" jquery-ui-datepicker placeholder="到什么时候">
 			</div>
 		</div>
 	</div>
@@ -48,7 +47,7 @@
 		</div>
 		<div class="large-3 columns">
 			<div class="form-group">
-				<input type="text" name="agent" ng-model="logsSearch.agent" class="form-control" placeholder="操作人">
+				<input type="text" name="agent" ng-model="logsSearch.agent" class="form-control" placeholder="操作人" typeahead="agent as agent.email for agent in agentLists | filter: logsSearch.agent | limitTo: 10">
 			</div>
 		</div>
 	</div>
