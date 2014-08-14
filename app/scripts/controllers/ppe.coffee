@@ -38,7 +38,7 @@ angular.module('laravelUiApp')
       n
 
     $scope.save = ->
-      Meta.store('/api/purchase/plan/:id', {id: $routeParams.id}, {update: {method: 'put'}}).update ->
+      Meta.store('/api/purchase/plan/:id', {id: $routeParams.id}, {update: {method: 'put'}}).update {'plan': $scope.plan, 'detail': $scope.summary}, ->
         alert('计划表修改成功!')
         $scope.load()
 

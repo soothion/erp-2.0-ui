@@ -32,7 +32,7 @@
 
   </div>
   <div class="row">
-    <div class="columns medium-4">
+    <!--<div class="columns medium-4">
       <div class="form-group">
         <select name="price_type" ng-model="searchform.price_type"
           class="form-control"
@@ -40,7 +40,7 @@
           <option value="">--含税与否--</option>
         </select>
       </div>
-    </div>
+    </div>-->
 
     <div class="columns medium-4">
       <div class="form-group">
@@ -52,7 +52,7 @@
       </div>
     </div>
 
-    <div class="columns medium-4">
+    <div class="columns medium-4 left">
       <div class="form-group">
         <input type="text" name="sku" ng-model="searchform.sku"
           class="form-control"
@@ -82,7 +82,7 @@
 <table width="100%" >
   <thead>
     <tr >
-      <th><input type="checkbox" id="all" ng-click="checkall()"/></th>
+      <th><input type="checkbox" id="all" ng-click="checkAll()"/></th>
       <th>供应商</th>
       <th>SKU</th>
       <th>需求仓库</th>
@@ -94,6 +94,8 @@
       <th><span tooltip="期初库存">期初</span></th>
       <th width="70"><span tooltip="最终采购量">终</span></th>
       <th><span tooltip="是否含税采购">税</span></th>
+	  <th>税点</th>
+	  <td>票点</td>
       <th width="70">单价</th>
       <th>总金额</th>
       <th>帐期(天)</th>
@@ -111,14 +113,15 @@
       <td><span class="order_sure">{{detailx.relation_id}}</span></td>
       <td><select name="transportation_d" id="transportation_d" ng-model="detailx.transportation" ng-options="t.name as t.name for t in trans" class="form-control input-sm" style="width:70px" ></select></td>
       <td>{{detailx.request_qty}}</td>
-      <td>{{detailx.spq}}</td>
-      <td ng-class="{'has-error':detailx.real_qty<1}"><input type="text" name="real_qty" id="real_qty" ng-model="detailx.real_qty" class="form-control input-sm" /></td>     
+      <td>{{detailx.spq }}</td>
+      <td ng-class="{'has-error':detailx.real_qty<1}"><input type="text" name="real_qty" id="real_qty" ng-model="detailx.real_qty" class="form-control input-sm" ng-change="calcPurchaseQty(detailx)" /></td>
       <td>{{detailx.stock_qty}}</td>
       <td ng-class="{'has-error':detailx.to_purchase_qty<1}"><input type="text" name="to_purchase_qty" id="to_purchase_qty" ng-model="detailx.to_purchase_qty" class="form-control input-sm" /></td>
       <td  ng-class="{'has-error':!detailx.price_type}"><select name="tax_d" id="tax_d" ng-model="detailx.price_type"  style="width:70px"
-              ng-options="x.name as x.name for x in taxs"  class="form-control input-sm tax_sure" >
-        <option value=''>--请选择含税与否</option>
+              ng-options="x.name as x.name for x in taxs"  class="form-control input-sm tax_sure" ng-change="fetchPrice(detailx, detailx.quotation_id)" >
         </select ></td>
+	  <td>{{ detailx.tax_rate }}</td>
+	  <td>{{ detailx.invoice_rate }}</td>
       <td  ng-class="{'has-error':detailx.unit_price<=0}"><input type="text" name="unit_price" id="unit_price" ng-model="detailx.unit_price" class="form-control input-sm" />
       </td>
       <td>{{detailx.to_purchase_qty * detailx.unit_price}}</td>
@@ -126,18 +129,6 @@
     </tr>
   </tbody>
   <tfoot>
-    <tr>
-      <td colspan="18">
-        <ul class="pager">
-          <li class="previous" ng-show="hasPrePage()"><a
-              href="javascript:;" ng-click="goPrePage()">&laquo; 上一页</a>
-          </li>
-          <li class="next" ng-show="hasNextPage()"><a
-              href="javascript:;"
-              ng-click="goNextPage()">下一页 &raquo;</a></li>
-        </ul>
-      </td>
-    </tr>
   </tfoot>
 </table>
 
@@ -145,7 +136,7 @@
 
 <!-- Model 生成采购单的窗口 -->
 
-<div class="reveal-modal" data-reveal id="makeOrderFormNew">
+<div id="makeOrderFormNew" class="reveal-modal" data-reveal>
 
   <a class="close-reveal-modal">&#215;</a>
 
@@ -233,10 +224,10 @@
 
                   <div class="columns small-3">
                     <div class="form-group"
-                      ng-class="{'has-error': editForm.payment_dates.$invalid}">
+                      ng-class="{'has-error': editForm.payment_period.$invalid}">
                       <label class="control-label">帐期2</label>
-                      <input type="text" name="payment_dates"
-                        ng-model="order.payment_dates" ng-pattern="/^\d+$/"
+                      <input type="text" name="order.payment_period"
+                        ng-model="order.payment_period"
                         class="form-control input-sm" 
                         required>
                     </div>
@@ -261,7 +252,7 @@
                       <label class="control-label">交货时间</label>
                       <input type="text" datepicker-popup="yyyy-MM-dd"
                         name="delivery_date" ng-model="order.delivery_date"
-                        class="form-control input-sm" >
+                        class="form-control input-sm" jquery-ui-datepicker>
                     </div>
                   </div>
 
