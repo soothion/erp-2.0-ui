@@ -24,6 +24,8 @@ angular.module('laravelUiApp')
     [$scope.holder] = [{}]
     $scope.minDate = new Date()
 
+    Clazz = Meta.store '/api/purchase/requestDetail/:id', {id: '@id'}, {update: {method: 'PUT'}}
+
     $scope.loadMaster = ->
       Meta.store('/api/purchase/request/:id').get {id: $routeParams.id}, (rtn) ->
         $scope.request = rtn
@@ -32,9 +34,8 @@ angular.module('laravelUiApp')
 
 
     $scope.loadDetails = ->
-      if $scope.request
-        angular.forEach $scope.request.details, (v, k) ->
-          $scope.request.details[k].item_id = v.item.id
+      Clazz.query {rid: $routeParams.id}, (rtn) ->
+        $scope.details = rtn
 
     $scope.loadMaster()
     $scope.loadDetails()
@@ -46,11 +47,24 @@ angular.module('laravelUiApp')
       angular.equals $scope.holder_origin, $scope.holder_detail
 
     $scope.details_new = ->
-      $scope.request.details.push {}
+      obj = new Clazz({request_id: $routeParams.id})
+      $scope.details.unshift obj
 
+    $scope.detail_save = (obj, forms...) ->
+      if obj.id
+        obj.$update ->
+          fi.$setPristine() for fi in forms
+      else
+        obj.$save ->
+          fi.$setPristine() for fi in forms
 
-    $scope.details_remove = (id) ->
-      $scope.request.details.splice id, 1
+    $scope.detail_reset = (obj, forms...) ->
+      fi.$setPristine() for fi in forms
+      if obj.id then obj.$get() else $scope.details.shift()
+
+    $scope.details_remove = (detail) ->
+      detail.$delete  ->
+        $scope.loadDetails()
 
     $scope.confirm = (id) ->
       Meta.store('/api/purchase/request-confirm/:id', {id: $routeParams.id}).get ->
@@ -64,21 +78,12 @@ angular.module('laravelUiApp')
       $scope.request = angular.copy $scope.remote
 
     $scope.update = if brand then ->
-      $scope.loadDetails()
       Meta.store('/api/purchase/request/:id', {id: $routeParams.id}).save $scope.request, ->
         flash.success = '保存申购单成功'
         $scope.loadMaster()
         $scope.loadDetails()
     else ->
-      $scope.loadDetails()
-      console.log($scope.request.details[0])
       Meta.store('/api/purchase/request/:id', {id: $routeParams.id}, {update: {method: 'put'}}).update $scope.request, ->
         flash.success = '修改申购单成功'
         $scope.loadMaster()
         $scope.loadDetails()
-
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]

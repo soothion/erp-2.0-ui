@@ -5,6 +5,7 @@ angular.module('laravelUiApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
+  'angularFileUpload',
   'timer',
   'angular-loading-bar',
   'angular-flash.service',
@@ -91,6 +92,10 @@ angular.module('laravelUiApp', [
       .when '/purchase/order/show/:id',
         templateUrl: 'views/purchase/order/show.html'
         controller: 'PurchaseOrderShowCtrl'
+        
+      .when '/purchase/costparams',
+        templateUrl: 'views/pcp.html'
+        controller: 'PcpCtrl'
 
       .when '/inventory/nowday',
         templateUrl: 'views/inventory/log/nowday.html'

@@ -8,7 +8,7 @@ angular.module('laravelUiApp')
         return
 
       ngModelCtrl.$parsers.push (val = '0') ->
-        clean = val.replace /[^0-9]+/g, ''
+        clean = val.replace /[^0-9.]+/g, ''
         if val != clean
           ngModelCtrl.$setViewValue clean
           ngModelCtrl.$render()

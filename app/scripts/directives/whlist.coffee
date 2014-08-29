@@ -2,6 +2,7 @@
 
 angular.module('laravelUiApp')
   .directive('whList', (Meta) ->
+    # FIXME: 目前还不支持界面对数据的反向绑定，也许这部分全部交给React来处理？
     
     {div, label, select, option, span} = React.DOM
 
@@ -18,13 +19,13 @@ angular.module('laravelUiApp')
           this.setState {options: rtn}
 
       render: ->
-        scope = this.props.scope
 
         div {className: 'form-group'}, [
           (label {className: 'control-label'}, '目的仓')
+          (label {}, this.state.value)
           (select {className: 'form-control', ref: 'wh', required: this.props.required, value: this.state.value, onChange: (e) => 
-            e.preventDefault()
             this.setState {value : this.refs.wh.getDOMNode().value}
+            e.preventDefault()
           }, [
             this.state.options.map (op) ->
               (option {value: op.id}, op.name)
@@ -33,18 +34,17 @@ angular.module('laravelUiApp')
         ]
 
     directive = 
-      template: '<div></div>'
       restrict: 'E'
       scope: {
-        value: ' &'
+        selected: '=ngModel'
       }
       require: '?ngModel'
       link: (scope, element, attrs) ->
-        React.renderComponent (WHLIST {
-          scope: scope
-        }), element[0]
-        scope.$on('$destroy', ->
-          React.unmountComponentAtNode element[0])
+        c = React.renderComponent (WHLIST {value: scope.selected}), element[0]
+        scope.$watch 'selected', ->
+          c.setState {value: scope.selected}
+        scope.$on '$destroy', ->
+          React.unmountComponentAtNode element[0]
   )
 
 # <select name="warehouse_id" ng-model="request.warehouse_id" class="form-control" required ng-options="wh.id as wh.name for wh in whs" ng-disabled="request.status!='pending'"></select>

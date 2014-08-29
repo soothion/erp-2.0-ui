@@ -3,19 +3,18 @@
 angular.module('laravelUiApp')
   .controller 'PvCtrl', ($scope, Meta) ->
 
-    pointer = null
+    Clazz = Meta.store('/api/purchase/vendor/:id', {id: '@id'})
+
     load = ->
-      Meta.cache('/api/purchase/vendor/:id', {id: '@id'}).query (rtn) ->
+      Clazz.query (rtn) ->
         $scope.vendors = rtn
 
     load()
 
-    $scope.edit = (index) ->
-      pointer = index
+    $scope.edit = (obj) ->
       $('#editForm').foundation('reveal', 'open')
-      $scope.holder = $scope.vendors[pointer]
+      $scope.holder = obj
 
     $scope.save = ->
-      Meta.store('/api/purchase/vendor/:id', {id: '@id'}).update $scope.holder, ->
-        $scope.vendors[pointer] = $scope.holder
+      Clazz.update $scope.holder, ->
         $('#editForm').foundation('reveal', 'close')

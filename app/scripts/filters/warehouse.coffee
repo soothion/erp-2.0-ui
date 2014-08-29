@@ -1,10 +1,9 @@
 'use strict'
 
 angular.module('laravelUiApp')
-  .filter 'warehouse', (Meta) ->
-    warehouses = Meta.cache('/api/item/meta/warehouseList').query()
+  .filter 'warehouse', ($meta) ->
     (id) ->
-      angular.forEach warehouses, (value, key) ->
+      angular.forEach $meta.whlist, (value, key) ->
         if value.id == id
           id = value.name
       id

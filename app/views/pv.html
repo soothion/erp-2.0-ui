@@ -1,4 +1,12 @@
-<input type="text" ng-model="search" placeholder="供应商列表, 请输入查询条件进行查询...">
+<div class="row">
+  <div class="columns medium-8">
+    <input type="text" ng-model="search" placeholder="供应商列表, 请输入查询条件进行查询...">
+  </div>
+  <div class="columns medium-4">
+    <batch-upload label="批量上传" action="purchase-vendor"></batch-upload>
+    <a href="#/exchange/pv" class="button tiny success">导出</a>
+  </div>
+</div>
 
 <table width="100%" ng-show="vendors">
   <thead>
@@ -17,7 +25,7 @@
   <tbody>
     <tr ng-repeat="v in vendors | filter: search| limitTo: 20">
       <td>
-        <a href="javascript:;" ng-click="edit($index)"><i class="fi-pencil"></i></a>
+        <a href="javascript:;" ng-click="edit(v)"><i class="fi-pencil"></i></a>
       </td>
       <td>{{v.id}}</td>
       <td>{{v.name}}</td>

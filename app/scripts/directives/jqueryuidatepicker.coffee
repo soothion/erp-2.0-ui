@@ -10,7 +10,7 @@ angular.module('laravelUiApp')
     "maxDate": "=maxDate"
     "onSelect": "&onSelect"
     }
-  link: (scope, element, attrs) ->
+  link: (scope, element, attrs, ctrl) ->
     clearListeners = []
     clearListener = scope.$watch "ready", ->
 
@@ -20,6 +20,7 @@ angular.module('laravelUiApp')
 
         onSelect: ->
           scope.value = $filter('date') $(this).datepicker('getDate'), 'yyyy-MM-dd'
+          ctrl.$setViewValue scope.value
           scope.onSelect() if angular.isFunction scope.onSelect
           scope.$apply()
       })

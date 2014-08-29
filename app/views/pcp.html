@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="columns medium-8">
+    <input type="search" class="form-control" ng-model="search" placeholder="Search" />
+  </div>
+  <div class="columns medium-4">
+    <a href="#/exchange/pcp" class="button tiny success">批量上传</a>
+    <a href="#/exchange/pcp" class="button tiny success">导出</a>
+  </div>
+</div>
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th><a href="javascript:;" ng-click="create()"><i class="fi-plus"></i></a></th>
+      <th>仓库</th>
+      <th>特定SKU</th>
+      <th>海运系数</th>
+      <th>空运系数</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="cost in costs | filter: search | limitTo:20">
+      <td>
+        <a class="button tiny" ng-show="seaForm.$dirty || airForm.$dirty" ng-click="update(seaForm, airForm, cost)"><i class="fi-save"></i> 保存</a>
+        <a class="button tiny secondary" ng-show="seaForm.$dirty || airForm.$dirty" ng-click="cancel(seaForm, airForm, cost)">取消</a>
+        <a class="button tiny alert" ng-click="remove(cost)"><i class="fi-trash"></i> 删除</a>
+      </td>
+      <td>{{cost.warehouse.name}}</td>
+      <td>{{cost.item.sku}}</td>
+      <td>
+        <ng-form name="seaForm">
+        <input type="text" ng-model="cost.sea_cost" valid-number />
+        </ng-form>
+      </td>
+      <td>
+        <ng-form name="airForm">
+        <input type="text" ng-model="cost.air_cost" valid-number />
+        </ng-form>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div id="editForm" class="reveal-modal" data-reveal>
+  <h5>添加运费系数</h5>
+
+  <div class="panel">
+    <div class="row">
+      <div class="columns medium-6">
+        <label>仓库</label>
+        <select name="name" ng-model="holder.warehouse" ng-options="wh.name for wh in whs"></select>
+      </div>
+      <div class="columns medium-6">
+        <label>特定SKU</label>
+        <input type="text" ng-model="holder.item" typeahead="i as i.sku for i in skus | filter: $viewValue | limitTo: 10" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-6">
+        <label>海运系数</label>
+        <input type="text" ng-model="holder.sea_cost" valid-number/>
+      </div>
+      <div class="columns medium-6">
+        <label>空运系数</label>
+        <input type="text" ng-model="holder.air_cost" valid-number/>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="button tiny" ng-click="save()">保存</button>
+
+  <p></p>
+  <p></p>
+  <a class="close-reveal-modal">&#215;</a>
+</div>

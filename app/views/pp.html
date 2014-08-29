@@ -47,7 +47,7 @@
         </thead>
         <tbody>
           <tr ng-repeat="plan in free | filter: search" ng-class="{success: plan.status == 'confirmed'}">
-            <td><a href="#/purchase/request/view/{{plan.request.id}}">{{plan.request.invoice}}</a></td>
+            <td><a href="javascript:;" pr-view rid="plan.request.id">{{plan.request.invoice}}</a></td>
             <td>{{plan.item.sku}}</td>
             <td>{{plan.qty}}</td>
             <td>{{plan.platform.abbreviation}}</td>

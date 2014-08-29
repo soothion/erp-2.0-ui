@@ -17,7 +17,56 @@
   </table>
 </div>
 
+<!-- <div class="panel">
 
-<input type="text" jquery-ui-datepicker ng-model="date" min-date="-1" max-date="5"  />
+  <h5>日期控件</h5>
+  
+  <input type="text" jquery-ui-datepicker ng-model="date" min-date="-1" max-date="5"  />
+  <code><input type="text" jquery-ui-datepicker ng-model="date" min-date="-1" max-date="5"  /></code>
 
-{{date}}
+</div>
+
+<div class="panel">
+  <h5>批量上传</h5>
+
+  <batch-upload label="示例批量上传" action="sample-request" title="示例批量上传" params="{id: 123}"></batch-upload>
+  <hr>
+  <code><batch-upload label="示例批量上传" action="sample-request" title="示例批量上传" params="{id: 123}"></batch-upload></code>
+</div>
+
+
+<div class="panel">
+  <h5>ng-repeat nested form testing</h5>
+
+  <table>
+    <tbody>
+      <tr ng-repeat="row in [1, 2, 3, 4, 5]" ng-form="tForm">
+        <td>{{row}}</td>
+        <td>tForm.$dirty: {{tForm.$dirty}}</td>
+        <td>aForm.$dirty: {{aForm.$dirty}}</td>
+        <td>bForm.$dirty: {{bForm.$dirty}}</td>
+        <td>
+        <ng-form name="aForm">
+          <input type="text" ng-model="some" required />
+        </ng-form>
+        </td>
+        <td>
+        <ng-form name="bForm">
+          <input type="text" ng-model="some" required />
+        </ng-form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="panel">
+  <h5>React Wh ID sample</h5>
+  <input type="text" ng-model="selected" />
+  <wh-list ng-model="selected"></wh-list>
+</div> -->
+
+<div class="panel">
+  <h5>purchase request view</h5>
+  <button class="button tiny success" pr-view rid="17">PR view</button>
+</div>

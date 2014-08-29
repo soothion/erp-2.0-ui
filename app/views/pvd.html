@@ -1,1 +1,105 @@
-<p>This is the pvd view.</p>
+<div class="row">
+  <div class="columns medium-8">
+    <input type="search" class="form-control" ng-model="search" placeholder="Search">
+  </div>
+  <div class="columns medium-4">
+    <a href="#/exchange/pvd" class="button tiny success">批量上传</a>
+    <a href="#/exchange/pvd" class="button tiny success">导出</a> 
+  </div>
+</div>
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th><a href="javascript:;" ng-click="create()"><i class="fi-plus"></i></a></th>
+      <th>SKU</th>
+      <th>供应商</th>
+      <th>供应商</th>
+      <th>报价类型</th>
+      <th>SPQ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="default in defaults | filter: search | limitTo: 20">
+      <td>
+        <button class="button tiny" ng-click="update(typeForm, vendorForm, spqForm, default)" ng-show="typeForm.$dirty || vendorForm.$dirty || spqForm.$dirty"><i class="fi-save"></i> 保存</button>
+        <button class="button tiny secondary" ng-click="cancel(typeForm, vendorForm, spqForm, default)" ng-show="typeForm.$dirty || vendorForm.$dirty || spqForm.$dirty">取消</button>
+        <button class="button tiny alert" ng-click="remove(default)"><i class="fi-trash"></i> 删除</button>
+      </td>
+      <td>{{default.item.sku}}</td>
+      <td>
+        <ng-form name="vendorForm">
+          <input type="text" ng-model="default.vendor" typeahead="v as v.abbreviation for v in vendors  | filter:$viewValue | limitTo: 10" placeholder="Type Name or Code" >
+        </ng-form>
+      </td>
+      <td>{{default.vendor.name}}</td>
+      <td>
+        <ng-form name="typeForm">
+        <ul class="button-group">
+          <li><a class="button tiny radius secondary" ng-model="default.price_type" ng-class="{success: default.price_type == 'normal'}" btn-radio="'normal'">normal</a></li>
+          <li><a class="button tiny radius secondary" ng-model="default.price_type" ng-class="{success: default.price_type == 'tax'}" btn-radio="'tax'">tax</a></li>
+          <li><a class="button tiny radius secondary" ng-model="default.price_type" ng-class="{success: default.price_type == 'usd'}" btn-radio="'usd'">usd</a></li>
+        </ul>
+        </ng-form>
+      </td>
+      <td>
+        <ng-form name="spqForm">
+          <input type="text" ng-model="default.spq" valid-number />
+        </ng-form>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div id="editForm" class="reveal-modal" data-reveal>
+  <h5>添加新的SKU默认值</h5>
+
+  <div class="panel">
+    <ng-form name="editForm">
+    <div class="row">
+      <div class="columns medium-6">
+        <label>供应商</label>
+        <input type="text" name="name" ng-model="holder.vendor" typeahead="v as v.abbreviation for v in vendors  | filter:$viewValue | limitTo: 10" required />
+      </div>
+      <div class="columns medium-6">
+        <label>供应商编码</label>
+        <input type="text" ng-model="holder.vendor.code" readonly="" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-6">
+        <label>SKU</label>
+        <input type="text" ng-model="holder.item" typeahead="i as i.sku for i in skus | filter:$viewValue | limitTo: 10" required />
+      </div>
+      <div class="columns medium-6">
+        <label>描述</label>
+        <input type="text" ng-model="holder.item.description" readonly="">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns medium-6">
+        <label>报价类型</label>
+        <ul class="button-group">
+          <li><a class="button tiny radius secondary" ng-model="holder.price_type" ng-class="{success: holder.price_type == 'normal'}" btn-radio="'normal'">normal</a></li>
+          <li><a class="button tiny radius secondary" ng-model="holder.price_type" ng-class="{success: holder.price_type == 'tax'}" btn-radio="'tax'">tax</a></li>
+          <li><a class="button tiny radius secondary" ng-model="holder.price_type" ng-class="{success: holder.price_type == 'usd'}" btn-radio="'usd'">usd</a></li>
+        </ul>
+      </div>
+      <div class="columns medium-6">
+        <label>SPQ</label>
+        <input type="text" ng-model="holder.spq" required smart-float>
+      </div>
+    </div>
+
+    </ng-form>
+
+  </div>
+
+  <button class="button tiny" ng-click="save()" ng-disabled="editForm.$invalid">添加</button>
+
+  <p></p>
+  <p></p>
+  <a class="close-reveal-modal">&#215;</a>
+</div>

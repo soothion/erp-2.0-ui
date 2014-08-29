@@ -26,9 +26,9 @@
               </a>
             </td>
             <td>{{request.invoice}}</td>
-            <td>{{request.warehouse_id}}</td>
+            <td>{{request.warehouse_id | warehouse}}</td>
             <td>{{request.type}}</td>
-            <td>{{request.agent}}</td>
+            <td>{{request.agent | agent }}</td>
             <td>
               尚余
               <timer end-time="request.expired_at | timer">{{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
@@ -81,7 +81,7 @@
               </a>
             </td>
             <td>{{request.invoice}}</td>
-            <td>{{request.warehouse_id}}</td>
+            <td>{{request.warehouse_id | warehouse}}</td>
             <td>{{request.type}}</td>
             <td>{{request.agent}}</td>
             <td>{{request.verified_note}}</td>
@@ -118,7 +118,7 @@
             </a>
           </td>
           <td>{{request.invoice}}</td>
-          <td>{{request.warehouse_id }}</td>
+          <td>{{request.warehouse_id | warehouse}}</td>
           <td>{{request.type}}</td>
           <td>{{request.agent }}</td>
           <td>{{cutStr(request.verified_note,12,'....')}}</td>
@@ -152,7 +152,7 @@
             </a>
           </td>
           <td>{{request.invoice}}</td>
-          <td>{{request.warehouse_id}}</td>
+          <td>{{request.warehouse_id | warehouse}}</td>
           <td>{{request.type}}</td>
           <td>{{request.agent}}</td>
           <td>

@@ -4,9 +4,10 @@ angular.module('laravelUiApp')
   .controller 'PvqCtrl', ($scope, Meta) ->
 
     pointer = null
+    Clazz = Meta.store('/api/purchase/quotation/:id', {id: '@id'})
 
     load = ->
-      Meta.cache('/api/purchase/quotation/:id', {id: '@id'}).query (rtn) ->
+      Clazz.query (rtn) ->
         $scope.quotations = rtn
 
     load()
@@ -17,6 +18,6 @@ angular.module('laravelUiApp')
       $scope.holder = $scope.quotations[pointer]
 
     $scope.save = ->
-      Meta.store('/api/purchase/quotation/:id', {id: '@id'}).update $scope.holder, ->
+      Clazz.update $scope.holder, ->
         $scope.quotations[pointer] = $scope.holder
         $('#editForm').foundation('reveal', 'close')

@@ -13,7 +13,11 @@ angular.module('laravelUiApp')
         $resource(url, paramDefaults, angular.extend {update: {method: 'put'}}, actions)
 
       cache: (url, paramDefaults, actions) ->
-        $resource url, paramDefaults, {query: {method: 'get', isArray: true, cache: true}}
+        $resource(url, paramDefaults, angular.extend {query: {method: 'get', isArray: true, cache: true}}, actions)
 
       flush: ->
         Cache.clear()
+
+  .service '$meta', (Meta, Cache) ->
+    whlist: Cache.get 'meta.whlist' or Meta.cache('/api/item/meta/warehouseList').query (rtn) ->
+      Cache.set 'meta.whlist', rtn

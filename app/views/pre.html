@@ -60,6 +60,8 @@
       <button type="button" class="button tiny" ng-click="unconfirm()" ng-show="request.status=='confirmed' && ! brand">unconfirm</button>
       <button type="button" class="button tiny info" ng-click="reset()" ng-disabled="isClean()" ng-show="! brand">Reset</button>
       <button type="button" class="button tiny alert" ng-click="destroy()" ng-show="request.status == 'pending' && ! brand">Delete</button>
+
+      <batch-upload label="批量上传明细" action="purchase-request" title="批量上传申购单明细" params="{id: request.id}" callback="loadDetails" ng-show="request.status == 'pending'"></batch-upload>
     </div>
   </div>
 </fieldset>
@@ -79,63 +81,53 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="detail in request.details" ng-class="{success: detail.request_id}">
+    <tr ng-repeat="detail in details" ng-class="{success: detail.request_id}" ng-form="detailForm">
 
       <td ng-show="request.status=='pending'">
-        <a href="javascript:;" ng-click="details_remove($index)" ng-show="!detail.request_id || request.status=='pending'"><i class="fi-trash"></i></a>
+        <a href="javascript:;" class="button tiny" ng-show="detailForm.$dirty" ng-click="detail_save(detail, detailForm)">保存</a> 
+        <a href="javascript:;" class="button tiny secondary" ng-show="detailForm.$dirty" ng-click="detail_reset(detail, detailForm)">取消</a>
+        <a href="javascript:;" ng-click="details_remove(detail)" ng-show="request.status=='pending' && detailForm.$pristine"><i class="fi-trash" style="color: red;"></i></a>
       </td>
       <td width="120">
-        <ng-form name="skuForm">
-        <div class="form-group" ng-class="{'has-error': skuForm.sku.$invalid}" tooltip="{{detail.item.description}}">
-          <input type="text" name="sku" ng-model="detail.item" class="form-control" typeahead-on-select="afterChangeItem()" required typeahead="sku as sku.sku for sku in skus | filter:{sku: $viewValue} | limitTo: 10" typeahead-editable='false'>
-          <span ng-show="skuForm.sku.$error.required" class="help-inline">Required</span>
+        <div class="form-group" tooltip="{{detail.item.description}}">
+          <input type="text" name="sku" ng-model="detail.item" ng-class="{'error': detailForm.sku.$invalid}" required typeahead="sku as sku.sku for sku in skus | filter:{sku: $viewValue} | limitTo: 10" typeahead-editable='false' ng-disabled="request.status!='pending'" />
+          <span ng-show="detailForm.sku.$error.required" class="error">Required</span>
         </div>
-        </ng-form>
       </td>
       <td>
-        <ng-form name="platformForm">
-        <div class="form-group" ng-class="{'has-error': platformForm.channel.$invalid}">
-        <select type="text" name="channel" ng-model="detail.platform_id" class="form-control" required ng-options="c.id as c.name for c in platforms"></select>
-          <span ng-show="platformForm.channel.$error.required" class="help-inline">Required</span>
+        <div class="form-group" >
+        <select type="text" name="channel" ng-model="detail.platform_id" ng-class="{'error': detailForm.channel.$invalid}" required ng-options="c.id as c.name for c in platforms" ng-disabled="request.status!='pending'" /></select>
+          <span ng-show="detailForm.channel.$error.required" class="error">Required</span>
         </div>
-        </ng-form>
       </td>
       <td width="80">
-        <ng-form name="loopForm">
-        <div class="form-group" ng-class="{'has-error': loopForm.qty.$invalid}">
-          <input type="text" name="qty" ng-model="detail.qty" class="form-control" ng-disabled="request.status!='pending'" valid-number>
+        <div class="form-group" >
+          <input type="text" name="qty" ng-model="detail.qty" ng-class="{'error': detailForm.qty.$invalid}" ng-disabled="request.status!='pending'" valid-number required>
+          <span ng-show="detailForm.qty.$error.required" class="error">Required</span>
         </div>                        
-      </ng-form>
       </td> 
       <td width="150">
-        <ng-form name="etaForm">
-        <div class="form-group" ng-class="{'has-error': etaForm.end_date.$invalid}">
-          <p class="input-group">
-            <input name="end_date" type="text" jquery-ui-datepicker class="form-control" ng-model="detail.end_date" min-date="minDate" max-date="'2015-06-22'" ng-required="true" close-text="Close" />
-          </p>
-          <span ng-show="etaForm.end_date.$error.required" class="help-inline">Required</span>
+        <div class="form-group">
+          <input name="end_date" type="text" jquery-ui-datepicker ng-class="{'error': detailForm.end_date.$invalid}" ng-model="detail.end_date" min-date="minDate" max-date="'2015-06-22'" required ng-disabled="request.status!='pending'" />
+          <span ng-show="detailForm.end_date.$error.required" class="error">Required</span>
         </div>
-        </ng-form>
 
       </td>
       <td>
         <!-- 这里需要一个计算方式 -->
         <label>
-          <b class="text-info">{{ detail.item.fee.sea_cost | currency}}</b>/
-          <b class="text-danger">{{ detail.item.fee.air_cost | currency}}</b>
+          <b class="text-info">{{detail.item | fee:request.warehouse_id:'sea' | currency}}</b>/
+          <b class="text-danger">{{detail.item | fee:request.warehouse_id:'air' | currency}}</b>
         </label>
       </td>
-      <td>{{detail.item.spq.vendor.spq || '-'}}</td>
+      <td>{{detail.item.spq.spq || '-'}}</td>
       <td>
-      <div class="form-group" ng-class="{'has-error': loopForm.transportation.$invalid}">
-        <select type="text" name="transportation" ng-model="detail.transportation" class="form-control" required ng-options="t.name as t.name for t in trans" ng-disabled="request.status!='pending'" ng-readonly="detail.request_id"></select>
-      </div></td>
+          <select type="text" name="transportation" ng-model="detail.transportation" ng-class="{'error': transportationForm.transportation.$invalid}" required ng-options="t.name as t.name for t in trans" ng-disabled="request.status!='pending'" ng-readonly="detail.request_id"></select>
+      </td>
       <td>
-        <ng-form name="noteForm">
-        <div class="form-group" ng-class="{'has-error': loopForm.qty.$invalid}">
+        <div class="form-group" ng-class="{'error': detailForm.note.$invalid}">
           <input type="text" name="note" ng-model="detail.note" class="form-control" ng-disabled="request.status!='pending'">
         </div> 
-        </ng-form>
       </td>
 
     </tr>
