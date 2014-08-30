@@ -1,9 +1,7 @@
 'use strict'
 
 angular.module('laravelUiApp')
-  .filter 'warehouse', ($meta) ->
+  .filter 'warehouse', ($filter, $meta) ->
+    warehouses = $meta('whlist')
     (id) ->
-      angular.forEach $meta.whlist, (value, key) ->
-        if value.id == id
-          id = value.name
-      id
+      ($filter('filter') warehouses, {id: id})[0]?.name || id

@@ -19,5 +19,19 @@ angular.module('laravelUiApp')
         Cache.clear()
 
   .service '$meta', (Meta, Cache) ->
-    whlist: Cache.get 'meta.whlist' or Meta.cache('/api/item/meta/warehouseList').query (rtn) ->
-      Cache.set 'meta.whlist', rtn
+    @mapping = 
+      whlist: key: 'meta.list.warehouse', url: '/api/item/meta/warehouseList'
+      userlist: key: 'meta.list.user', url: '/api/item/meta/warehouseList'
+
+    @getKey = (key) ->
+      @mapping[key]['key']
+
+    @getUrl = (key) ->
+      @mapping[key]['url']
+
+    (key) =>
+      rs = (Cache.get @getKey key) or http = Meta.cache(@getUrl key).query()
+      if http?
+        http.$promise.then (rtn) =>
+          Cache.set (@getKey key), rtn
+      rs
