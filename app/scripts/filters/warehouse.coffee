@@ -2,6 +2,16 @@
 
 angular.module('laravelUiApp')
   .filter 'warehouse', ($filter, $meta) ->
-    warehouses = $meta('whlist')
+    warehouses = null
+    serviceInvoked = false
+
+    realFilter = (id) ->
+      ($filter('filter') warehouses, {id: parseInt id}, true)[0]?.name || id
+
     (id) ->
-      ($filter('filter') warehouses, {id: id})[0]?.name || id
+      if not warehouses? and not serviceInvoked
+        serviceInvoked = true
+        warehouses = $meta('whlist')
+        '-'
+      else
+        realFilter id

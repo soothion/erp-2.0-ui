@@ -18,10 +18,11 @@ angular.module('laravelUiApp')
       flush: ->
         Cache.clear()
 
-  .service '$meta', (Meta, Cache) ->
+  .service '$meta', ($q, Meta, Cache) ->
     @mapping = 
       whlist: key: 'meta.list.warehouse', url: '/api/item/meta/warehouseList'
-      userlist: key: 'meta.list.user', url: '/api/item/meta/warehouseList'
+      userlist: key: 'meta.list.user', url: '/api/item/meta/userList'
+      vendorlist: key: 'meta.list.user', url: '/api/purchase/vendor/select/id,name,code'
 
     @getKey = (key) ->
       @mapping[key]['key']
@@ -29,9 +30,14 @@ angular.module('laravelUiApp')
     @getUrl = (key) ->
       @mapping[key]['url']
 
-    (key) =>
-      rs = (Cache.get @getKey key) or http = Meta.cache(@getUrl key).query()
-      if http?
-        http.$promise.then (rtn) =>
-          Cache.set (@getKey key), rtn
-      rs
+    @fetch = (key) ->
+      http = Meta.store(@getUrl key).query()
+      http.$promise.then (rtn) =>
+        Cache.set (@getKey key), rtn
+      http
+
+    (key, refresh = false) =>
+      if not refresh and rs = Cache.get(@getKey key)
+        rs
+      else
+        @fetch key

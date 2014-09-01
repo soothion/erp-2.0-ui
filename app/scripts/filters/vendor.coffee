@@ -1,11 +1,17 @@
 'use strict'
 
 angular.module('laravelUiApp')
-  .filter 'vendor', (Meta) ->
-    vendors = Meta.cache('/api/purchase/vendor/select/id,name,code').query()
+  .filter 'vendor', ($filter, $meta) ->
+    vendors = null
+    serviceInvoked = false
+
+    realFilter = (id) ->
+      ($filter('filter') vendors, {id: parseInt id}, true)[0]?.name || id
+
     (id) ->
-      angular.forEach vendors, (value, key) ->
-        if value.id is id
-          id = value.name
-      id
-          
+      if not vendors? and not serviceInvoked
+        serviceInvoked = true
+        vendors = $meta('vendorlist')
+        '-'
+      else
+        realFilter id

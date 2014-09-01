@@ -1,19 +1,18 @@
 'use strict'
 
 angular.module('laravelUiApp')
-  .controller 'PpeCtrl', ($scope, $routeParams, $location, Meta) ->
+  .controller 'PpeCtrl', ($scope, $routeParams, $location, $meta, Meta) ->
 
     $scope.plan = {status: 'confirmed'}
-
-    Meta.store('/api/purchase/plan/:id', {id: $routeParams.id}).get (rtn) ->
-      rtn.warehouse = {}
-      $scope.plan = rtn
+    Clazz = Meta.store '/api/purchase/plan/:id', {id: $routeParams.id}, {update: {method: 'PUT'}}
 
     Meta.store('/api/purchase/cwlist').query (rtn) ->
       $scope.cwlist = rtn
+    $scope.whlist = $meta 'whlist'
 
-    Meta.store('/api/warehouse/list').query (rtn)->
-      $scope.whlist = rtn
+    Clazz.get {id: $routeParams.id}, (rtn) ->
+      rtn.warehouse = {}
+      $scope.plan = rtn
 
     $scope.load = ->
       Meta.store('/api/purchase/plan-summary/:id', {id: $routeParams.id}).query (rtn) ->
@@ -38,8 +37,8 @@ angular.module('laravelUiApp')
       n
 
     $scope.save = ->
-      Meta.store('/api/purchase/plan/:id', {id: $routeParams.id}, {update: {method: 'put'}}).update ->
-        alert('计划表修改成功!')
+      $scope.plan.detail = $scope.summary
+      Clazz.update $scope.plan, (rtn) ->
         $scope.load()
 
     $scope.confirm = ->

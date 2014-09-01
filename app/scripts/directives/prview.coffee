@@ -31,7 +31,7 @@ angular.module('laravelUiApp')
         React.unmountComponentAtNode holder
   )
   .factory '$purchaseRequestView', ($filter) ->
-    {div, label, select, option, span, h5, table, tr, td, a} = React.DOM
+    {div, label, select, option, span, h5, table, tr, td, a, b} = React.DOM
     React.createClass
       getInitialState: ->
         id: @props.rid
@@ -90,7 +90,11 @@ angular.module('laravelUiApp')
                 td {className: 'title'}, 'ETA'
                 td {className: ''}, d.end_date
                 td {className: 'title'}, '估算运费'
-                td {className: ''}, ($filter('filter') d.item.cost, {warehouse_id: @state.master.warehouse_id})[0]
+                td {className: ''}, [
+                    b {}, $filter('fee') d.item, @state.master.warehouse_id, 'sea'
+                    '/'
+                    b {}, $filter('fee') d.item, @state.master.warehouse_id, 'air'
+                  ]
               ]
               tr {}, [
                 td {className: 'title'}, 'SPQ'

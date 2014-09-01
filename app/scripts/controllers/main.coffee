@@ -12,12 +12,3 @@ angular.module('laravelUiApp')
       cost:[
         warehouse_id: 1, sea_coast: 100
       ]
-
-    console.log $filter('fee') item, 1, 'sea'
-    console.log $filter('warehouse') 1
-
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]

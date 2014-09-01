@@ -115,13 +115,13 @@
       <td ng-class="{'has-error':detailx.real_qty<1}"><input type="text" name="real_qty" id="real_qty" ng-model="detailx.real_qty" class="form-control input-sm" /></td>     
       <td>{{detailx.stock_qty}}</td>
       <td ng-class="{'has-error':detailx.to_purchase_qty<1}"><input type="text" name="to_purchase_qty" id="to_purchase_qty" ng-model="detailx.to_purchase_qty" class="form-control input-sm" /></td>
-      <td  ng-class="{'has-error':!detailx.price_type}"><select name="tax_d" id="tax_d" ng-model="detailx.price_type"  style="width:70px"
-              ng-options="x.name as x.name for x in taxs"  class="form-control input-sm tax_sure" >
-        <option value=''>--请选择含税与否</option>
-        </select ></td>
-      <td  ng-class="{'has-error':detailx.unit_price<=0}"><input type="text" name="unit_price" id="unit_price" ng-model="detailx.unit_price" class="form-control input-sm" />
+      <td  ng-class="{'has-error':!detailx.price_type}">
+        {{detailx.price_type}}
       </td>
-      <td>{{detailx.to_purchase_qty * detailx.unit_price}}</td>
+      <td  ng-class="{'has-error':detailx.unit_price<=0}">
+        {{detailx.unit_price | currency}}
+      </td>
+      <td>{{detailx.to_purchase_qty * detailx.unit_price | currency}}</td>
       <td>{{detailx.vendor.payment_period}}</td>
     </tr>
   </tbody>
