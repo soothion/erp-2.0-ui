@@ -98,7 +98,7 @@ angular.module('laravelUiApp')
               ]
               tr {}, [
                 td {className: 'title'}, 'SPQ'
-                td {className: ''}, d.item.spq.spq
+                td {className: ''}, d.item.spq?.spq
                 td {className: 'title'}, '运输方式'
                 td {className: ''}, d.transportation
                 td {className: 'title'}, '备注'

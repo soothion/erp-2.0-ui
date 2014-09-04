@@ -68,7 +68,7 @@
     <tr ng-repeat="request in requests">
       <td>
         <!-- 查看 -->
-        <a title="查看" data-toggle="tooltip" data-original-title="查看" href="javascript:;" ng-click="view(request)"><i class="fi-eye"></i></a>
+        <a title="查看" data-toggle="tooltip" data-original-title="查看" href="javascript:;" pr-view rid="request.id"><i class="fi-eye"></i></a>
         <!-- 修改 -->
         <a title="修改 " data-toggle="tooltip" data-original-title="修改" href="#/purchase/request/edit/{{request.id}}" ng-show="request.status =='pending'"><i class="fi-pencil"></i></a>
         <!-- 确认 -->

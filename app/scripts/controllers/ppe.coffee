@@ -6,7 +6,7 @@ angular.module('laravelUiApp')
     $scope.plan = {status: 'confirmed'}
     Clazz = Meta.store '/api/purchase/plan/:id', {id: $routeParams.id}, {update: {method: 'PUT'}}
 
-    Meta.store('/api/purchase/cwlist').query (rtn) ->
+    Meta.store('/api/purchase/cwlist').query {plan_id: $routeParams.id}, (rtn) ->
       $scope.cwlist = rtn
     $scope.whlist = $meta 'whlist'
 

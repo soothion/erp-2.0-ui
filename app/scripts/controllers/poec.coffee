@@ -1,10 +1,11 @@
 'use strict'
 
 angular.module('laravelUiApp')
-  .controller 'PoecCtrl', ($scope, $routeParams, Meta, flash) ->
+  .controller 'PoecCtrl', ($scope, $routeParams, $meta, Meta, flash) ->
     
-    Meta.cache('/api/item/meta/warehouseList').query (rtn) ->
-      $scope.whs = rtn
+    $scope.whs = $meta 'whlist'
+    $scope.vendors = $meta 'vendorlist'
+
     Meta.cache('/api/item/meta/transportList').query (rtn) ->
       $scope.trans = rtn
     Meta.cache('/api/platforms').query (rtn) ->
@@ -13,8 +14,6 @@ angular.module('laravelUiApp')
       $scope.skus = rtn
     Meta.cache('/api/item/meta/taxList/:id', {id: '@id'}).query (rtn) ->
       $scope.taxs = rtn
-    Meta.cache('/api/purchase/vendor/:id', {id: '@id'}).query (rtn) ->
-      $scope.vendors = rtn
 
     $scope.currencies = ['CNY', 'USD']
 

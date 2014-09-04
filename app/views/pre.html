@@ -88,7 +88,7 @@
         <a href="javascript:;" class="button tiny secondary" ng-show="detailForm.$dirty" ng-click="detail_reset(detail, detailForm)">取消</a>
         <a href="javascript:;" ng-click="details_remove(detail)" ng-show="request.status=='pending' && detailForm.$pristine"><i class="fi-trash" style="color: red;"></i></a>
       </td>
-      <td width="120">
+      <td width="140">
         <div class="form-group" tooltip="{{detail.item.description}}">
           <input type="text" name="sku" ng-model="detail.item" ng-class="{'error': detailForm.sku.$invalid}" required typeahead="sku as sku.sku for sku in skus | filter:{sku: $viewValue} | limitTo: 10" typeahead-editable='false' ng-disabled="request.status!='pending'" />
           <span ng-show="detailForm.sku.$error.required" class="error">Required</span>

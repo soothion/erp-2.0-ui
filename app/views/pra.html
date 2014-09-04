@@ -83,10 +83,10 @@
             <td>{{request.invoice}}</td>
             <td>{{request.warehouse_id | warehouse}}</td>
             <td>{{request.type}}</td>
-            <td>{{request.agent}}</td>
+            <td>{{request.agent | agent}}</td>
             <td>{{request.verified_note}}</td>
             <td>{{request.verified_at}}</td>
-            <td>{{request.verified_agent}}</td>
+            <td>{{request.verified_agent | agent}}</td>
           </tr>
         </tbody>
       </table>
@@ -144,7 +144,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="request in requests | filter: search"
-          ng-show="!flag">
+          ng-show="request.status=='expired'">
           <td>
             <a href="javascript:;" ng-click="showDetail(request.id,'readonly')" data-original-title="查看"
               data-toggle="tooltip" title="">

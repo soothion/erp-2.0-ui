@@ -22,7 +22,9 @@ angular.module('laravelUiApp')
     @mapping = 
       whlist: key: 'meta.list.warehouse', url: '/api/item/meta/warehouseList'
       userlist: key: 'meta.list.user', url: '/api/item/meta/userList'
-      vendorlist: key: 'meta.list.user', url: '/api/purchase/vendor/select/id,name,code'
+      vendorlist: key: 'meta.list.vendor', url: '/api/purchase/vendor?select=id,name,code,abbreviation'
+      itemlist: key: 'meta.list.item', url: '/api/item/meta/itemInfo?select=id,sku,description'
+      platformlist: key: 'meta.list.platform', url: '/api/item/meta/platformList?select=id,name,abbreviation'
 
     @getKey = (key) ->
       @mapping[key]['key']
