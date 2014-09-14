@@ -29,8 +29,8 @@ angular.module('laravelUiApp')
       scope.$on '$destroy', ->
         React.unmountComponentAtNode holder
   )
-  .factory '$prAllotTable', ($filter) ->
-    {table, tr, td, th} = React.DOM
+  .factory '$prAllotTable', ($filter, $label) ->
+    {table, thead, tbody, tr, td, th} = React.DOM
     React.createClass
       getInitialState: ->
         details: @props.details
@@ -39,17 +39,21 @@ angular.module('laravelUiApp')
         ''
       render: ->
         table {width: '100%'}, [
-          tr {}, [
-            th {}, '渠道'
-            th {}, '原始需求'
-            th {}, '所占比例'
-            th {}, '预计分配'
-          ]
-          @state.details.map (d) =>
+          thead {}, [
             tr {}, [
-              td {}, $filter('platform') d.platform_id
-              td {}, d.qty
-              td {}, d.pivot.percent
-              td {}, d.pivot.percent * parseInt @state.qty
+              th {}, '渠道'
+              th {}, '原始需求'
+              th {}, '所占比例'
+              th {}, '预计分配'
             ]
+          ]
+          tbody {}, [
+            @state.details.map (d) =>
+              tr {}, [
+                td {}, $label {key: 'platformlist', id: d.platform_id, field: 'abbreviation'}
+                td {}, d.qty
+                td {}, d.pivot.percent
+                td {}, $filter('number') (d.pivot.percent * parseInt @state.qty), 0
+              ]
+          ]
         ]

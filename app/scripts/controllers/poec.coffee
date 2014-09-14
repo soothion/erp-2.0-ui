@@ -5,15 +5,12 @@ angular.module('laravelUiApp')
     
     $scope.whs = $meta 'whlist'
     $scope.vendors = $meta 'vendorlist'
+    $scope.trans = $meta 'translist'
+    $scope.platforms = $meta 'platformlist'
+    $scope.skus = $meta 'itemlist'
+    $scope.taxs = $meta 'taxlist'
 
-    Meta.cache('/api/item/meta/transportList').query (rtn) ->
-      $scope.trans = rtn
-    Meta.cache('/api/platforms').query (rtn) ->
-      $scope.platforms = rtn
-    Meta.cache('/api/item/info').query (rtn) ->
-      $scope.skus = rtn
-    Meta.cache('/api/item/meta/taxList/:id', {id: '@id'}).query (rtn) ->
-      $scope.taxs = rtn
+    $scope.checking = false
 
     $scope.currencies = ['CNY', 'USD']
 
@@ -32,19 +29,26 @@ angular.module('laravelUiApp')
         $scope.$watch 'searchform', ->
           $scope.csearch()
         , true
-        $scope.searchform.plan_id = rtn[-1..][0].id
+        $scope.searchform.plan_id = rtn[-1..][0]?.id
     init()
 
 
     $scope.csearch = ->
+      $scope.checking = false
       $scope.selectRepeatData = {}
       $scope.selectObj = []
       $scope.SysMakedOrderDetail = []
       $scope.commonTax = $scope.commonTrans = $scope.commonVendorId = $scope.commonWarehouseId = null
-      # Meta.store('/api/purchase/exec/:id', {id: '@id'}).query $scope.searchform, (rtn) ->
-        # $scope.assigns = rtn
-      Meta.store('/api/purchase/exec/:id', {id: '@id'}).query $scope.searchform, (rtn) ->
+      $scope.searchform.item_id = $scope.searchform.item?.id
+      if $scope.searchform.plan_id then Meta.store('/api/purchase/exec/:id', {id: '@id'}).query $scope.searchform, (rtn) ->
         $scope.plandetails = rtn
+        preSelect()
+
+    preSelect = ->
+      d._vendor = d.item.quotation.vendor for d in $scope.plandetails if $scope.plandetails
+
+    $scope.$watch 'checking', ->
+      d.selected = $scope.checking for d in $scope.plandetails if $scope.plandetails
 
     $scope.updateDataAfterChangedVendor = (detail) ->
       Meta.cache('/api/item/vendorItem').save {item_id: detail.item.id, vendor_id: detail.vendor.id}, (rtn) ->

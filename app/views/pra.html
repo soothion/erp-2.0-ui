@@ -26,9 +26,9 @@
               </a>
             </td>
             <td>{{request.invoice}}</td>
-            <td>{{request.warehouse_id | warehouse}}</td>
+            <td><filter key="whlist" id="request.warehouse_id"></filter></td>
             <td>{{request.type}}</td>
-            <td>{{request.agent | agent }}</td>
+            <td><filter key="userlist" id="request.agent"></filter></td>
             <td>
               尚余
               <timer end-time="request.expired_at | timer">{{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
@@ -81,12 +81,12 @@
               </a>
             </td>
             <td>{{request.invoice}}</td>
-            <td>{{request.warehouse_id | warehouse}}</td>
+            <td><filter key="whlist" id="request.warehouse_id"></filter></td>
             <td>{{request.type}}</td>
-            <td>{{request.agent | agent}}</td>
+            <td><filter key="userlist" id="request.agent"></filter></td>
             <td>{{request.verified_note}}</td>
             <td>{{request.verified_at}}</td>
-            <td>{{request.verified_agent | agent}}</td>
+            <td><filter key="userlist" id="request.verified_agent"></filter></td>
           </tr>
         </tbody>
       </table>
@@ -118,12 +118,12 @@
             </a>
           </td>
           <td>{{request.invoice}}</td>
-          <td>{{request.warehouse_id | warehouse}}</td>
+          <td><filter key="whlist" id="request.warehouse_id"></filter></td>
           <td>{{request.type}}</td>
-          <td>{{request.agent }}</td>
+          <td><filter key="userlist" id="request.agent"></filter></td>
           <td>{{cutStr(request.verified_note,12,'....')}}</td>
           <td>{{request.verified_at}}</td>
-          <td>{{request.verified_agent}}</td>
+          <td><filter key="userlist" id="request.verified_agent"></filter>/td>
         </tr>
 
       </tbody>
@@ -152,9 +152,9 @@
             </a>
           </td>
           <td>{{request.invoice}}</td>
-          <td>{{request.warehouse_id | warehouse}}</td>
+          <td><filter key="whlist" id="request.warehouse_id"></filter></td>
           <td>{{request.type}}</td>
-          <td>{{request.agent}}</td>
+          <td><filter key="userlist" id="request.agent"></filter></td>
           <td>
             <font>已过期</font>
             <span style="color: #f00">

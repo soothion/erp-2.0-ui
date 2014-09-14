@@ -154,7 +154,7 @@
             </thead>
             <tbody>
               <tr ng-repeat="change in changes">
-                <td>{{change.sku | item}}</td>
+                <td><filter key="itemlist" id="change.sku" field="sku"></filter></td>
                 <td>{{change.from}}</td>
                 <td>{{change.to}}</td>
                 <td>{{change.note}}</td>

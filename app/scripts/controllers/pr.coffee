@@ -1,16 +1,15 @@
 'use strict'
 
 angular.module('laravelUiApp')
-  .controller 'PrCtrl', ($scope, Meta) ->
+  .controller 'PrCtrl', ($scope, $meta, Meta) ->
+
+    $scope.warehouses = $meta 'whlist'
+    $scope.skus = $meta 'itemlist'
 
     Meta.cache('/api/item/meta/requestStatus').query (rtn) ->
       $scope.status = rtn
     Meta.cache('/api/item/meta/requestTypes').query (rtn) ->
       $scope.types = rtn
-    Meta.cache('/api/item/meta/warehouseList').query (rtn) ->
-      $scope.warehouses = rtn
-    Meta.cache('/api/item/info').query (rtn) ->
-      $scope.skus = rtn
 
     Clazz = Meta.store('/api/purchase/request/:id', {id: '@id'})
     Detail = Meta.store '/api/purchase/requestDetail/:id', {id: '@id'}, {update: {method: 'PUT'}}

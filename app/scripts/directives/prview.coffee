@@ -14,15 +14,12 @@ angular.module('laravelUiApp')
       holder = element.next()[0]
 
       element.bind 'click', ->
-        component = React.renderComponent ($purchaseRequestView {rid: scope.rid}), holder
+        component = React.renderComponent ($purchaseRequestView {}), holder
         Master.get {id: scope.rid}, (rtn) =>
           component.setState {master: rtn}
-        Detail.query {rid: scope.rid}, (rtn) =>
-          component.setState {details: rtn}
+        # Detail.query {rid: scope.rid}, (rtn) =>
+          # component.setState {details: rtn}
         $(holder).foundation 'reveal', 'open'
-
-        scope.$watch 'rid', ->
-          component.setState {rid: scope.rid}
 
       $(document).on 'closed.fndtn.reveal', '[data-reveal]', ->
         React.unmountComponentAtNode holder
@@ -30,11 +27,10 @@ angular.module('laravelUiApp')
       scope.$on '$destroy', ->
         React.unmountComponentAtNode holder
   )
-  .factory '$purchaseRequestView', ($filter) ->
-    {div, label, select, option, span, h5, table, tr, td, a, b} = React.DOM
+  .factory '$purchaseRequestView', ($filter, $label) ->
+    {div, select, option, span, h5, table, tr, td, a, b} = React.DOM
     React.createClass
       getInitialState: ->
-        id: @props.rid
         master: {}
         details: []
       componentWillMount: ->
@@ -49,7 +45,10 @@ angular.module('laravelUiApp')
               td {className: 'title'}, '类型'
               td {className: ''}, @state.master.type
               td {className: 'title'}, '目的仓'
-              td {className: ''}, $filter('warehouse') @state.master.warehouse_id
+              td {className: ''}, [
+                h5 {}, @state.master.warehouse_id
+                $label({'key': 'whlist', 'id': @state.master.warehouse_id})
+              ]
             ]
             tr {}, [
               td {className: 'title'}, '关联ID'
@@ -57,7 +56,7 @@ angular.module('laravelUiApp')
               td {className: 'title'}, '状态'
               td {className: ''}, @state.master.status
               td {className: 'title'}, '提单人'
-              td {className: ''}, $filter('agent') @state.master.agent
+              td {className: ''}, $label {id: @state.master.agent, key: 'userlist'}
             ]
             tr {}, [
               td {className: 'title'}, '创建时间'

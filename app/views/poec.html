@@ -2,7 +2,7 @@
   <legend>采购计划执行</legend>
 
   <div class="row">
-    <div class="columns medium-4">
+    <div class="columns medium-3">
       <div class="form-group">
         <select name="plan_id" class="form-control" ng-model="searchform.plan_id" required  ng-options="p.id as p.name for p in plans">
           <option value="">--所属计划表--</option>
@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div class="columns medium-4">
+    <div class="columns medium-3">
       <div class="form-group">
         <select name="warehouse" ng-model="searchform.warehouse_id"
           ng-options="wh.id as wh.name for wh in whs"
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="columns medium-4">
+    <div class="columns medium-3">
       <div class="form-group">
         <select name="transportation"
           ng-model="searchform.transportation" class="form-control"
@@ -29,38 +29,16 @@
         </select>
       </div>
     </div>
-
-  </div>
-  <div class="row">
-    <div class="columns medium-4">
+    <div class="columns medium-3">
       <div class="form-group">
-        <select name="price_type" ng-model="searchform.price_type"
-          class="form-control"
-          ng-options="x.name as x.name for x in taxs">
-          <option value="">--含税与否--</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="columns medium-4">
-      <div class="form-group">
-        <input type="text" name="vendor" ng-model="searchform.vendor"
-          class="form-control"
-          typeahead="v as v.code+'('+v.name+')' for v in vendors | filter:$viewValue | limitTo: 10"
-          typeahead-editable='false'
-          placeholder="供应商名字或者代码">
-      </div>
-    </div>
-
-    <div class="columns medium-4">
-      <div class="form-group">
-        <input type="text" name="sku" ng-model="searchform.sku"
+        <input type="text" name="sku" ng-model="searchform.item"
           class="form-control"
           typeahead="i as i.sku for i in skus | filter:{sku: $viewValue} | limitTo: 10"
           typeahead-editable='false' placeholder="SKU" />
 
       </div>
     </div>
+
   </div>
 
   <div class="row">
@@ -79,10 +57,12 @@
   </div>
 </fieldset>
 
+<div purchase-exec ng-model="plandetails"></div>
+
 <table width="100%" >
   <thead>
     <tr >
-      <th><input type="checkbox" id="all" ng-click="checkall()"/></th>
+      <th><input type="checkbox" ng-model="checking" /></th>
       <th>供应商</th>
       <th>SKU</th>
       <th>需求仓库</th>
@@ -90,7 +70,7 @@
       <th><span tooltip="需求数量">需求</span></th>
       <th><span tooltip="最小装箱数">SPQ</span></th>
       <th width="70"><span tooltip="调整后需求数">调整</span></th>
-      <th><span tooltip="期初库存">期初</span></th>
+      <!-- <th><span tooltip="期初库存">期初</span></th> -->
       <th width="70"><span tooltip="最终采购量">终</span></th>
       <th><span tooltip="是否含税采购">税</span></th>
       <th width="70">单价</th>
@@ -100,30 +80,41 @@
   </thead>
   <tbody>
     
-    <tr ng-repeat="detailx in plandetails | filter: search">
+    <tr ng-repeat="detailx in plandetails" ng-form="detailForm">
       <td class="check-list">
-        <input type="checkbox" name="{{detailx.id}}" ng-model="selectRepeatData[$index]" value="{{detailx.id}}"  ng-change="toggleAddData(detailx.id,$index)" />
+        <input type="checkbox" ng-model="detailx.selected" />
       </td>
-      <td ng-class="{'error':!(detailx.vendor&&detailx.vendor.id)}"><input title="{{detailx.vendor.name}}" type="text" typeahead-on-select="updateDataAfterChangedVendor(detailx)" name="vendor_d" id="vendor_d" ng-model="detailx.item.quotation.vendor" class="form-control input-sm vendor_sure" typeahead="v as v.abbreviation for v in vendors  | filter:$viewValue | limitTo: 10" placeholder="Type Name or Code" ></td>
-      <td title="{{detailx.item.description}}">{{detailx.item.sku}}</td>
+      <td >
+        <input ng-class="{'error':!(detailx._vendor)}" type="text" ng-model="detailx._vendor" class="form-control input-sm vendor_sure" typeahead="v as v.abbreviation for v in vendors  | filter:$viewValue | limitTo: 10" placeholder="Type Name or Code" >
+      </td>
+      <td>
+        <span>
+          {{detailx.item_id | item}}
+        </span>
+      </td>
       <td>
         {{detailx.warehouse_id | warehouse}}</span>
       </td>
       <td>
-        <select name="transportation_d" id="transportation_d" ng-model="detailx.transportation" ng-options="t.name as t.name for t in trans" class="form-control input-sm" style="width:70px" ></select>
+        <select ng-model="detailx.transportation" ng-options="t.name as t.name for t in trans" style="width:70px" disabled=""></select>
       </td>
       <td>{{detailx.request_qty}}</td>
       <td>
-        {{detailx.item.quotation.spq}}
+        {{detailx._vendoer.quotation.spq}}
       </td>
-      <td ng-class="{'has-error':detailx.real_qty<1}"><input type="text" name="real_qty" id="real_qty" ng-model="detailx.real_qty" class="form-control input-sm" /></td>     
-      <td>{{detailx.stock_qty}}</td>
-      <td ng-class="{'has-error':detailx.to_purchase_qty<1}"><input type="text" name="to_purchase_qty" id="to_purchase_qty" ng-model="detailx.to_purchase_qty" class="form-control input-sm" /></td>
-      
-      <td  ng-class="{'error':!detailx.price_type}">
+      <td >
+        <input type="text" name="real_qty" id="real_qty" ng-model="detailx.real_qty"  />
+      </td>     
+<!--       <td>
+        {{detailx.stock_qty}}
+      </td> -->
+      <td>
+        <input type="text" ng-model="detailx.to_purchase_qty" pr-allot item-id="detailx.item_id" plan-id="detailx.plan_id" trans="detailx.transportation" wh-id="detailx.warehouse_id" />
+      </td>
+      <td>
         {{detailx.item.quotation.price_type}}
       </td>
-      <td  ng-class="{'error':detailx.unit_price<=0}">
+      <td>
         {{detailx.item.quotation.unit_price | currency}}
       </td>
       <td>
@@ -134,20 +125,6 @@
       </td>
     </tr>
   </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="18">
-        <ul class="pager">
-          <li class="previous" ng-show="hasPrePage()"><a
-              href="javascript:;" ng-click="goPrePage()">&laquo; 上一页</a>
-          </li>
-          <li class="next" ng-show="hasNextPage()"><a
-              href="javascript:;"
-              ng-click="goNextPage()">下一页 &raquo;</a></li>
-        </ul>
-      </td>
-    </tr>
-  </tfoot>
 </table>
 
 
@@ -167,7 +144,7 @@
           ng-class="{'has-error': editForm.invoice.$invalid}">
           <label class="control-label">采购单号</label>
           <input type="text" name="invoice" ng-model="order.invoice"
-            class="form-control input-sm" required
+             required
             >
           <span ng-show="editForm.invoice.$error.required"
             class="help-inline">Required</span>
@@ -179,7 +156,7 @@
           ng-class="{'has-error': editForm.currency.$invalid}">
           <label class="control-label">币种</label>
           <select name="currency" ng-model="order.currency"
-            class="form-control input-sm" ng-options="c for c in currencies"
+             ng-options="c for c in currencies"
              required></select>
           <span ng-show="editForm.currency.$error.required"
             class="help-inline">Required</span>
@@ -191,7 +168,7 @@
           ng-class="{'has-error': editForm.discount.$invalid}">
           <label class="control-label">折扣</label>
           <input type="text" name="discount" ng-model="order.discount"
-            ng-pattern="/^\d+\.?\d*$/" class="form-control input-sm"
+            ng-pattern="/^\d+\.?\d*$/" 
              required />
         </div>
       </div>
@@ -201,7 +178,7 @@
           ng-class="{'has-error': editForm.total.$invalid}">
           <label class="control-label">应付款</label>
           <input type="text" name="total" ng-model="order.total"
-            ng-pattern="/^\d+\.?\d*$/" class="form-control input-sm"
+            ng-pattern="/^\d+\.?\d*$/" 
              required>
         </div>
       </div>
@@ -212,7 +189,7 @@
                     <div class="form-group"
                       ng-class="{'has-error': editForm.invoice_rate.$invalid}">
                       <label class="control-label">票点</label>
-                      <input type="text" name="invoice_rate" class="form-control input-sm"
+                      <input type="text" name="invoice_rate" 
                         ng-model="order.invoice_rate" ng-pattern="/^\d+\.?\d*$/"
                          required>
                     </div>
@@ -222,9 +199,9 @@
                     <div class="form-group"
                       ng-class="{'has-error': editForm.tax_rate.$invalid}">
                       <label class="control-label">税点</label>
-                      <!--select name="tax_rate" class="form-control input-sm" ng-model="order.tax_rate" ng-options="r for r in rates" required ></select-->
+                      <!--select name="tax_rate"  ng-model="order.tax_rate" ng-options="r for r in rates" required ></select-->
                       <input type="text" name="tax_rate" ng-model="order.tax_rate"
-                        class="form-control input-sm" ng-pattern="/^\d+\.?\d*$/"
+                         ng-pattern="/^\d+\.?\d*$/"
                          required>
                     </div>
                   </div>
@@ -235,7 +212,7 @@
                       <label class="control-label">账期1(付款方式)</label>
                       <input type="text" name="payment_method"
                         ng-model="order.payment_method"
-                         class="form-control input-sm"
+                         
                         required>
                     </div>
                   </div>
@@ -246,7 +223,7 @@
                       <label class="control-label">帐期2</label>
                       <input type="text" name="payment_dates"
                         ng-model="order.payment_dates" ng-pattern="/^\d+$/"
-                        class="form-control input-sm" 
+                         
                         required>
                     </div>
                   </div>
@@ -259,7 +236,7 @@
                       ng-class="{'has-error': editForm.payment_terms.$invalid}">
                       <label class="control-label">payment_terms</label>
                       <input type="text" name="payment_terms"
-                        ng-model="order.payment_terms" class="form-control input-sm"
+                        ng-model="order.payment_terms" 
                         >
                     </div>
                   </div>
@@ -270,7 +247,7 @@
                       <label class="control-label">交货时间</label>
                       <input type="text" datepicker-popup="yyyy-MM-dd"
                         name="delivery_date" ng-model="order.delivery_date"
-                        class="form-control input-sm" >
+                         >
                     </div>
                   </div>
 
@@ -283,7 +260,7 @@
                       ng-class="{'has-error': editForm.ship_to.$invalid}">
                       <label class="control-label">送货地址</label>
 
-                      <textarea name="ship_to" class="form-control input-sm"
+                      <textarea name="ship_to" 
                         ng-model="order.ship_to"
                         >
                     </textarea>
@@ -296,7 +273,7 @@
                     <div class="form-group"
                       ng-class="{'has-error': editForm.note.$invalid}">
                       <label class="control-label">备注</label>
-                      <textarea name="note" class="form-control input-sm"
+                      <textarea name="note" 
                         ng-model="order.note"
                         ></textarea>
                     </div>

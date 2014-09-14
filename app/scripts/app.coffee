@@ -1,15 +1,15 @@
 'use strict'
 
 angular.module('laravelUiApp', [
-  'ngCookies',
-  'ngResource',
-  'ngSanitize',
-  'ngRoute',
-  'angularFileUpload',
-  'timer',
-  'angular-loading-bar',
-  'angular-flash.service',
-  'angular-flash.flash-alert-directive',
+  'ngCookies'
+  'ngResource'
+  'ngSanitize'
+  'ngRoute'
+  'angularFileUpload'
+  'timer'
+  'angular-loading-bar'
+  'angular-flash.service'
+  'angular-flash.flash-alert-directive'
   'mm.foundation'
 ])
   .config (cfpLoadingBarProvider) ->

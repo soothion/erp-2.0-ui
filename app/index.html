@@ -72,7 +72,7 @@
                 <li ng-class="{active: routeIs('/purchase/plan')}"><a href="#/purchase/plan"><i class="glyphicon glyphicon-compressed"></i> 采购计划</a></li>
                 <li class="divider"></li>
                 <li ng-class="{active: routeIs('/purchase/order/exec')}"><a href="#/purchase/order/exec">采购执行</a></li>
-                <li ng-class="{active: routeIs('/purchase/ship')}"><a href="#/purchase/ship">调度计划执行</a></li>
+                <!-- <li ng-class="{active: routeIs('/purchase/ship')}"><a href="#/purchase/ship">调度计划执行</a></li> -->
                 <li class="divider"></li>
                 <li ng-class="{active: routeIs('/purchase/order/lists')}"><a href="#/purchase/order/lists">采购单</a></li>
                 <!-- <li ng-class="{active: routeIs('/purchase/mergeOrder')}"><a href="#/purchase/mergeOrder">合并采购单</a></li> -->
@@ -282,9 +282,6 @@
     <script src="scripts/services/paging.js"></script>
     <script src="scripts/controllers/pvd.js"></script>
     <script src="scripts/directives/jqueryuidatepicker.js"></script>
-    <script src="scripts/filters/warehouse.js"></script>
-    <script src="scripts/filters/agent.js"></script>
-    <script src="scripts/filters/vendor.js"></script>
     <script src="scripts/controllers/pcp.js"></script>
     <script src="scripts/directives/batchUpload.js"></script>
     <script src="scripts/directives/exportButton.js"></script>
@@ -292,8 +289,9 @@
     <script src="scripts/filters/fee.js"></script>
     <script src="scripts/directives/prView.js"></script>
     <script src="scripts/directives/prAllot.js"></script>
-    <script src="scripts/filters/item.js"></script>
-    <script src="scripts/filters/platform.js"></script>
+    <script src="scripts/directives/purchaseExec.js"></script>
+    <script src="scripts/directives/filter.js"></script>
+    <script src="scripts/directives/react.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">$(document).foundation();</script>

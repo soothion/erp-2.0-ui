@@ -48,11 +48,11 @@
         <tbody>
           <tr ng-repeat="plan in free | filter: search" ng-class="{success: plan.status == 'confirmed'}">
             <td><a href="javascript:;" pr-view rid="plan.request.id">{{plan.request.invoice}}</a></td>
-            <td>{{plan.item_id | item}}</td>
+            <td><filter key="itemlist" id="plan.item_id" field="sku"></filter></td>
             <td>{{plan.qty}}</td>
-            <td>{{plan.platform_id | platform}}</td>
+            <td><filter key="platformlist" id="plan.platform_id"></filter></td>
             <td>{{plan.request.verified_at}}</td>
-            <td>{{plan.request.verified_agent | agent}}</td>
+            <td><filter key="userlist" id="plan.request.verified_agent"></filter></td>
           </tr>
         </tbody>
       </table>

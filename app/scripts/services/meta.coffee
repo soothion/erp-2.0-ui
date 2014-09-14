@@ -25,6 +25,8 @@ angular.module('laravelUiApp')
       vendorlist: key: 'meta.list.vendor', url: '/api/purchase/vendor?select=id,name,code,abbreviation'
       itemlist: key: 'meta.list.item', url: '/api/item/meta/itemInfo?select=id,sku,description'
       platformlist: key: 'meta.list.platform', url: '/api/item/meta/platformList?select=id,name,abbreviation'
+      translist: key: 'meta.list.trans', url: '/api/item/meta/transportList'
+      taxlist: key: 'meta.list.tax', url: '/api/item/meta/taxList'
 
     @getKey = (key) ->
       @mapping[key]['key']
@@ -38,8 +40,14 @@ angular.module('laravelUiApp')
         Cache.set (@getKey key), rtn
       http
 
+    # return $promise
     (key, refresh = false) =>
       if not refresh and rs = Cache.get(@getKey key)
+        deferred = $q.defer()
+        rs.$promise = deferred.promise
+        deferred.promise.then (rs) ->
+          rs 
+        deferred.resolve rs
         rs
       else
         @fetch key
