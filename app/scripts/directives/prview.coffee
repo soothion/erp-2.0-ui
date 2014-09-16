@@ -10,15 +10,17 @@ angular.module('laravelUiApp')
       Master = Meta.store('/api/purchase/request/:id', {id: '@id'})
       Detail = Meta.store '/api/purchase/requestDetail/:id', {id: '@id'}, {update: {method: 'PUT'}}
 
-      element.after '<div class="reveal-modal" data-reveal />'
+      element.after '<div class="reveal-modal" data-reveal>loading...</div>'
       holder = element.next()[0]
 
+      scope.master = scope.details = []
+
       element.bind 'click', ->
-        component = React.renderComponent ($purchaseRequestView {}), holder
-        Master.get {id: scope.rid}, (rtn) =>
-          component.setState {master: rtn}
-        # Detail.query {rid: scope.rid}, (rtn) =>
-          # component.setState {details: rtn}
+        Master.get {id: scope.rid}, (master) =>
+          scope.master = master
+          Detail.query {rid: scope.rid}, (details) =>
+            scope.details = details
+            component = React.renderComponent ($purchaseRequestView {master: scope.master, details: scope.details}), holder
         $(holder).foundation 'reveal', 'open'
 
       $(document).on 'closed.fndtn.reveal', '[data-reveal]', ->
@@ -30,48 +32,40 @@ angular.module('laravelUiApp')
   .factory '$purchaseRequestView', ($filter, $label) ->
     {div, select, option, span, h5, table, tr, td, a, b} = React.DOM
     React.createClass
-      getInitialState: ->
-        master: {}
-        details: []
-      componentWillMount: ->
-        ''
       render: ->
         div {}, [
           h5 {}, '申购单详情查看'
           table {width: '100%'}, [
             tr {}, [
               td {className: 'title'}, '申购单编号'
-              td {className: ''}, @state.master.invoice
+              td {className: ''}, @props.master.invoice
               td {className: 'title'}, '类型'
-              td {className: ''}, @state.master.type
+              td {className: ''}, @props.master.type
               td {className: 'title'}, '目的仓'
-              td {className: ''}, [
-                h5 {}, @state.master.warehouse_id
-                $label({'key': 'whlist', 'id': @state.master.warehouse_id})
-              ]
+              td {className: ''}, $label({key: 'whlist', id: @props.master.warehouse_id})
             ]
             tr {}, [
               td {className: 'title'}, '关联ID'
-              td {className: ''}, @state.master.relation_id
+              td {className: ''}, @props.master.relation_id
               td {className: 'title'}, '状态'
-              td {className: ''}, @state.master.status
+              td {className: ''}, @props.master.status
               td {className: 'title'}, '提单人'
-              td {className: ''}, $label {id: @state.master.agent, key: 'userlist'}
+              td {className: ''}, $label {id: @props.master.agent, key: 'userlist'}
             ]
             tr {}, [
               td {className: 'title'}, '创建时间'
-              td {className: ''}, @state.master.created_at
+              td {className: ''}, @props.master.created_at
               td {className: 'title'}, '修改时间'
-              td {className: 'title'}, @state.master.updated_at
+              td {className: 'title'}, @props.master.updated_at
               td {className: 'title'}, '审核过期时间'
-              td {className: ''}, @state.master.updated_at
+              td {className: ''}, @props.master.updated_at
             ]
             tr {}, [
               td {className: 'title'}, '备注'
-              td {className: '', colSpan: 5}, @state.master.note
+              td {className: '', colSpan: 5}, @props.master.note
             ]
           ]
-          @state.details.map (d) =>
+          @props.details.map (d) =>
             table {width: '100%'}, [
               tr {}, [
                 td {className: 'title'}, 'SKU'
@@ -90,9 +84,9 @@ angular.module('laravelUiApp')
                 td {className: ''}, d.end_date
                 td {className: 'title'}, '估算运费'
                 td {className: ''}, [
-                    b {}, $filter('fee') d.item, @state.master.warehouse_id, 'sea'
+                    b {}, $filter('fee') d.item, @props.master.warehouse_id, 'sea'
                     '/'
-                    b {}, $filter('fee') d.item, @state.master.warehouse_id, 'air'
+                    b {}, $filter('fee') d.item, @props.master.warehouse_id, 'air'
                   ]
               ]
               tr {}, [
@@ -112,7 +106,5 @@ angular.module('laravelUiApp')
                 td {className: ''}, d.updated_at
               ]
             ]
-          a {className: 'close-reveal-modal', onClick: (e) =>
-            this.setState {css: 'close'}
-          }, "×"
+          a {className: 'close-reveal-modal'}, "×"
         ]

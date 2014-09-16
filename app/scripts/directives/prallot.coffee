@@ -15,15 +15,16 @@ angular.module('laravelUiApp')
 
       element.after '<div />'
       holder = element.next()[0]
+      watches = []
 
       element.bind 'focus', ->
-        component = React.renderComponent ($prAllotTable {details: [], qty: 0}), holder
-        scope.$watch 'qty', ->
-          component.setState {qty: scope.qty}
-        Clazz.query (rtn) ->
-          component.setState {details: rtn}
+        Clazz.query (details) ->
+          component = React.renderComponent ($prAllotTable {details: details, qty: 0}), holder
+          watches.push scope.$watch 'qty', ->
+            component.setState {qty: scope.qty}
 
       element.bind 'blur', ->
+        watch() for watch in watches
         React.unmountComponentAtNode holder
 
       scope.$on '$destroy', ->
@@ -33,7 +34,6 @@ angular.module('laravelUiApp')
     {table, thead, tbody, tr, td, th} = React.DOM
     React.createClass
       getInitialState: ->
-        details: @props.details
         qty: @props.qty
       componentWillMount: ->
         ''
@@ -48,7 +48,7 @@ angular.module('laravelUiApp')
             ]
           ]
           tbody {}, [
-            @state.details.map (d) =>
+            @props.details.map (d) =>
               tr {}, [
                 td {}, $label {key: 'platformlist', id: d.platform_id, field: 'abbreviation'}
                 td {}, d.qty

@@ -42,10 +42,6 @@ angular.module('laravelUiApp')
       $scope.searchform.item_id = $scope.searchform.item?.id
       if $scope.searchform.plan_id then Meta.store('/api/purchase/exec/:id', {id: '@id'}).query $scope.searchform, (rtn) ->
         $scope.plandetails = rtn
-        preSelect()
-
-    preSelect = ->
-      d._vendor = d.item.quotation.vendor for d in $scope.plandetails if $scope.plandetails
 
     $scope.$watch 'checking', ->
       d.selected = $scope.checking for d in $scope.plandetails if $scope.plandetails

@@ -20,6 +20,7 @@ angular.module('laravelUiApp')
 
   .service '$meta', ($q, Meta, Cache) ->
     @mapping = 
+      # 公共
       whlist: key: 'meta.list.warehouse', url: '/api/item/meta/warehouseList'
       userlist: key: 'meta.list.user', url: '/api/item/meta/userList'
       vendorlist: key: 'meta.list.vendor', url: '/api/purchase/vendor?select=id,name,code,abbreviation'
@@ -27,6 +28,10 @@ angular.module('laravelUiApp')
       platformlist: key: 'meta.list.platform', url: '/api/item/meta/platformList?select=id,name,abbreviation'
       translist: key: 'meta.list.trans', url: '/api/item/meta/transportList'
       taxlist: key: 'meta.list.tax', url: '/api/item/meta/taxList'
+
+      # 采购模块
+      prstatuslist: key: 'meta.list.prstatus', url: '/api/item/meta/requestStatus'
+      prtypelist: key: 'meta.list.prtypes', url: '/api/item/meta/requestTypes'
 
     @getKey = (key) ->
       @mapping[key]['key']

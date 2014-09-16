@@ -16,8 +16,6 @@ angular.module('laravelUiApp')
       componentWillMount: ->
         $meta(@props.key).$promise.then (result) =>
           field = @props.field || 'name'
-          console.log @props.id
-          console.log @props.key
           @setState {label: ($filter('filter') result, {id: parseInt @props.id}, true)[0]?[field] || @props.id}
       render: ->
         span {}, @state.label

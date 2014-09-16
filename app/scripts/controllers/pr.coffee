@@ -5,11 +5,8 @@ angular.module('laravelUiApp')
 
     $scope.warehouses = $meta 'whlist'
     $scope.skus = $meta 'itemlist'
-
-    Meta.cache('/api/item/meta/requestStatus').query (rtn) ->
-      $scope.status = rtn
-    Meta.cache('/api/item/meta/requestTypes').query (rtn) ->
-      $scope.types = rtn
+    $scope.status = $meta 'prstatuslist'
+    $scope.types = $meta 'prtypelist'
 
     Clazz = Meta.store('/api/purchase/request/:id', {id: '@id'})
     Detail = Meta.store '/api/purchase/requestDetail/:id', {id: '@id'}, {update: {method: 'PUT'}}
