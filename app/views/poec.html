@@ -41,20 +41,6 @@
 
   </div>
 
-  <div class="row">
-    <div class="columns medium-6">
-
-      <a dropdown-toggle="#adjust-div" class="button tiny dropdown">调整采购量</a>
-      <ul id="adjust-div" class="f-dropdown">
-        <li><a href="javascript:;" ng-click="changeMutilDetailQty('middle')">按照装箱数四舍五入</a></li>
-        <li><a href="javascript:;" ng-click="changeMutilDetailQty('up')">按照装箱数向上</a></li>
-        <li><a href="javascript:;" ng-click="changeMutilDetailQty('down')">按照装箱数向下</a></li>
-      </ul>
-
-      <button class="button tiny success" ng-click="preActionToMakeOrder()">生成采购单</button>
-
-    </div>
-  </div>
 </fieldset>
 
 <div purchase-exec ng-model="plandetails"></div>
