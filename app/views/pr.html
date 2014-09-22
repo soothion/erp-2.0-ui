@@ -93,3 +93,51 @@
   </tbody>
 </table>
 
+<div id="createPanel" class="reveal-modal" data-reveal>
+  <h5>新建申购单</h5>
+  <form name="creatingForm">
+  <div class="row">
+    <div class="columns medium-4">
+      <label>申购单编号</label>
+      <input type="text" name="invoice" ng-model="creating.invoice" class="form-control" required>
+    </div>
+    <div class="columns medium-4">
+      <label>类型</label>
+      <select name="type" class="form-control" ng-model="creating.type" ng-options="t.name as t.name for t in types" required ng-change="change()"></select> 
+    </div>
+    <div class="columns medium-4">
+      <label>目的仓</label>
+      <select name="warehouse_id" ng-model="creating.warehouse_id" class="form-control" required ng-options="wh.id as wh.name for wh in warehouses"></select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns medium-4">
+      <label>关联ID</label>
+      <input type="text" name="relation_id" ng-model="creating.relation_id" ng-pattern="/^\d{1,16}$/" class="form-control" required ng-disabled="creating.type=='Shipment' || creating.type=='Local'">
+    </div>
+    <div class="columns medium-4">
+      <label>状态</label>
+      <select name="status" ng-model="creating.status" class="form-control" ng-options="s.name as s.name for s in status" required disabled></select>
+    </div>
+    <div class="columns medium-4">
+      <label class="control-label">审核过期时间</label>
+      <input name="expired_at" type="text" class="form-control" jquery-ui-datepicker ng-model="creating.expired_at" min-date="minDate" max-date="'2015-06-22'" ng-required="true" close-text="Close" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns medium-12">
+      <label>备注</label>
+      <textarea name="note" class="form-control" ng-model="creating.note"></textarea>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns medium-12">
+      <button type="button" class="button tiny success" ng-click="save()" ng-disabled="creatingForm.$invalid">创建</button>
+    </div>
+  </div>
+  </form>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
