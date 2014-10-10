@@ -102,7 +102,7 @@ angular.module('laravelUiApp')
           <tr ng-repeat=\"log in logs\">
             <td>{{log.id}}</td>
             <td>{{log.created_at}}</td>
-            <td>{{log.agent | agent}}</td>
+            <td><filter key=\"userlist\" id=\"log.agent\"></filter></td>
             <td>{{log.filename}}</td>
             <td>{{log.total}}</td>
             <td>{{log.pending}}</td>
