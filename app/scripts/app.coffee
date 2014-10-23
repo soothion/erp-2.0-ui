@@ -98,8 +98,12 @@ angular.module('laravelUiApp', [
         controller: 'PcpCtrl'
 
       .when '/inventory/nowday',
-        templateUrl: 'views/inventory/log/nowday.html'
+        templateUrl: 'views/inventory/inventory/nowday.html'
         controller: 'InventoryNowdayCtrl'
+
+      .when '/inventory/allocations',
+        templateUrl: 'views/inventory/log/allocations.html'
+        controller: 'InventoryAllocationsCtrl'
 
       .when '/inventory/changes',
         templateUrl: 'views/inventory/log/changes.html'
@@ -112,6 +116,14 @@ angular.module('laravelUiApp', [
       .when '/stock/purchase/show/:id',
         templateUrl: 'views/stock/purchase/show.html'
         controller: 'StockPurchaseShowCtrl'
+
+      .when '/stock/allocation',
+        templateUrl: 'views/stock/allocation/asks.html'
+        controller: 'StockAllocationAsksCtrl'
+
+      .when '/stock/allocation/reply',
+        templateUrl: 'views/stock/allocation/replys.html'
+        controller: 'StockAllocationReplysCtrl'
 
       .when '/stock/io/lists',
         templateUrl: 'views/stock/io/lists.html'

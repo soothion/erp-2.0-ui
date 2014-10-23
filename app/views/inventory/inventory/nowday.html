@@ -1,0 +1,156 @@
+<div class="columns medium-12">
+  <fieldset>
+    <legend>Inventory Lists</legend>
+    <div class="row">
+      <div class="columns medium-3">
+        <input type="text" name="item_id" ng-model="invsSearch.item_id" placeholder="Item" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" name="platform_id" ng-model="invsSearch.platform_id" placeholder="Platform" />
+      </div>
+      <div class="columns medium-3 left">
+        <input type="text" name="warehouse_id" ng-model="invsSearch.warehouse_id" placeholder="Warehouse" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns medium-4">
+        <button class="button tiny" ng-click="paging.first()"><i class="fi-zoom"></i>Search</button>
+        <button class="button tiny" ng-click="clean()"><i class="fi-zoom"></i>Reset</button>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th>OP</th>
+      <th>Platform</th>
+      <th>Warehouse</th>
+      <th>Item</th>
+      <th>Qty</th>
+      <th>Request</th>
+      <th>Extra</th>
+      <th>Book</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="(key, inv) in invs">
+      <td>
+        <a ng-click="showAskModal(key)" ng-show="inv.all_extra_qty > 0 && inv.all_qty * 1 - inv.all_book_qty * 1 + inv.all_extra_qty * 1 > 0 && inv.platform_id != 0 && inv.platform_id != 1" href=""><i class="fi-megaphone"></i></a>
+        <a ng-click="showTofreeModal(key)" ng-show="inv.all_extra_qty > 0 && inv.all_qty * 1 - inv.all_book_qty * 1 + inv.all_extra_qty * 1> 0 && inv.platform_id == 1" href=""><i class="fi-unlock"></i></a>
+        <a ng-click="showShareModal(key)" ng-show="inv.all_extra_qty > 0 && inv.all_qty * 1 - inv.all_book_qty * 1 + inv.all_extra_qty* 1 > 0 && inv.platform_id == 1" href=""><i class="fi-share"></i></a>
+        <a ng-click="showFromfreeModal(key)" ng-show="inv.all_extra_qty > 0 && inv.all_qty * 1 - inv.all_book_qty * 1 + inv.all_extra_qty * 1 > 0 && inv.platform_id == 0" href=""><i class="fi-shopping-cart"></i></a>
+      </td>
+      <td>{{ inv.platform_id }}</td>
+      <td>{{ inv.warehouse_id }}</td>
+      <td>{{ inv.item_id }}</td>
+      <td>{{ 1 * inv.all_qty + 1 * inv.all_extra_qty }}</td>
+      <td>{{ inv.all_qty }}</td>
+      <td>{{ inv.all_extra_qty }}</td>
+      <td>{{ inv.all_book_qty }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div class="row">
+  <div class="pagination-centered">
+    <ul class="pagination columns medium-12">
+      <li ng-show="paging.hasPrePage()" class="arrow left columns medium-1"><a class="button" href="" ng-click="paging.goPrePage()">&laquo; Prev</a></li>
+      <div class="columns medium-10"></div>
+      <li ng-show="paging.hasNextPage()" class="arrow columns medium-1"><a class="button" href="" ng-click="paging.goNextPage()">Next  &raquo;</a></li>
+    </ul>
+  </div>
+</div>
+
+
+<div id="askModal" class="reveal-modal" data-reveal>
+  <h4>Ask</h4>
+  <div class="row">
+    <div class="columns medium-3">
+      <input type="text" name="item_id" ng-model="askRecord.item_id" />
+    </div>
+    <div class="columns medium-3">
+      <input type="text" name="from_platform_id" ng-model="askRecord.from_platform_id" />
+    </div>
+    <div class="columns medium-3">
+      <input type="text" name="warehouse_id" ng-model="askRecord.warehouse_id" />
+    </div>
+    <div class="columns medium-3">
+      <input type="text" name="qty" ng-model="askRecord.qty" placeholder="Quantity" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns medium-3">
+      <button class="button tiny" ng-click="ask()">Submit</button>
+    </div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="shareModal" class="reveal-modal" data-reveal>
+  <h4>Share</h4>
+  <div class="row">
+    <div class="columns medium-3">
+      <input type="text" name="item_id" ng-model="shareRecord.item_id" />
+    </div>
+    <div class="columns medium-3">
+      <input type="text" name="to_platform_id" ng-model="shareRecord.to_platform_id" placeholder="Platform" />
+    </div>
+    <div class="columns medium-3">
+      <input type="text" name="warehouse_id" ng-model="shareRecord.warehouse_id" />
+    </div>
+    <div class="columns medium-3">
+      <input type="text" name="qty" ng-model="shareRecord.qty" placeholder="Quantity" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns medium-3">
+      <button class="button tiny" ng-click="send()">Submit</button>
+    </div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="tofreeModal" class="reveal-modal" data-reveal>
+  <h4>Send to Free Platform</h4>
+  <div class="row">
+    <div class="columns medium-3">
+      <input type="text" name="item_id" ng-model="tofreeRecord.item_id" />
+    </div>
+    <div class="columns medium-3">
+      <input type="text" name="warehouse_id" ng-model="tofreeRecord.warehouse_id" />
+    </div>
+    <div class="columns medium-3 left">
+      <input type="text" name="qty" ng-model="tofreeRecord.qty" placeholder="Quantity" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns medium-3">
+      <button class="button tiny" ng-click="drop()">Submit</button>
+    </div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="fromfreeModal" class="reveal-modal" data-reveal>
+  <h4>Get from Free Platform</h4>
+  <div class="row">
+    <div class="columns medium-3">
+      <input type="text" name="item_id" ng-model="fromfreeRecord.item_id" />
+    </div>
+    <div class="columns medium-3">
+      <input type="text" name="warehouse_id" ng-model="fromfreeRecord.warehouse_id" />
+    </div>
+    <div class="columns medium-3 left">
+      <input type="text" name="qty" ng-model="fromfreeRecord.qty" placeholder="Quantity" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns medium-3">
+      <button class="button tiny" ng-click="take()">Submit</button>
+    </div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
