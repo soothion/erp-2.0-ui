@@ -105,6 +105,10 @@ angular.module('laravelUiApp', [
         templateUrl: 'views/inventory/log/allocations.html'
         controller: 'InventoryAllocationsCtrl'
 
+      .when '/inventory/books',
+        templateUrl: 'views/inventory/log/books.html'
+        controller: 'InventoryBooksCtrl'
+
       .when '/inventory/changes',
         templateUrl: 'views/inventory/log/changes.html'
         controller: 'InventoryChangesCtrl'
@@ -124,6 +128,10 @@ angular.module('laravelUiApp', [
       .when '/stock/allocation/reply',
         templateUrl: 'views/stock/allocation/replys.html'
         controller: 'StockAllocationReplysCtrl'
+
+      .when '/stock/shipment',
+        templateUrl: 'views/stock/shipment/index.html'
+        controller: 'StockShipmentCtrl'
 
       .when '/stock/io/lists',
         templateUrl: 'views/stock/io/lists.html'

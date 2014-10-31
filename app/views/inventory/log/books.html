@@ -1,0 +1,47 @@
+<div class="columns medium-12">
+  <fieldset>
+    <legend>Book Logs</legend>
+    <div class="row">
+    </div>
+    <div class="row">
+      <div class="columns medium-4">
+        <button class="button tiny" ng-click="paging.first()"><i class="fi-zoom"></i>Search</button>
+        <button class="button tiny" ng-click="clean()"><i class="fi-zoom"></i>Reset</button>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Inventory</th>
+      <th>Qty</th>
+      <th>Extra Qty</th>
+      <th>Status</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="(key, log) in logs">
+      <td>{{ log.id }}</td>
+      <td>{{ log.inventory_id }}</td>
+      <td>{{ log.qty }}</td>
+      <td>{{ log.extra_qty }}</td>
+      <td>{{ log.status }}</td>
+      <td>{{ log.updated_at }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div class="row">
+  <div class="pagination-centered">
+    <ul class="pagination columns medium-12">
+      <li ng-show="paging.hasPrePage()" class="arrow left columns medium-1"><a class="button" href="" ng-click="paging.goPrePage()">&laquo; Prev</a></li>
+      <div class="columns medium-10"></div>
+      <li ng-show="paging.hasNextPage()" class="arrow columns medium-1"><a class="button" href="" ng-click="paging.goNextPage()">Next  &raquo;</a></li>
+    </ul>
+  </div>
+</div>
