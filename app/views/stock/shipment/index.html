@@ -76,7 +76,24 @@
       </select>
     </div>
     <div class="columns medium-3">
-      <input type="text" name="qty" ng-model="newMaster.qty" placeholder="Quantity" />
+      <input type="text" name="invoice" ng-model="newMaster.invoice" placeholder="Invoice" />
+    </div>
+    <div class="columns medium-3">
+      <input type="text" name="currency" ng-model="newMaster.currency" placeholder="Currency" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns medium-3">
+      <input type="text" name="exchange_rate" ng-model="newMaster.exchange_rate" placeholder="Exchange" />
+    </div>
+    <div class="columns medium-3">
+      <select name="transportation" ng-model="newMaster.transportation" ng-options="transportation in transportationLists">
+      </select>
+    </div>
+    <div class="columns medium-3">
+      <select name="status" ng-model="newMaster.status" ng-options="status in statusLists">
+        <option value=""></option>
+      </select>
     </div>
   </div>
   <div class="row">
