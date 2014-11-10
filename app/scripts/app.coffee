@@ -133,6 +133,10 @@ angular.module('laravelUiApp', [
         templateUrl: 'views/stock/shipment/index.html'
         controller: 'StockShipmentCtrl'
 
+      .when '/stock/io',
+        templateUrl: 'views/stock/io/index.html'
+        controller: 'StockIOCtrl'
+
       .when '/stock/io/lists',
         templateUrl: 'views/stock/io/lists.html'
         controller: 'StockIOListsCtrl'
