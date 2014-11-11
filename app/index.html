@@ -46,11 +46,9 @@
             <li class="divider"></li>
             
             <li class="has-dropdown">
-              <a href="#">产品管理</a>
+              <a href="javascript:;">产品管理</a>
               <ul class="dropdown">
-                <li><a href="#/item">产品列表</a></li>
-                <li><a href="#/item/upload">上传新产品</a></li>
-                <li><a href="#/item/image">上传图片</a></li>
+                <li ng-class="{active: routeIs('/item/list')}"><a href="#/item/list">产品列表</a></li>
                 <li class="divider"></li>
                 <li><a href="#/item/customs">关税</a></li>
                 <li class="divider"></li>
@@ -245,6 +243,7 @@
     <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
     <script src="bower_components/ng-file-upload-shim/angular-file-upload-shim.js"></script>
     <script src="bower_components/react/react.js"></script>
+    <script src="bower_components/angular-utils-pagination/dirPagination.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -295,6 +294,8 @@
     <script src="scripts/directives/purchaseexec.js"></script>
     <script src="scripts/directives/filter.js"></script>
     <script src="scripts/directives/react.js"></script>
+    <script src="scripts/controllers/itemList.js"></script>
+    <script src="scripts/directives/itemView.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">$(document).foundation();</script>

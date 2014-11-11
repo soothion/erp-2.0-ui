@@ -11,6 +11,7 @@ angular.module('laravelUiApp', [
   'angular-flash.service'
   'angular-flash.flash-alert-directive'
   'mm.foundation'
+  'angularUtils.directives.dirPagination'
 ])
   .config (cfpLoadingBarProvider) ->
     cfpLoadingBarProvider.includeBar = true
@@ -46,6 +47,11 @@ angular.module('laravelUiApp', [
       .when '/login',
         templateUrl: 'views/login.html'
         controller: 'LoginCtrl'
+
+      # item
+      .when '/item/list',
+        templateUrl: 'views/itemList.html',
+        controller: 'ItemlistCtrl'
 
       # request
       .when '/purchase/request/list',
@@ -133,6 +139,9 @@ angular.module('laravelUiApp', [
         templateUrl: 'views/stock/io/show.html'
         controller: 'StockIOShowCtrl'
 
+      .when '/itemList',
+        templateUrl: 'views/itemlist.html'
+        controller: 'ItemlistCtrl'
       .otherwise
         redirectTo: '/home'
 

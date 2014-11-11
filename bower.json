@@ -18,7 +18,8 @@
     "jquery-ui": "~1.11.0",
     "ng-file-upload": "~1.6.5",
     "ng-file-upload-shim": "~1.6.5",
-    "react": "~0.11.1"
+    "react": "~0.11.1",
+    "angular-utils-pagination": "~0.3.1"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",
