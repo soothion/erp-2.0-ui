@@ -1,0 +1,216 @@
+<div class="columns medium-12">
+  <fieldset>
+    <legend>调渡单列表</legend>
+    <div class="row">
+      <div class="columns medium-3">
+        <input type="text" name="warehouse_from_id" ng-model="shipmentsSearch.warehouse_from_id" placeholder="From" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" name="warehouse_to_id" ng-model="shipmentsSearch.warehouse_to_id" placeholder="To" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" name="status" ng-model="shipmentsSearch.status" placeholder="Status" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" name="transportation" ng-model="shipmentsSearch.trasportation" placeholder="Transportation" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns medium-4">
+        <button class="button tiny" ng-click="paging.first()"><i class="fi-zoom"></i>Search</button>
+        <button class="button tiny" ng-click="clean()"><i class="fi-zoom"></i>Reset</button>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th><a href="" ng-click="newMasterModal()" ><i class="fi-plus"></i></a></th>
+      <th>ID</th>
+      <th>Invoice</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Status</th>
+      <th>Trans</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="(key, shipment) in shipments">
+      <td>
+	<a ng-show="shipment.status == 'pending'" href="" ng-click="modShipmentModal(key)"><i class="fi-eye"></i></a>
+	<a ng-show="shipment.status == 'pending'" href="" ng-click="confirm(key)"><i class="fi-check"></i></a>
+	<a ng-show="shipment.status == 'pending'" href="" ng-click="delete(key)"><i class="fi-x"></i></a>
+	<a ng-show="shipment.status == 'confirmed'" href="" ng-click="unconfirm(key)"><i class="fi-prohibited"></i></a>
+	<a ng-show="shipment.status == 'confirmed'" href="" ng-click="generate(key)"><i class="fi-anchor"></i></a>
+      </td>
+      <td>{{ shipment.id }}</td>
+      <td>{{ shipment.invoice }}</td>
+      <td>{{ shipment.warehouse_from_id }}</td>
+      <td>{{ shipment.warehouse_to_id }}</td>
+      <td>{{ shipment.status }}</td>
+      <td>{{ shipment.transportation }}</td>
+      <td>{{ shipment.updated_at }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="pagination-centered">
+    <ul class="pagination columns medium-12">
+      <li ng-show="paging.hasPrePage()" class="arrow left columns medium-1"><a class="button" href="" ng-click="paging.goPrePage()">&laquo; Prev</a></li>
+      <div class="columns medium-10"></div>
+      <li ng-show="paging.hasNextPage()" class="arrow columns medium-1"><a class="button" href="" ng-click="paging.goNextPage()">Next  &raquo;</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="newMasterModal" class="reveal-modal" data-reveal>
+
+  <fieldset>
+    <legend>新建调渡单</legend>
+    <div class="row">
+      <div class="columns medium-3">
+	<select ng-model="newMaster.warehouse_from_id" ng-options="warehouse.id as warehouse.name for warehouse in warehouseLists">
+	  <option value="">-- 从哪个仓库 --</option>
+	</select>
+      </div>
+      <div class="columns medium-3">
+	<select ng-model="newMaster.warehouse_to_id" ng-options="warehouse.id as warehouse.name for warehouse in warehouseLists">
+	  <option value="">-- 到哪个仓库 --</option>
+	</select>
+      </div>
+      <div class="columns medium-3">
+        <input type="text" ng-model="newMaster.invoice" placeholder="Invoice" />
+      </div>
+      <div class="columns medium-3">
+        <select ng-model="newMaster.transportation" ng-options="transportation for transportation in transportationLists">
+	  <option value="">-- 运输方式 --</option>
+	</select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns medium-3">
+        <input type="text" ng-model="newMaster.date_out" placeholder="Date Out" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" ng-model="newMaster.date_eta" placeholder="Date ETA" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" ng-model="newMaster.date_receive" placeholder="Date Receive" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" ng-model="newMaster.carrier" placeholder="Carrier" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns medium-3">
+        <input type="text" ng-model="newMaster.tracking" placeholder="Tracking" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" ng-model="newMaster.shipping_fee" placeholder="Shipping Fee" />
+      </div>
+      <div class="columns medium-3 left">
+	<select ng-model="newMaster.price_type" ng-options="pricetype for pricetype in pricetypeLists">
+	</select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns medium-12">
+	<div>Note:</div>
+	<textarea ng-model="newMaster.note"></textarea>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="row">
+    <div class="columns medium-3">
+      <button class="button tiny" ng-click="newMasterBtn()">创建</button>
+    </div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="modDetailsModal" class="reveal-modal" data-reveal>
+  <fieldset>
+    <legend>修改调渡单</legend>
+    <div class="row">
+      <div class="columns medium-3">
+	<select ng-model="modShipment.warehouse_from_id" ng-options="warehouse.id as warehouse.name for warehouse in warehouseLists">
+	</select>
+      </div>
+      <div class="columns medium-3">
+	<select ng-model="modShipment.warehouse_to_id" ng-options="warehouse.id as warehouse.name for warehouse in warehouseLists">
+	</select>
+      </div>
+      <div class="columns medium-3">
+        <input type="text" ng-model="modShipment.invoice" placeholder="Invoice" />
+      </div>
+      <div class="columns medium-3">
+        <select ng-model="modShipment.transportation" ng-options="transportation for transportation in transportationLists">
+	</select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns medium-3">
+        <input type="text" ng-model="modShipment.date_out" placeholder="Date Out" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" ng-model="modShipment.date_eta" placeholder="Date ETA" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" ng-model="modShipment.date_receive" placeholder="Date Receive" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" ng-model="modShipment.carrier" placeholder="Carrier" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns medium-3">
+        <input type="text" ng-model="modShipment.tracking" placeholder="Tracking" />
+      </div>
+      <div class="columns medium-3">
+        <input type="text" ng-model="modShipment.shipping_fee" placeholder="Shipping Fee" />
+      </div>
+      <div class="columns medium-3 left">
+	<select ng-model="modShipment.price_type" ng-options="pricetype for pricetype in pricetypeLists">
+	</select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns medium-12">
+	<div>Note:</div>
+	<textarea ng-model="modShipment.note"></textarea>
+      </div>
+    </div>
+  </fieldset>
+  
+  <h5>明细</h5>
+  <table width="100%">
+    <thead>
+      <tr>
+	<th><a href="" ng-click="newDetail()"><i class="fi-plus"></i></a></th>
+	<th>Item</th>
+	<th>Quantity</th>
+        <th>Platform</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="(detailKey, detail) in shipmentDetails">
+        <td><a href="" ng-click="delDetail(detailKey)"><i class="fi-x"></i></a></td>
+        <td><input ng-change="updDetail(detailKey)" type="text" ng-model="detail.item_id" placeholder="Item" /></td>
+        <td><input ng-change="updDetail(detailKey)" type="text" ng-model="detail.qty" placeholder="Quantity" /></td>
+	<td><input ng-change="updDetail(detailKey)" type="text" ng-model="detail.platform_id" placeholder="Platform"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row">
+    <div class="columns medium-3">
+      <button ng-click="modShipmentBtn()" ng-show="shipmentDetails.length != 0" class="button tiny">修改</button>
+    </div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>

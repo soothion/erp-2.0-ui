@@ -1,0 +1,124 @@
+<fieldset>
+  <legend>出入库单列表</legend>
+  <div class="row">
+    <div class="medium-2 columns">
+      <input type="text" ng-model="iosSearch.invoice" placeholder="编号"/>
+    </div>
+    <div class="medium-2 columns">
+      <input type="text" ng-model="iosSearch.relation_invoice" placeholder="相关编号"/>
+    </div>
+    <div class="medium-2 columns">
+      <input type="text" name="item" ng-model="iosSearch.item" placeholder="SKU" typeahead="item as item.sku for item in itemLists| filter: {sku: $viewValue}| limitTo: 10" />
+    </div>
+    <div class="medium-3 columns">
+      <input type="text" ng-model="iosSearch.created_at_from" placeholder="从什么时候" jquery-ui-datepicker />
+    </div>
+    <div class="medium-3 columns">
+      <input type="text" ng-model="iosSearch.execed_at_to" placeholder="到什么时候" jquery-ui-datepicker />
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="medium-2 columns">
+      <select ng-model="iosSearch.type" ng-options="type.name group by type.category for type in typeLists">
+      </select>
+    </div>
+    <div class="medium-2 columns">
+      <select ng-model="iosSearch.status" ng-options="status.name for status in statusLists ">
+      </select>
+    </div>
+    <div class="medium-2 columns">
+      <select ng-model="iosSearch.warehouse" ng-options="warehouse.name for warehouse in warehouseLists">
+	<option value="">== 所有仓库 ==</option>
+      </select>
+    </div>
+    <div class="medium-2 columns left">
+      <input type="text" name="vendor" ng-model="iosSearch.vendor" placeholder="供应商" typeahead="vendor as vendor.name for vendor in vendorLists| filter: $viewValue| limitTo: 10" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="medium-8 columns">
+      <button type="button" class="button tiny" ng-click="paging.first()">搜索</button>
+      <button type="button" class="button tiny" ng-click="clean()">重置</button>
+    </div>
+  </div>
+</fieldset>
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th>Op</th>
+      <th>ID</th>
+      <th>出入库编号</th>
+      <th>相关编号</th>
+      <th>类别</th>
+      <th>仓库</th>
+      <th>是否出入库</th>
+      <th>创建人</th>
+      <th>创建时间</th>
+      <th>操作人</th>
+      <th>操作时间</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="io in ios">
+      <td><a href="" data-reveal-id="detailModal" ng-click="showDetailModal(io.id)"><i class="fi-eye"></i></a></td>
+      <td>{{ io.id }}</td>
+      <td>{{ io.invoice }}</td>
+      <td>{{ io.relation_invoice }}</td>
+      <td>{{ io.type }}</td>
+      <td>{{ io.warehouse_id }}</td>
+      <td>{{ io.status }}</td>
+      <td>{{ io.creat_agent }}</td>
+      <td>{{ io.created_at }}</td>
+      <td>{{ io.exec_agent }}</td>
+      <td>{{ io.execed_at }}</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <div class="pagination-centered">
+      <ul class="pagination columns medium-12">
+	<li ng-show="paging.hasPrePage()" class="arrow left columns medium-1"><a class="button" href="" ng-click="paging.goPrePage()">&laquo; Prev</a></li>
+	<div class="columns medium-10"></div>
+	<li ng-show="paging.hasNextPage()" class="arrow columns medium-1"><a class="button" href="" ng-click="paging.goNextPage()">Next  &raquo;</a></li>
+      </ul>
+    </div>
+  </tfoot>
+</table>
+
+<div id="detailModal" class="reveal-modal" data-reveal>
+  <fieldset>
+    <legend>搜索</legend>
+    <div class="row">
+      <div class="columns medium-6">
+	<input type="text" />
+      </div>
+      <div class="columns medium-3">
+	<input type="text" />
+      </div>
+      <div class="columns medium-3">
+	<input type="text" />
+      </div>
+    </div>
+  </fieldset>
+  <table width="100%">
+    <thead>
+      <tr>
+	<th>ID</th>
+	<th>SKU</th>
+	<th>数量</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="detail in ioDetails">
+	<td>{{ detail.id }}</td>
+	<td>{{ detail.item_id }}</td>
+	<td>{{ detail.qty }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <a class="close-reveal-modal">&#215;</a>
+
+</div>
