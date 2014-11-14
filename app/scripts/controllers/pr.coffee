@@ -7,9 +7,18 @@ angular.module('laravelUiApp')
     $scope.skus = $meta 'itemlist'
     $scope.status = $meta 'prstatuslist'
     $scope.types = $meta 'prtypelist'
+    $scope.platforms = $meta 'platformlist'
 
     Clazz = Meta.store('/api/purchase/request/:id', {id: '@id'})
     Detail = Meta.store '/api/purchase/requestDetail/:id', {id: '@id'}, {update: {method: 'PUT'}}
+      
+    initCreating = ->
+      $scope.creating = 
+        status: 'pending'
+        type: 'Shipment'
+        relation_id: 0
+
+    initCreating()
 
     $scope.toFilter = ->
       Clazz.query $scope.searchModel, (rtn) ->
@@ -23,14 +32,21 @@ angular.module('laravelUiApp')
           obj.details = rtn
 
     $scope.toCreate = ->
-        obj = new Clazz {id: 'new'}
-        obj.$get (rtn) ->
-          $scope.creating = rtn
-          $scope.minDate = new Date()
-          $('#createPanel').foundation('reveal', 'open')
+      $('#createPanel').foundation('reveal', 'open')
+      initCreating()
+      $scope.minDate = new Date()
+        # obj = new Clazz {id: 'new'}
+        # obj.$get (rtn) ->
+        #   $scope.creating = rtn
+        #   $scope.minDate = new Date()
+        #   $('#createPanel').foundation('reveal', 'open')
+
+    $scope.$watch 'creating.platform', ->
+      (new Clazz {id: 'new'}).$get {platform: $scope.creating.platform}, (rtn) ->
+        $scope.creating.invoice = rtn.invoice
 
     $scope.save = ->
-      $scope.creating.$save ->
+      (new Clazz $scope.creating).$save ->
         $('#viewPanel').foundation('reveal', 'close')
         $scope.toFilter()
 

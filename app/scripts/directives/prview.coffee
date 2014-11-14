@@ -30,7 +30,7 @@ angular.module('laravelUiApp')
         React.unmountComponentAtNode holder
   )
   .factory '$purchaseRequestView', ($filter, $label) ->
-    {div, select, option, span, h5, table, tr, td, a, b} = React.DOM
+    {div, select, option, span, h5, table, tr, td, th, a, b} = React.DOM
     React.createClass
       render: ->
         div {}, [
@@ -62,49 +62,49 @@ angular.module('laravelUiApp')
             ]
             tr {}, [
               td {className: 'title'}, '备注'
-              td {className: '', colSpan: 5}, @props.master.note
+              td {className: '', colSpan: 3}, @props.master.note
+              td {className: 'title'}, '渠道'
+              td {className: ''}, [
+                span {className: 'label success'}, @props.master.platform
+              ]
             ]
           ]
-          @props.details.map (d) =>
-            table {width: '100%'}, [
+          table {width: '100%'}, [
+            tr {}, [
+              th {className: 'title'}, 'SKU'
+              # th {className: 'title'}, '描述'
+              # th {className: 'title'}, '渠道'
+              th {className: 'title'}, '需求'
+              th {className: 'title'}, '分配'
+              th {className: 'title'}, 'ETA'
+              th {className: 'title'}, '运费'
+              th {className: 'title'}, 'SPQ'
+              th {className: 'title'}, '运输'
+              th {className: 'title'}, '备注'
+              # th {className: 'title'}, '创建日期'
+              # th {className: 'title'}, '修改日期'
+            ]
+            @props.details.map (d) =>
               tr {}, [
-                td {className: 'title'}, 'SKU'
                 td {className: ''}, d.item.sku
-                td {className: 'title'}, 'SKU描述'
-                td {className: ''}, d.item.description
-                td {className: 'title'}, '渠道'
-                td {className: ''}, [
-                  span {className: 'label success'}, d.platform.name
-                ]
-              ]
-              tr {}, [
-                td {className: 'title'}, '数量'
+                # td {className: ''}, d.item.description
+                # td {className: ''}, [
+                #   span {className: 'label success'}, d.platform.name
+                # ]
                 td {className: ''}, d.qty
-                td {className: 'title'}, 'ETA'
+                td {className: ''}, d.distribute_qty || 0
                 td {className: ''}, d.end_date
-                td {className: 'title'}, '估算运费'
                 td {className: ''}, [
                     b {}, $filter('fee') d.item, @props.master.warehouse_id, 'sea'
                     '/'
                     b {}, $filter('fee') d.item, @props.master.warehouse_id, 'air'
                   ]
-              ]
-              tr {}, [
-                td {className: 'title'}, 'SPQ'
                 td {className: ''}, d.item.spq?.spq
-                td {className: 'title'}, '运输方式'
                 td {className: ''}, d.transportation
-                td {className: 'title'}, '备注'
                 td {className: ''}, d.note
+                # td {className: ''}, d.created_at
+                # td {className: ''}, d.updated_at
               ]
-              tr {}, [
-                td {className: 'title'}, '实际分配数量'
-                td {className: ''}, d.distribute_qty || 0
-                td {className: 'title'}, '创建日期'
-                td {className: ''}, d.created_at
-                td {className: 'title'}, '修改日期'
-                td {className: ''}, d.updated_at
-              ]
-            ]
+          ]
           a {className: 'close-reveal-modal'}, "×"
         ]

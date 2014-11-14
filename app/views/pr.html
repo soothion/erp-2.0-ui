@@ -55,6 +55,7 @@
     <tr>
       <th></th>
       <th>申购单编号</th>
+      <th>渠道</th>
       <th title="需求仓库">目的仓</th>
       <th>类型</th>
       <th title="需求订单">关联ID</th>
@@ -79,6 +80,7 @@
         <a title="删除 " data-toggle="tooltip"  data-original-title="删除" href="javascript:;" ng-show="request.status =='pending'" ng-click="destory(request.id)"><i class="fi-trash" style="color: red;"></i></a>
       </td>
       <td>{{request.invoice}}</td>
+      <td><filter key="platformlist" id="request.platform_id"></filter></td>
       <td title="需求仓库"><filter key="whlist" id="request.warehouse_id"></filter></td>
       <td>{{request.type}}</td>             
       <td title="需求的Order ID">{{request.relation_id}}</td>
@@ -98,20 +100,23 @@
   <form name="creatingForm">
   <div class="row">
     <div class="columns medium-4">
-      <label>申购单编号</label>
-      <input type="text" name="invoice" ng-model="creating.invoice" class="form-control" required>
-    </div>
-    <div class="columns medium-4">
-      <label>类型</label>
-      <select name="type" class="form-control" ng-model="creating.type" ng-options="t.name as t.name for t in types" required ng-change="change()"></select> 
+      <label>申请渠道</label>
+      <select name="platform" class="form-control" ng-model="creating.platform" ng-options="p.id as p.name for p in platforms" required></select> 
     </div>
     <div class="columns medium-4">
       <label>目的仓</label>
       <select name="warehouse_id" ng-model="creating.warehouse_id" class="form-control" required ng-options="wh.id as wh.name for wh in warehouses"></select>
     </div>
+    <div class="columns medium-4">
+      <label class="control-label">审核过期时间</label>
+      <input name="expired_at" type="text" class="form-control" jquery-ui-datepicker ng-model="creating.expired_at" min-date="minDate" max-date="'2015-06-22'" ng-required="true" close-text="Close" />
+    </div>
   </div>
-
   <div class="row">
+    <div class="columns medium-4">
+      <label>类型</label>
+      <select name="type" class="form-control" ng-model="creating.type" ng-options="t.name as t.name for t in types" required ng-change="change()"></select> 
+    </div>
     <div class="columns medium-4">
       <label>关联ID</label>
       <input type="text" name="relation_id" ng-model="creating.relation_id" ng-pattern="/^\d{1,16}$/" class="form-control" required ng-disabled="creating.type=='Shipment' || creating.type=='Local'">
@@ -120,9 +125,12 @@
       <label>状态</label>
       <select name="status" ng-model="creating.status" class="form-control" ng-options="s.name as s.name for s in status" required disabled></select>
     </div>
+  </div>
+
+  <div class="row">
     <div class="columns medium-4">
-      <label class="control-label">审核过期时间</label>
-      <input name="expired_at" type="text" class="form-control" jquery-ui-datepicker ng-model="creating.expired_at" min-date="minDate" max-date="'2015-06-22'" ng-required="true" close-text="Close" />
+      <label>申购单编号</label>
+      <input type="text" name="invoice" ng-model="creating.invoice" class="form-control" required readonly>
     </div>
   </div>
 
