@@ -50,7 +50,7 @@ angular.module('laravelUiApp', [
 
       # item
       .when '/item/list',
-        templateUrl: 'views/itemList.html',
+        templateUrl: 'views/itemlist.html',
         controller: 'ItemlistCtrl'
 
       # request

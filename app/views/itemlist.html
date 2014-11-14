@@ -1,41 +1,67 @@
 <fieldset>
   <legend>产品信息管理</legend>
   <div class="row">
-    <div class="columns medium-4">
-      <input type="text" ng-model="kw" class="form-control" placeholder="SKU或描述信息">
+    <form ng-submit="search()">
+      <div class="columns medium-4">
+        <input type="text" ng-model="kw" class="form-control" placeholder="SKU或描述信息">
+      </div>
+      <div class="columns medium-4">
+      </div>
     </div>
-    <div class="columns medium-4">
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="columns medium-12">
-      <button class="button tiny" ng-click="search()"><i class="fi-zoom"></i>搜索</button>
-      <button class="button tiny success" ng-click="create()">手动新建SKU</button>
-      
-      <batch-upload label="批量上传产品" action="item-request" title="批量上传产品" params="{}"></batch-upload>
-      <batch-upload label="批量上传图片" action="item-image-request" title="批量上传图片" params="{}"></batch-upload>
+    <div class="row">
+      <div class="columns medium-12">
+        <button class="button tiny" ng-click="search()"><i class="fi-zoom"></i>搜索</button>
+        <button class="button tiny success" ng-click="create()" disabled="disabled">手动新建SKU</button>
+        
+        <batch-upload label="批量上传产品" action="item" title="批量上传产品" params="{}"></batch-upload>
+        <batch-upload label="批量上传图片" action="item-image" title="批量上传图片" params="{}"></batch-upload>
+      </div>
     </div>
-  </div>
+  </form>
 </fieldset>
 
 <table width="100%" ng-show="items">
   <thead>
     <tr>
+      <th>OP</th>
       <th>SKU</th>
       <th>DESC</th>
-      <th></th>
+      <th>Q</th>
+      <th>C-Q</th>
+      <th>R-Q</th>
+      <th>V-Q</th>
+      <th>T-P1</th>
+      <th>F-P</th>
+      <th>B-P</th>
+      <th>C-P</th>
+      <th>D-P</th>
+      <th>创建</th>
+      <th>状态</th>
     </tr>
   </thead>
   <tbody>
     <tr dir-paginate="item in items | itemsPerPage: 25" total-items="totalItems">
       <td>
-        <a href="javascript:;" item-view iid="item.id">{{item.sku}}</a>
         <a href="javascript:;" pr-view rid="request.id"><i class="fi-pencil"></i></a>
-        <a href="javascript:;" pr-view rid="request.id"><i class="fi-photo"></i></a>
+        <a href="javascript:;" pr-view rid="request.id"><i class="fi-camera"></i></a>
+        <a href="javascript:;" item-view iid="item.id"><i class="fi-magnifying-glass"></i></a>
+      </td>
+      <td>
+        {{item.sku}}
       </td>
       <td>{{item.description}}</td>
-      <td>{{tem.created_at}}</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>{{item.created_at}}</td>
+      <td>{{item.status}}</td>
     </tr>
   </tbody>
 </table>

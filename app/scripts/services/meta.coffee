@@ -29,6 +29,9 @@ angular.module('laravelUiApp')
       translist: key: 'meta.list.trans', url: '/api/item/meta/transportList'
       taxlist: key: 'meta.list.tax', url: '/api/item/meta/taxList'
 
+      # 产品模块
+      itemcatelist: key: 'meta.item.categories', url: '/api/item/categories'
+
       # 采购模块
       prstatuslist: key: 'meta.list.prstatus', url: '/api/item/meta/requestStatus'
       prtypelist: key: 'meta.list.prtypes', url: '/api/item/meta/requestTypes'

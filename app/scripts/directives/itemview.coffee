@@ -35,12 +35,14 @@ angular.module('laravelUiApp')
             tr {}, [
               th {}, 'SKU'
               td {}, @props.item.sku
-              th {}, '描述'
-              td {}, @props.item.description
               th {}, '产品类型'
               td {}, @props.item.category_id
               th {}, '产品状态'
-              td {}, @props.item.status
+              td {colSpan: 3}, @props.item.status
+            ]
+            tr {}, [
+              th {}, '描述'
+              td {colSpan: 7}, @props.item.description
             ]
             tr {}, [
               th {}, '产品-长(mm)'
