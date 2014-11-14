@@ -97,11 +97,13 @@
                 <li ng-class="{active: routeIs('/inventory/detail')}"><a href="#/inventory/detail">库存明细</a></li>-->
                 <li ng-class="{active: routeIs('/inventory/summary')}"><a href="#/inventory/summary">库存报表</a></li>
                 <li ng-class="{active: routeIs('/inventory/log')}"><a href="#/inventory/log">库存日志</a></li>
-                <li ng-class="{active: routeIs('/inventory/book')}"><a href="#/inventory/book">库存BOOK日志</a></li>
+                <li ng-class="{active: routeIs('/inventory/books')}"><a href="#/inventory/books">库存BOOK日志</a></li>
                 <li class="divider"></li>
                 <li class="disabled" ng-class="{active: routeIs('/inventory/allot')}"><a href="javascript:;">库存调拨</a></li><!--#/inventory/allot-->
                 <li class="disabled" ng-class="{active: routeIs('/inventory/allog')}"><a href="javascript:;">库存调拨日志</a></li><!--#/inventory/allog-->
                 <li class="divider"></li>
+		<li ng-class="{active: routeIs('/stock/allocation)}"><a href="#/stock/allocation">库存调拨申请</a></li>
+		<li ng-class="{active: routeIs('/stock/allocation/reply)}"><a href="#/stock/allocation/reply">库存调拨回复</a></li>
                 <li ng-class="{active: routeIs('/inventory/io')}"><a href="#/inventory/io">出入库明细报表</a></li>
                 <li ng-class="{active: routeIs('/inventory/balance')}"><a href="#/inventory/balance">仓库出入库平衡表</a></li>
                 <li class="divider"></li>
@@ -126,13 +128,13 @@
                     <li class="divider"></li>               
                     <li ng-class="{active: routeIs('/warehouse/counting')}"><a href="#/warehouse/counting">仓库盘点</a></li>                    
                     <li ng-class="{active: routeIs('/warehouse/rmaList')}"><a href="#/warehouse/rmaList">RMA回库</a></li>
-                    <li ng-class="{active: routeIs('/warehouse/dispatch')}"><a href="#/warehouse/dispatch">仓库调度</a></li>
+                    <li ng-class="{active: routeIs('/stock/shipment)}"><a href="#/stock/shipment">仓库调度</a></li>
 
 	                <li class="divider"></li>
 	                <li ng-class="{active: routeIs('/stock/purchase/lists')}"><a href="#/stock/purchase/lists">待采购入库单</a></li>
 
 	                <li class="divider"></li>
-	                <li ng-class="{active: routeIs('/stock/io/lists')}"><a href="#/stock/io/lists">出入库单日志</a></li>
+	                <li ng-class="{active: routeIs('/stock/io/lists')}"><a href="#/stock/io">出入库单日志</a></li>
                 </ul>
             </li>
 

@@ -208,9 +208,11 @@
   </table>
 
   <div class="row">
-    <div class="columns medium-3">
+    <div class="columns medium-4">
       <button ng-click="modShipmentBtn()" ng-show="shipmentDetails.length != 0" class="button tiny">修改</button>
+      <batch-upload label="上传" action="stock-shipment" title="上传" params="{shipment_id: masterId}"></batch-upload>
     </div>
+
   </div>
   <a class="close-reveal-modal">&#215;</a>
 </div>
