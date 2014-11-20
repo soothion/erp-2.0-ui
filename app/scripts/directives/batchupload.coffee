@@ -15,8 +15,9 @@ angular.module('laravelUiApp')
     }
     link: (scope, element, attrs) ->
       open = ->
-        $('form[name=batch-upload-form]')[0].reset()
-        $('#mainModal').foundation 'reveal', 'open'
+        $('form[name=batch-upload-form]').each ->
+          this.reset()
+        $('#mainModal_' + scope.action).foundation 'reveal', 'open'
         load()
 
       load = ->
@@ -25,7 +26,7 @@ angular.module('laravelUiApp')
 
       scope.showlog = (errors) ->
         # FIXME: 不应该用ID索引，如两个以上时ID会冲突
-        $('#errorModal').foundation 'reveal', 'open'
+        $('#errorModal_' + scope.action).foundation 'reveal', 'open'
         scope.errorHolder = errors
 
       scope.save = ($files) -> 
@@ -47,7 +48,7 @@ angular.module('laravelUiApp')
 
     <button class=\"button tiny success\">{{label}}</button>
 
-    <div id=\"errorModal\" class=\"reveal-modal\" data-reveal>
+    <div id=\"errorModal_{{action}}\" class=\"reveal-modal\" data-reveal>
       <h5>错误日志.</h5>
       <table width=\"100%\">
         <thead>
@@ -68,7 +69,7 @@ angular.module('laravelUiApp')
       <a class=\"close-reveal-modal\">&#215;</a>
     </div>
 
-    <div id=\"mainModal\" class=\"reveal-modal\" data-reveal>
+    <div id=\"mainModal_{{action}}\" class=\"reveal-modal\" data-reveal>
       <h5>{{title}}</h5>
       <fieldset>
         <legend>请选择文件上传</legend>
@@ -87,8 +88,7 @@ angular.module('laravelUiApp')
       <table width=\"100%\" ng-show=\"logs\">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>上传时间</th>
+            <th>ID</th>            <th>上传时间</th>
             <th>上传者</th>
             <th>文件名</th>
             <th>总数据</th>
