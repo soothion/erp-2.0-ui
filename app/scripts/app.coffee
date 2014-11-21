@@ -86,6 +86,26 @@ angular.module('laravelUiApp', [
         templateUrl: 'views/pvd.html'
         controller: 'PvdCtrl'
 
+      # ship
+      .when '/ship/import',
+        templateUrl: 'views/ship/order/import.html'
+        controller: 'OrderImportCtrl'      
+      .when '/ship/mapping',
+        templateUrl: 'views/ship/order/mapping.html'
+        controller: 'OrderMappingCtrl'      
+      .when '/ship/cron',
+        templateUrl: 'views/ship/order/cron.html'
+        controller: 'OrderCronCtrl'      
+      .when '/ship/analyzing',
+        templateUrl: 'views/ship/order/analyzing.html'
+        controller: 'OrderAnalyzingCtrl'      
+      .when '/ship/query',
+        templateUrl: 'views/ship/order/query.html'
+        controller: 'OrderQueryCtrl'
+      # .when '/ship/mapping/edit/:id',
+      #   templateUrl: 'views/ship/order/mappingEdit.html'
+      #   controller: 'OrderMappingCtrl'
+      
       # order
       .when '/purchase/order/exec',
         templateUrl: 'views/poec.html'

@@ -154,9 +154,11 @@
             <li class="has-dropdown" ng-class="{active: routeIs('/ship')}">
                 <a href="#">发货</a>
                 <ul class="dropdown">
-                    <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">Prepare Orders</a></li>
-                    <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">Packing List</a></li>
-                    <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">Labels</a></li>
+                    <li ng-class="{active: routeIs('/ship/import')}"><a href="#/ship/import">订单上传</a></li>
+                    <li ng-class="{active: routeIs('/ship/query')}"><a href="#/ship/query">订单查询</a></li>
+                    <li ng-class="{active: routeIs('/ship/analyzing')}"><a href="#/ship/analyzing">订单统计</a></li>
+                    <li ng-class="{active: routeIs('/ship/mapping')}"><a href="#/ship/mapping">Mapping规则</a></li>
+                    <li ng-class="{active: routeIs('/ship/cron')}"><a href="#/ship/cron">Cron管理</a></li>
                     <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">Tracking</a></li>
                     <li class="divider"></li>
                     <li ng-class="{active: routeIs('/ship')}"><a href="#/ship">Prepare规则</a></li>
@@ -272,11 +274,12 @@
     <script src="scripts/controllers/pvq.js"></script>
     <script src="scripts/controllers/pv.js"></script>
 
-	<script src="scripts/controllers/purchase/order/lists.js"></script>
-	<script src="scripts/controllers/purchase/order/show.js"></script>
+  	<script src="scripts/controllers/purchase/order/lists.js"></script>
+  	<script src="scripts/controllers/purchase/order/show.js"></script>
     <script src="scripts/controllers/inventory/inventory/nowday.js"></script>
     <script src="scripts/controllers/inventory/log/allocations.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="scripts/controllers/inventory/log/books.js"></script>
+
     <script src="scripts/controllers/inventory/log/changes.js"></script>
     <script src="scripts/controllers/stock/purchase/lists.js"></script>
     <script src="scripts/controllers/stock/purchase/show.js"></script>
@@ -284,8 +287,14 @@
     <script src="scripts/controllers/stock/allocation/replys.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="scripts/controllers/stock/shipment/index.js"></script>
     <script type="text/javascript" src="scripts/controllers/stock/io/index.js"></script>
+
     <script src="scripts/controllers/stock/io/lists.js"></script>
     <script src="scripts/controllers/stock/io/show.js"></script>
+    <script src="scripts/controllers/ship/order/import.js"></script>
+    <script src="scripts/controllers/ship/order/mapping.js"></script>
+    <script src="scripts/controllers/ship/order/cron.js"></script>
+    <script src="scripts/controllers/ship/order/analyzing.js"></script>
+    <script src="scripts/controllers/ship/order/query.js"></script>
     <script src="scripts/services/paging.js"></script>
     <script src="scripts/controllers/pvd.js"></script>
     <script src="scripts/directives/jqueryuidatepicker.js"></script>

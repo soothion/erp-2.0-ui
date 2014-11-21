@@ -1,0 +1,28 @@
+<fieldset>
+	<legend>订单导入</legend>
+	  <div class="row">
+	    <div class="columns medium-6">
+	      <select name="platform" class="form-control" ng-model="search.platform" required>
+	        <option value="amazon">Amazon</option>          
+	        <option value="ebay">Ebay</option>          
+	        <option value="buy">Buy</option>         
+	        <option value="newegg">Newegg</option>         
+	      </select>
+	    </div>
+
+	    <div class="columns medium-6">
+	      <select name="channel" class="form-control" ng-model="search.channel_id" required>            
+	        <option value="1">de-iclever</option>               
+	        <option value="2">new-egg</option>               
+	      </select>
+	    </div>
+	  </div>  
+	
+    <div class="row">
+	    <div class="columns medium-12">
+		      <batch-upload label="订单上传" action="order-import" title="订单上传" params="{platform: search.platform,channel: search.channel_id}"></batch-upload>
+	    </div>
+    </div>
+
+</fieldset>
+       
