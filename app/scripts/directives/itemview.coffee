@@ -26,7 +26,7 @@ angular.module('laravelUiApp')
 
   )
   .factory '$itemView', ($filter, $label) ->
-    {div, h5, dl, dd, a, table, tr, td, th} = React.DOM
+    {div, h5, dl, dd, a, table, tr, td, th, ul, li, img} = React.DOM
     React.createClass
       render: ->
         div {}, [
@@ -85,6 +85,17 @@ angular.module('laravelUiApp')
               td {}, ''
             ]            
           ]
+          table {width: '100%'}, [
+            (i for i in [1..Math.ceil(@props.item.images.length / 4)]).map (row) =>
+              tr {}, [
+                @props.item.images.slice((row-1)*4, row*4).map (i) =>
+                  td {}, [
+                    a {className: 'th radius', title: i.desc, href: '/api/images/item/' + i.id + '/original', target: '_blank'}, [
+                      img {src: '/api/images/item/' + i.id + '/thumb'}, ''
+                    ]
+                  ]
+              ]
+          ] if @props.item.images.length 
           table {width: '100%'}, [
             tr {}, [
               th {}, '中文海关描述'
