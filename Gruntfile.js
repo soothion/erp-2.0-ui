@@ -3,7 +3,7 @@
 
 // # Globbing
 // for performance reasons we're only matching one level down:
-// 'test/spec/**/*.js'
+// 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
@@ -30,7 +30,7 @@ module.exports = function (grunt) {
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       coffee: {
-        files: ['<%= yeoman.app %>/scripts/{,*/,*/*/*/}*.{coffee,litcoffee,coffee.md}'],
+        files: ['<%= yeoman.app %>/scripts/**/*.{coffee,litcoffee,coffee.md}'],
         tasks: ['newer:coffee:dist']
       },
       coffeeTest: {
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
         tasks: ['newer:coffee:test', 'karma']
       },
       // styles: {
-      //   files: ['<%= yeoman.app %>/styles/**/*.css'],
+      //   files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
       //   tasks: ['newer:copy:styles', 'autoprefixer']
       // },
       compass: {
@@ -216,7 +216,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/scripts',
-          src: '{,*/,*/*/*/}*.coffee',
+          src: '**/*.coffee',
           dest: '.tmp/scripts',
           ext: '.js'
         }]
@@ -385,8 +385,8 @@ module.exports = function (grunt) {
     //   dist: {
     //     files: {
     //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/**/*.css',
-    //         '<%= yeoman.app %>/styles/**/*.css'
+    //         '.tmp/styles/{,*/}*.css',
+    //         '<%= yeoman.app %>/styles/{,*/}*.css'
     //       ]
     //     }
     //   }

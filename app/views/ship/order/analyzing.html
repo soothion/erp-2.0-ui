@@ -1,0 +1,65 @@
+<fieldset>
+  <legend>订单统计</legend>
+  <div class="row">
+    <div class="columns medium-6">
+      <select name="platform" class="form-control" ng-model="search.platform" required>
+        <option value="">--渠道--</option>          
+        <option value="amazon">Amazon</option>          
+        <option value="ebay">Ebay</option>          
+        <option value="chargeby">ChargeBy</option>         
+      </select>
+    </div>
+
+    <div class="columns medium-6">
+      <input type="text" class="form-control" ng-model="search.sku" placeholder="sku"/>
+    </div>
+  </div>  
+
+  <div class="row">
+    <div class="columns medium-6">
+        <input type="text" name="from" ng-model="search.from" class="form-control" jquery-ui-datepicker placeholder="从什么时候">
+    </div>
+    <div class="columns medium-6">
+        <input type="text" name="to" ng-model="search.to" class="form-control" jquery-ui-datepicker placeholder="到什么时候">
+    </div>
+  </div>
+  
+    <div class="row">
+    <ng-form name="group">
+      <div class="columns medium-12">
+        <a class="button tiny"  ng-click="load('sku')" ng-class="{success:search.group == 'sku'}">按sku统计</a>        
+        <a class="button tiny"  ng-click="load('date')" ng-class="{success:search.group == 'date'}">按日期统计</a>        
+
+      </div>
+    </ng-form>
+    </div>
+
+</fieldset>
+
+
+<table width="100%" ng-show="list">
+  <thead>
+    <tr>
+      <th ng-show="search.group=='sku'">sku</th>
+      <th>日期</th>
+      <th>客单价</th>
+      <th>客件数</th>
+      <th>总件数</th>
+      <th>总销售额</th>
+      <th>总订单数</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="data in list|orderBy:'date'">
+      <td ng-show="search.group=='sku'">{{data.sku}}</td>
+      <td>{{data.date}}</td>
+      <td>{{data.priceTotal/data.orderTotal | number:2}}</td>
+      <td>{{data.skuTotal/data.orderTotal | number:2}}</td>
+      <td>{{data.skuTotal}}</td>             
+      <td>{{data.priceTotal | number:2}}</td>             
+      <td>{{data.orderTotal}}</td>             
+                          
+    </tr>   
+  </tbody>
+</table>
+

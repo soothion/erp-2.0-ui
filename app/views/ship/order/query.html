@@ -1,0 +1,356 @@
+<fieldset>
+    <legend>订单查询</legend>
+    <div class="row">
+        <div class="columns medium-6">
+            <input type="text" name="id" ng-model="search.id" class="form-control" placeholder="order id">
+        </div>
+        <div class="columns medium-6">
+            <input type="text" name="third_party_order_id" ng-model="search.third_party_order_id" class="form-control" placeholder="third party order id">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns medium-6">
+            <select name="platform" class="form-control" ng-model="search.channel_id" required>
+                <option value="">--渠道--</option>
+                <option value="1">Amazon</option>
+                <option value="2">Ebay</option>
+                <option value="3">ChargeBy</option>
+            </select>
+        </div>
+
+        <div class="columns medium-6">
+            <input type="text" class="form-control" ng-model="search.sku" placeholder="sku" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns medium-6">
+            <select name="platform" class="form-control" ng-model="search.warehouse_id" required>
+                <option value="">--仓库--</option>
+                <option value="1">DE</option>
+                <option value="2">US</option>
+                <option value="3">UK</option>
+            </select>
+        </div>
+
+        <div class="columns medium-6">
+            <select name="platform" class="form-control" ng-model="search.status" required>
+                <option value="">--状态--</option>
+                <option value="pending">pending</option>
+                <option value="shipped">shipped</option>
+                <option value="closed">closed</option>
+                <option value="cancer">cancer</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns medium-6">
+            <input type="text" name="from" ng-model="search.from" class="form-control" jquery-ui-datepicker placeholder="从什么时候">
+        </div>
+        <div class="columns medium-6">
+            <input type="text" name="to" ng-model="search.to" class="form-control" jquery-ui-datepicker placeholder="到什么时候">
+        </div>
+    </div>
+
+    <div class="row">
+        <ng-form name="group">
+            <div class="columns medium-12">
+                <a class="button tiny" ng-click="load()">查找</a>
+                <a class="button tiny success" ng-click="create()">添加</a>
+            </div> 
+        </ng-form>
+    </div>
+
+</fieldset>
+
+
+<table width="100%">
+    <thead>
+        <tr>
+            <th><a href="javascript:;" ng-click="create()"><i class="fi-plus"></i></th>
+            <th>ID</th>
+            <th>Created</th>
+            <th>Channel</th>
+            <th>Warehouse</th>
+            <th>3rd Party Order Id</th>
+            <th>fulfillment_channel</th>
+            <th>shipping_level</th>
+            <th>status</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="data in list|orderBy:'id'">
+            <td>
+                <!-- 修改 -->
+                <a title="修改 " data-toggle="tooltip" data-original-title="修改" ng-click="edit(data)"><i class="fi-pencil"></i></a> 
+                <!-- 删除 -->
+                <a title="删除 " data-toggle="tooltip" data-original-title="删除" href="javascript:;" ng-click="remove(data)"><i class="fi-trash"></i></a>
+            </td>
+            <td>{{data.id}}</td>
+            <td>{{data.created_at}}</td>
+            <td>{{data.channel_id}}</td>
+            <td>{{data.warehouse_id}}</td>
+            <td>{{data.third_party_order_id}}</td>
+            <td>{{data.fulfillment_channel}}</td>
+            <td>{{data.shipping_level}}</td>
+            <td>{{data.status}}</td>
+
+        </tr>
+    </tbody>
+</table>
+
+
+<div id="model" class="reveal-modal" data-reveal>
+    <h5 class="ng-binding"></h5>
+    <div class="button-bar">
+        <ul class="button-group">
+            <li><a btn-radio="'order'" ng-model="tab" ng-class="{success: tab == 'order'}" class="small  button secondary">订单信息</a>
+            </li>
+            <li><a btn-radio="'detail'" ng-model="tab" ng-class="{success: tab == 'detail'}" class="small  button secondary">sku列表</a>
+            </li>
+            <li><a btn-radio="'customer'" ng-model="tab" ng-class="{success: tab == 'customer'}" class="small  button secondary">客户信息</a>
+            </li>
+        </ul>
+    </div>
+    <fieldset ng-show="tab=='order'">
+        <legend>订单信息</legend>
+        <div class="row">
+            <div class="columns medium-3">
+                <label>channel_id</label>
+                <input type="text" class="form-control" placeholder="channel" ng-model="model.channel_id" />
+            </div>
+            <div class="columns medium-3">
+                <label>warehouse_id</label>
+                <input type="text" class="form-control" placeholder="warehouse_id" ng-model="model.warehouse_id" />
+            </div>
+            <div class="columns medium-3">
+                <label>third_party_order_id</label>
+                <input type="text" class="form-control" placeholder="third_party_order_id" ng-model="model.third_party_order_id" />
+            </div>
+            <div class="columns medium-3">
+                <label>fulfillment_channel</label>
+                <input type="text" class="form-control" placeholder="fulfillment_channel" ng-model="model.fulfillment_channel" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns medium-3">
+                <label>order_status</label>
+                <input type="text" class="form-control" placeholder="order_status" ng-model="model.order_status" />
+            </div>
+            <div class="columns medium-3">
+                <label>payment_method</label>
+                <input type="text" class="form-control" placeholder="payment_method" ng-model="model.payment_method" />
+            </div>
+            <div class="columns medium-3">
+                <label>payment_status</label>
+                <input type="text" class="form-control" placeholder="payment_status" ng-model="model.payment_status" />
+            </div>
+            <div class="columns medium-3">
+                <label>shipping_status</label>
+                <input type="text" class="form-control" placeholder="shipping_status" ng-model="model.shipping_status" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns medium-3">
+                <label>currency</label>
+                <input type="text" class="form-control" placeholder="currency" ng-model="model.currency" />
+            </div>
+            <div class="columns medium-3">
+                <label>shipping_charge</label>
+                <input type="text" class="form-control" placeholder="shipping_charge" ng-model="model.shipping_charge" />
+            </div>
+            <div class="columns medium-3">
+                <label>discount</label>
+                <input type="text" class="form-control" placeholder="discount" ng-model="model.discount" />
+            </div>
+            <div class="columns medium-3">
+                <label>discount_type</label>
+                <input type="text" class="form-control" placeholder="discount_type" ng-model="model.discount_type" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns medium-3">
+                <label>note</label>
+                <input type="text" class="form-control" placeholder="note" ng-model="model.note" />
+            </div>
+            <div class="columns medium-3">
+                <label>mailclass_id</label>
+                <input type="text" class="form-control" placeholder="mailclass_id" ng-model="model.mailclass_id" />
+            </div>
+            <div class="columns medium-3">
+                <label>shipping_level</label>
+                <input type="text" class="form-control" placeholder="shipping_level" ng-model="model.shipping_level" />
+            </div>
+            <div class="columns medium-3">
+                <label>status</label>
+                <input type="text" class="form-control" placeholder="status" ng-model="model.status" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns medium-12">
+                <button class="button tiny success" ng-click="save()">保存</button>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset ng-show="tab=='detail'">
+        <legend>sku列表</legend>
+
+
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th><a href="javascript:;" ng-click="createSku()"><i class="fi-plus"></i></a>
+                    </th>
+                    <th>sku</th>
+                    <th>quantity</th>
+                    <th>sales_price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in detail">
+                    <form name="skuForm" novalidate>
+                        <td>
+                            <a title="保存" href="javascript:;" ng-click="updateSku(sku, quantity, sales_price, item)"><i class="fi-check" ng-show="model.id && (sku.$dirty || quantity.$dirty || sales_price.$dirty)"></i></a>
+                            <a title="取消" href="javascript:;" ng-click="cancelSku(sku, quantity, sales_price, $index)"><i class="fi-refresh" ng-show="model.id && (sku.$dirty || quantity.$dirty || sales_price.$dirty)"></i></a>
+
+                            <a title="删除" href="javascript:;" ng-click="removeSku($index)"><i class="fi-trash"></i></a>
+                        </td>
+                        <td>
+                            <ng-form name="sku">
+                                <input type="text" ng-model="item.sku" placeholder="sku">
+                            </ng-form>
+                        </td>
+                        <td>
+                            <ng-form name="quantity">
+                                <input type="text" ng-model="item.quantity" placeholder="quantity">
+                            </ng-form>
+                        </td>
+                        <td>
+                            <ng-form name="sales_price">
+                                <input type="text" ng-model="item.sales_price" placeholder="sales_price">
+                            </ng-form>    
+                        </td>
+                    </form>
+                </tr>
+            </tbody>
+        </table>
+
+    </fieldset>
+    <fieldset ng-show="tab=='customer'">
+        <legend>客户信息</legend>
+        <div class="row">
+            <div class="columns medium-3">
+                <label>first_name</label>
+                <input type="text" class="form-control" placeholder="first_name" ng-model="customer.first_name" />
+            </div>
+            <div class="columns medium-3">
+                <label>last_name</label>
+                <input type="text" class="form-control" placeholder="last_name" ng-model="customer.last_name" />
+            </div>
+            <div class="columns medium-3">
+                <label>customer_email</label>
+                <input type="text" class="form-control" placeholder="customer_email" ng-model="customer.customer_email" />
+            </div>
+            <div class="columns medium-3">
+                <label>paypal_email</label>
+                <input type="text" class="form-control" placeholder="paypal_email" ng-model="customer.paypal_email" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns medium-3">
+                <label>shipping_address1</label>
+                <input type="text" class="form-control" placeholder="shipping_address1" ng-model="customer.shipping_address1" />
+            </div>
+            <div class="columns medium-3">
+                <label>shipping_address2</label>
+                <input type="text" class="form-control" placeholder="shipping_address2" ng-model="customer.shipping_address2" />
+            </div>
+            <div class="columns medium-3">
+                <label>shipping_city</label>
+                <input type="text" class="form-control" placeholder="shipping_city" ng-model="customer.shipping_city" />
+            </div>
+            <div class="columns medium-3">
+                <label>shipping_state</label>
+                <input type="text" class="form-control" placeholder="shipping_state" ng-model="customer.shipping_state" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns medium-3">
+                <label>shipping_zip</label>
+                <input type="text" class="form-control" placeholder="shipping_zip" ng-model="customer.shipping_zip" />
+            </div>
+            <div class="columns medium-3">
+                <label>shipping_country</label>
+                <input type="text" class="form-control" placeholder="shipping_country" ng-model="customer.shipping_country" />
+            </div>
+            <div class="columns medium-3">
+                <label>shipping_province</label>
+                <input type="text" class="form-control" placeholder="shipping_province" ng-model="customer.shipping_province" />
+            </div>
+            <div class="columns medium-3">
+                <label>shipping_phone</label>
+                <input type="text" class="form-control" placeholder="shipping_phone" ng-model="customer.shipping_phone" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns medium-3">
+                <label>billing_address1</label>
+                <input type="text" class="form-control" placeholder="billing_address1" ng-model="customer.billing_address1" />
+            </div>
+            <div class="columns medium-3">
+                <label>billing_address2</label>
+                <input type="text" class="form-control" placeholder="billing_address2" ng-model="customer.billing_address2" />
+            </div>
+            <div class="columns medium-3">
+                <label>billing_city</label>
+                <input type="text" class="form-control" placeholder="billing_city" ng-model="customer.billing_city" />
+            </div>
+            <div class="columns medium-3">
+                <label>billing_state</label>
+                <input type="text" class="form-control" placeholder="billing_state" ng-model="customer.billing_state" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns medium-3">
+                <label>billing_zip</label>
+                <input type="text" class="form-control" placeholder="billing_zip" ng-model="customer.billing_zip" />
+            </div>
+            <div class="columns medium-3">
+                <label>billing_country</label>
+                <input type="text" class="form-control" placeholder="billing_country" ng-model="customer.billing_country" />
+            </div>
+            <div class="columns medium-3">
+                <label>billing_province</label>
+                <input type="text" class="form-control" placeholder="billing_province" ng-model="customer.billing_province" />
+            </div>
+            <div class="columns medium-3">
+                <label>billing_phone</label>
+                <input type="text" class="form-control" placeholder="billing_phone" ng-model="customer.billing_phone" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns medium-3">
+                <label>ebay_id</label>
+                <input type="text" class="form-control" placeholder="ebay_id" ng-model="customer.ebay_id" />
+            </div>
+            <div class="columns medium-3">
+                <label>ups_account</label>
+                <input type="text" class="form-control" placeholder="ups_account" ng-model="customer.ups_account" />
+            </div>
+            <div class="columns medium-3">
+                <label>ups_third_party_id</label>
+                <input type="text" class="form-control" placeholder="ups_third_party_id" ng-model="customer.ups_third_party_id" />
+            </div>
+            <div class="columns medium-3"></div>
+        </div>
+        <div class="row">
+            <div class="columns medium-12">
+                <button class="button tiny success" ng-click="save()">保存</button>
+            </div>
+        </div>
+    </fieldset>
+    <a class="close-reveal-modal">&#215;</a>
+</div>

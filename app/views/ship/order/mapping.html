@@ -1,0 +1,87 @@
+<fieldset>
+  <legend>Mapping规则</legend>
+  <div class="row">
+    <div class="columns medium-6">
+      <select name="platform" class="form-control" ng-model="search.platform" required>
+          <option value="amazon">Amazon</option>          
+          <option value="ebay">Ebay</option>          
+          <option value="buy">Buy</option>         
+          <option value="newegg">Newegg</option>        
+      </select>
+    </div>
+
+    <div class="columns medium-6">
+      <select name="channel" class="form-control" ng-model="search.type" required>
+        <option value="sku">Sku</option>         
+        <option value="order">Order</option>         
+      </select>
+    </div>
+  </div>  
+  
+    <div class="row">
+      <div class="columns medium-12">
+        <button class="button tiny" ng-click="load()">搜索</button>
+        <button class="button tiny success" ng-click="create()">添加规则</button>
+      </div>
+    </div>
+
+</fieldset>
+
+
+<table width="100%" ng-show="mappingList">
+  <thead>
+    <tr>
+      <th>操作</th>
+      <th>ID</th>
+      <th>平台</th>
+      <th>类型</th>
+      <th>原始值(第三方)</th>
+      <th>映射值（ERP）</th>
+      <th>排序</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="mapping in mappingList | orderBy:'sort'">
+      <td>
+        <!-- 修改 -->
+        <a title="修改 " data-toggle="tooltip" data-original-title="修改" ng-click="edit(mapping)"><i class="fi-pencil"></i></a>        
+        <!-- 删除 -->
+        <a title="删除 " data-toggle="tooltip"  data-original-title="删除" href="javascript:;"  ng-click="remove(mapping)"><i class="fi-trash"></i></a>
+      </td>
+      <td>{{mapping.id}}</td>
+      <td>{{mapping.platform}}</td>             
+      <td>{{mapping.type}}</td>             
+      <td>{{mapping.third_party}}</td>             
+      <td>{{mapping.erp}}</td>             
+      <td>{{mapping.sort}}</td>             
+    </tr>
+  </tbody>
+</table>
+
+
+<div id="model" class="reveal-modal" data-reveal>
+  <h5 class="ng-binding"></h5>
+  <fieldset>
+  <legend>Mapping规则</legend>
+  <div class="row">
+    <div class="columns medium-4">
+       <input type="text" class="form-control" placeholder="原始值" ng-model="model.third_party"/>
+    </div>
+
+    <div class="columns medium-4">
+      <input type="text" class="form-control" placeholder="映射值" ng-model="model.erp"/>
+    </div>
+
+    <div class="columns medium-4">
+      <input type="text" class="form-control" placeholder="排序" ng-model="model.sort"/>
+    </div>
+  </div>  
+  
+  <div class="row">
+    <div class="columns medium-12">
+      <button class="button tiny success" ng-click="save()">保存</button>
+    </div>
+  </div>
+</fieldset>
+    <a class="close-reveal-modal">&#215;</a>
+</div>

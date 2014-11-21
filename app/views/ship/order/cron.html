@@ -1,0 +1,83 @@
+<fieldset>
+  <legend>Cron管理</legend>
+  <div class="row">
+    <div class="columns medium-6">
+      <select name="platform" class="form-control" ng-model="search.platform" required>
+        <option value="amazon">Amazon</option>          
+        <option value="ebay">Ebay</option>          
+        <option value="chargeby">ChargeBy</option>         
+      </select>
+    </div>
+
+    <div class="columns medium-6">
+      <select name="channel" class="form-control" ng-model="search.channel_id" required>            
+        <option value="1">de-iclever</option>               
+        <option value="2">new-egg</option>               
+      </select>
+    </div>
+  </div>  
+  
+    <div class="row">
+      <div class="columns medium-12">
+        <button class="button tiny" ng-click="load()">搜索</button>
+        <button class="button tiny success" ng-click="create()">添加Cron</button>
+      </div>
+    </div>
+
+</fieldset>
+
+
+<table width="100%" ng-show="list">
+  <thead>
+    <tr>
+      <th>操作</th>
+      <th>ID</th>
+      <th>平台</th>
+      <th>渠道</th>
+      <th>运行间隔</th>
+      <th>上次运行</th>
+      <th>下次运行</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="cron in list">
+      <td>
+        <!-- 修改 -->
+        <a title="修改 " data-toggle="tooltip" data-original-title="修改" ng-click="edit(cron)"><i class="fi-pencil"></i></a>        
+        <!-- 删除 -->
+        <a title="删除 " data-toggle="tooltip"  data-original-title="删除" href="javascript:;"  ng-click="remove(cron)"><i class="fi-trash"></i></a>
+      </td>
+      <td>{{cron.id}}</td>
+      <td>{{cron.platform}}</td>             
+      <td>{{cron.channel_id}}</td>             
+      <td>{{cron.interval}}分钟</td>             
+      <td>{{cron.last*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>             
+      <td>{{cron.next*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>             
+    </tr>
+  </tbody>
+</table>
+
+
+<div id="model" class="reveal-modal" data-reveal>
+  <h5 class="ng-binding"></h5>
+  <fieldset>
+  <legend>Cron管理</legend>
+  <div class="row">
+    <div class="columns medium-4" ng-repeat="(k,v) in model.config">
+       <label>{{k}}</label>
+       <input type="text" class="form-control" placeholder="{{k}}" ng-model="model.config[k]"/>
+    </div>  
+
+    <div class="columns medium-4">
+       <label>运行间隔(分钟)</label>
+       <input type="text" class="form-control" placeholder="运行间隔" ng-model="model.interval"/>
+    </div>  
+  
+  <div class="row">
+    <div class="columns medium-12">
+      <button class="button tiny success" ng-click="save()">保存</button>
+    </div>
+  </div>
+</fieldset>
+    <a class="close-reveal-modal">&#215;</a>
+</div>
