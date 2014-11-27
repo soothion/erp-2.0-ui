@@ -6,10 +6,13 @@ angular.module('laravelUiApp')
     Clazz = Meta.store('/api/ship/query/order/:id', {id: '@id'})
     Detail = Meta.store('/api/ship/query/detail/:id', {id: '@id'})
     Customer = Meta.store('/api/ship/query/customer/:id', {id: '@id'})
+    Account = Meta.store('/api/ship/query/cron')
 
     $scope.init = ->
       $scope.list = []
       $scope.tab = 'order'
+      Account.query (rtn) ->
+        $scope.accountList = rtn
 
     $scope.init()
 

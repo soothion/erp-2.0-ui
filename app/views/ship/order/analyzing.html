@@ -28,7 +28,8 @@
     <ng-form name="group">
       <div class="columns medium-12">
         <a class="button tiny"  ng-click="load('sku')" ng-class="{success:search.group == 'sku'}">按sku统计</a>        
-        <a class="button tiny"  ng-click="load('date')" ng-class="{success:search.group == 'date'}">按日期统计</a>        
+        <a class="button tiny"  ng-click="load('day')" ng-class="{success:search.group == 'day'}">按天统计</a>            
+        <a class="button tiny"  ng-click="load('month')" ng-class="{success:search.group == 'month'}">按月统计</a>     
 
       </div>
     </ng-form>
@@ -41,7 +42,7 @@
   <thead>
     <tr>
       <th ng-show="search.group=='sku'">sku</th>
-      <th>日期</th>
+      <th ng-show="search.group!='sku'">日期</th>
       <th>客单价</th>
       <th>客件数</th>
       <th>总件数</th>
@@ -52,7 +53,7 @@
   <tbody>
     <tr ng-repeat="data in list|orderBy:'date'">
       <td ng-show="search.group=='sku'">{{data.sku}}</td>
-      <td>{{data.date}}</td>
+      <td ng-show="search.group!='sku'">{{data.date}}</td>
       <td>{{data.priceTotal/data.orderTotal | number:2}}</td>
       <td>{{data.skuTotal/data.orderTotal | number:2}}</td>
       <td>{{data.skuTotal}}</td>             

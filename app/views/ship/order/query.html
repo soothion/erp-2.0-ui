@@ -1,16 +1,19 @@
 <fieldset>
     <legend>订单查询</legend>
     <div class="row">
-        <div class="columns medium-6">
+        <div class="columns medium-4">
             <input type="text" name="id" ng-model="search.id" class="form-control" placeholder="order id">
         </div>
-        <div class="columns medium-6">
+        <div class="columns medium-4">
             <input type="text" name="third_party_order_id" ng-model="search.third_party_order_id" class="form-control" placeholder="third party order id">
+        </div>
+        <div class="columns medium-4">
+            <input type="text" class="form-control" ng-model="search.sku" placeholder="sku" />
         </div>
     </div>
 
     <div class="row">
-        <div class="columns medium-6">
+        <div class="columns medium-4">
             <select name="platform" class="form-control" ng-model="search.channel_id" required>
                 <option value="">--渠道--</option>
                 <option value="1">Amazon</option>
@@ -18,14 +21,7 @@
                 <option value="3">ChargeBy</option>
             </select>
         </div>
-
-        <div class="columns medium-6">
-            <input type="text" class="form-control" ng-model="search.sku" placeholder="sku" />
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="columns medium-6">
+        <div class="columns medium-4">
             <select name="platform" class="form-control" ng-model="search.warehouse_id" required>
                 <option value="">--仓库--</option>
                 <option value="1">DE</option>
@@ -34,7 +30,7 @@
             </select>
         </div>
 
-        <div class="columns medium-6">
+        <div class="columns medium-4">
             <select name="platform" class="form-control" ng-model="search.status" required>
                 <option value="">--状态--</option>
                 <option value="pending">pending</option>
@@ -46,10 +42,18 @@
     </div>
 
     <div class="row">
-        <div class="columns medium-6">
+        <div class="columns medium-4">
+            <select name="platform"  class="form-control" ng-model="search.account"
+              ng-options="item.account as item.account for item in accountList"
+              class="form-control" placeholder="Account">
+              <option value="">--Account--</option>
+            </select>
+        </div>
+
+        <div class="columns medium-4">
             <input type="text" name="from" ng-model="search.from" class="form-control" jquery-ui-datepicker placeholder="从什么时候">
         </div>
-        <div class="columns medium-6">
+        <div class="columns medium-4">
             <input type="text" name="to" ng-model="search.to" class="form-control" jquery-ui-datepicker placeholder="到什么时候">
         </div>
     </div>
@@ -81,6 +85,7 @@
 
         </tr>
     </thead>
+    <div data-alert class="alert-box alert" ng-show="list.length>=2000">最多显示2000条记录,更改搜索条件获取更精确结果</div>
     <tbody>
         <tr ng-repeat="data in list|orderBy:'id'">
             <td>
